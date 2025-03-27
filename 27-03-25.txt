@@ -1,0 +1,1408 @@
+Microsoft Windows [Version 10.0.26100.3476]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\SALEEL>mysql --user=root --password=root x
+mysql: [Warning] Using a password on the command line interface can be insecure.
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 9
+Server version: 8.0.41 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show tables;
++-------------+
+| Tables_in_x |
++-------------+
+| emp         |
+| emp_csv     |
+| r           |
+| r1          |
+| r3          |
+| r4          |
+| r5          |
+| r6          |
+| x           |
++-------------+
+9 rows in set (0.04 sec)
+
+mysql> desc emp;
++----------+---------------+------+-----+---------+----------------+
+| Field    | Type          | Null | Key | Default | Extra          |
++----------+---------------+------+-----+---------+----------------+
+| id       | int           | NO   | PRI | NULL    | auto_increment |
+| ename    | varchar(10)   | NO   |     | NULL    |                |
+| city     | varchar(10)   | YES  |     | baroda  |                |
+| userName | varchar(10)   | YES  |     | NULL    | INVISIBLE      |
+| password | varbinary(10) | YES  |     | NULL    |                |
++----------+---------------+------+-----+---------+----------------+
+5 rows in set (0.02 sec)
+
+mysql> select id, ename from emp;
++----+---------+
+| id | ename   |
++----+---------+
+|  1 | saleel  |
+|  2 | sharmin |
+|  3 | ruhan   |
+|  4 | neel    |
++----+---------+
+4 rows in set (0.01 sec)
+
+mysql> select id, "ename" from emp;
++----+-------+
+| id | ename |
++----+-------+
+|  1 | ename |
+|  2 | ename |
+|  3 | ename |
+|  4 | ename |
++----+-------+
+4 rows in set (0.00 sec)
+
+mysql> create table r8 (c1 int, c2 int generated always as ("c1"*2) virtual);
+Query OK, 0 rows affected (0.10 sec)
+
+mysql> insert into r8(c1) values(2);
+ERROR 1292 (22007): Truncated incorrect DOUBLE value: 'c1'
+mysql> select "c1" *2;
++---------+
+| "c1" *2 |
++---------+
+|       0 |
++---------+
+1 row in set, 1 warning (0.00 sec)
+
+mysql> show tables;
++-------------+
+| Tables_in_x |
++-------------+
+| emp         |
+| emp_csv     |
+| r           |
+| r1          |
+| r3          |
+| r4          |
+| r5          |
+| r6          |
+| r8          |
+| x           |
++-------------+
+10 rows in set (0.00 sec)
+
+mysql> drop table r, r1, r2, r3,r4,r5,r6,r8;
+ERROR 1051 (42S02): Unknown table 'x.r2'
+mysql> drop table r, r1, r3,r4,r5,r6,r8;
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> show tables;
++-------------+
+| Tables_in_x |
++-------------+
+| emp         |
+| emp_csv     |
+| x           |
++-------------+
+3 rows in set (0.00 sec)
+
+mysql> drop table x;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> create table 1r (c1 int);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> show tables;
++-------------+
+| Tables_in_x |
++-------------+
+| 1r          |
+| emp         |
+| emp_csv     |
++-------------+
+3 rows in set (0.00 sec)
+
+mysql> create table 123 (c1 int);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '123 (c1 int)' at line 1
+mysql>
+mysql>
+mysql> create table employee details(c1 int);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'details(c1 int)' at line 1
+mysql>
+mysql>
+mysql> create table `123`(c1 int);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> create table `employee details`(c1 int);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> show tables;
++------------------+
+| Tables_in_x      |
++------------------+
+| 123              |
+| 1r               |
+| emp              |
+| emp_csv          |
+| employee details |
++------------------+
+5 rows in set (0.00 sec)
+
+mysql> insert into 123 values(10);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '123 values(10)' at line 1
+mysql> insert into `123` values(10);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from 123;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '123' at line 1
+mysql> select * from `123`;
++------+
+| c1   |
++------+
+|   10 |
++------+
+1 row in set (0.01 sec)
+
+mysql> desc employee details;
+ERROR 1146 (42S02): Table 'x.employee' doesn't exist
+mysql> desc `employee details`;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| c1    | int  | YES  |     | NULL    |       |
++-------+------+------+-----+---------+-------+
+1 row in set (0.00 sec)
+
+mysql> create table `employee structure`( employee id int);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'id int)' at line 1
+mysql>
+mysql>
+mysql> create table `employee structure`(`employee id`  int);
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> desc `employee structure`;
++-------------+------+------+-----+---------+-------+
+| Field       | Type | Null | Key | Default | Extra |
++-------------+------+------+-----+---------+-------+
+| employee id | int  | YES  |     | NULL    |       |
++-------------+------+------+-----+---------+-------+
+1 row in set (0.01 sec)
+
+mysql> create table r1(select int);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'int)' at line 1
+mysql>
+mysql>
+mysql> create table r1(select1 int);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> create table r2(default int);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'default int)' at line 1
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> select *
+    -> from
+    -> r;
+ERROR 1146 (42S02): Table 'x.r' doesn't exist
+mysql> select *
+    -> from
+    -> emp
+    -> ;
++----+---------+---------+--------------------+
+| id | ename   | city    | password           |
++----+---------+---------+--------------------+
+|  1 | saleel  | surat   | 0x73616C65656C     |
+|  2 | sharmin | surat   | 0x73616C65656C     |
+|  3 | ruhan   | surat   | 0x73616C65656C     |
+|  4 | neel    | bharuch | 0x53414C45454C     |
++----+---------+---------+--------------------+
+4 rows in set (0.00 sec)
+
+mysql> select
+    -> ^C
+mysql> show tables;
++--------------------+
+| Tables_in_x        |
++--------------------+
+| 123                |
+| 1r                 |
+| emp                |
+| emp_csv            |
+| employee details   |
+| employee structure |
+| r1                 |
++--------------------+
+7 rows in set (0.00 sec)
+
+mysql> drop database x;
+Query OK, 7 rows affected (0.10 sec)
+
+mysql> create database x;
+Query OK, 1 row affected (0.02 sec)
+
+mysql> show tables;
+ERROR 1046 (3D000): No database selected
+mysql> use x;
+Database changed
+mysql> show tables;
+Empty set (0.00 sec)
+
+mysql> create table r(c1 char(10), c2 varchar(10));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> insert into r values('saleel','saleel');
+Query OK, 1 row affected (0.06 sec)
+
+mysql> select * from r;
++--------+--------+
+| c1     | c2     |
++--------+--------+
+| saleel | saleel |
++--------+--------+
+1 row in set (0.00 sec)
+
+mysql> select c1, length(c1), c2, length(c2) from r;
++--------+------------+--------+------------+
+| c1     | length(c1) | c2     | length(c2) |
++--------+------------+--------+------------+
+| saleel |          6 | saleel |          6 |
++--------+------------+--------+------------+
+1 row in set (0.00 sec)
+
+mysql> set sql_mode= 'pad_char_to_full_length';
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+mysql> select c1, length(c1), c2, length(c2) from r;
++------------+------------+--------+------------+
+| c1         | length(c1) | c2     | length(c2) |
++------------+------------+--------+------------+
+| saleel     |         10 | saleel |          6 |
++------------+------------+--------+------------+
+1 row in set (0.00 sec)
+
+mysql> set sql_mode= '';
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> select c1, length(c1), c2, length(c2) from r;
++--------+------------+--------+------------+
+| c1     | length(c1) | c2     | length(c2) |
++--------+------------+--------+------------+
+| saleel |          6 | saleel |          6 |
++--------+------------+--------+------------+
+1 row in set (0.00 sec)
+
+mysql> set sql_mode= 'pad_char_to_full_length';
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+mysql> select c1, length(c1), c2, length(c2) from r;
++------------+------------+--------+------------+
+| c1         | length(c1) | c2     | length(c2) |
++------------+------------+--------+------------+
+| saleel     |         10 | saleel |          6 |
++------------+------------+--------+------------+
+1 row in set (0.00 sec)
+
+mysql> show tables;
++-------------+
+| Tables_in_x |
++-------------+
+| r           |
++-------------+
+1 row in set (0.00 sec)
+
+mysql> drop table r;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> create table r(c1 int primary key, c2 varchar(10))
+    -> ;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> desc r;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| c1    | int         | NO   | PRI | NULL    |       |
+| c2    | varchar(10) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> create table r1(c1 int primary key, c2 varchar(10) primary key)
+    -> ;
+ERROR 1068 (42000): Multiple primary key defined
+mysql> show indexes from r;
++-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| r     |          0 | PRIMARY  |            1 | c1          | A         |           0 |     NULL |   NULL |      | BTREE      |         |               | YES     | NULL       |
++-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+1 row in set (0.02 sec)
+
+mysql> create table r1(c1 int, c2 varchar(10));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> show indexes from r1;
+Empty set (0.00 sec)
+
+mysql> desc r;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| c1    | int         | NO   | PRI | NULL    |       |
+| c2    | varchar(10) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> insert into r(c2) values('saleel');
+Query OK, 1 row affected, 1 warning (0.02 sec)
+
+mysql> select * from r;
++----+--------+
+| c1 | c2     |
++----+--------+
+|  0 | saleel |
++----+--------+
+1 row in set (0.00 sec)
+
+mysql> insert into r(c2) values('saleel');
+ERROR 1062 (23000): Duplicate entry '0' for key 'r.PRIMARY'
+mysql> select * from r;
++----+--------+
+| c1 | c2     |
++----+--------+
+|  0 | saleel |
++----+--------+
+1 row in set (0.00 sec)
+
+mysql> delete from r;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> desc r;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| c1    | int         | NO   | PRI | NULL    |       |
+| c2    | varchar(10) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> insert into r(c1, c2) values(null, 'saleel');
+ERROR 1048 (23000): Column 'c1' cannot be null
+mysql> insert into r(c2) values( 'saleel');
+Query OK, 1 row affected, 1 warning (0.02 sec)
+
+mysql> insert into r(c1, c2) values(1, 'saleel');
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into r(c1, c2) values(2, 'saleel');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into r(c1, c2) values(1, 'saleel');
+ERROR 1062 (23000): Duplicate entry '1' for key 'r.PRIMARY'
+mysql> select * from r;
++----+--------+
+| c1 | c2     |
++----+--------+
+|  0 | saleel |
+|  1 | saleel |
+|  2 | saleel |
++----+--------+
+3 rows in set (0.00 sec)
+
+mysql> insert into r(c1, c2) values(1, 'saleel');
+ERROR 1062 (23000): Duplicate entry '1' for key 'r.PRIMARY'
+mysql> drop table r, r1;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> create table r(c1 int unique not null, c2 varchar(10));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> desc r;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| c1    | int         | NO   | PRI | NULL    |       |
+| c2    | varchar(10) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> create table r1(c1 int primary key, c2 int unique not null);
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> desc r1;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| c1    | int  | NO   | PRI | NULL    |       |
+| c2    | int  | NO   | UNI | NULL    |       |
++-------+------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> create table r2(c1 int auto_increment unique key, c2 int);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc r2;
++-------+------+------+-----+---------+----------------+
+| Field | Type | Null | Key | Default | Extra          |
++-------+------+------+-----+---------+----------------+
+| c1    | int  | NO   | PRI | NULL    | auto_increment |
+| c2    | int  | YES  |     | NULL    |                |
++-------+------+------+-----+---------+----------------+
+2 rows in set (0.00 sec)
+
+mysql> create table r3(c1 int auto_increment unique key, c2 int primary key);
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> desc r3;
++-------+------+------+-----+---------+----------------+
+| Field | Type | Null | Key | Default | Extra          |
++-------+------+------+-----+---------+----------------+
+| c1    | int  | NO   | UNI | NULL    | auto_increment |
+| c2    | int  | NO   | PRI | NULL    |                |
++-------+------+------+-----+---------+----------------+
+2 rows in set (0.00 sec)
+
+mysql> create table r4(c1 int, c2 int, primary key);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ')' at line 1
+mysql> create table r4(c1 int, c2 int, primary key(c1));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> use information_schema;
+Database changed
+mysql> show table_constraints;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'table_constraints' at line 1
+mysql> desc table_constraints;
++--------------------+-------------+------+-----+---------+-------+
+| Field              | Type        | Null | Key | Default | Extra |
++--------------------+-------------+------+-----+---------+-------+
+| CONSTRAINT_CATALOG | varchar(64) | YES  |     | NULL    |       |
+| CONSTRAINT_SCHEMA  | varchar(64) | YES  |     | NULL    |       |
+| CONSTRAINT_NAME    | varchar(64) | YES  |     | NULL    |       |
+| TABLE_SCHEMA       | varchar(64) | YES  |     | NULL    |       |
+| TABLE_NAME         | varchar(64) | YES  |     | NULL    |       |
+| CONSTRAINT_TYPE    | varchar(11) | NO   |     |         |       |
+| ENFORCED           | varchar(3)  | NO   |     |         |       |
++--------------------+-------------+------+-----+---------+-------+
+7 rows in set (0.01 sec)
+
+mysql> select CONSTRAINT_NAME,CONSTRAINT_TYPE from table_constraints where CONSTRAINT_SCHEMA='x';
++-----------------+-----------------+
+| CONSTRAINT_NAME | CONSTRAINT_TYPE |
++-----------------+-----------------+
+| c1              | UNIQUE          |
+| c2              | UNIQUE          |
+| PRIMARY         | PRIMARY KEY     |
+| c1              | UNIQUE          |
+| c1              | UNIQUE          |
+| PRIMARY         | PRIMARY KEY     |
+| PRIMARY         | PRIMARY KEY     |
++-----------------+-----------------+
+7 rows in set (0.01 sec)
+
+mysql> select table_name ,'CONSTRAINT_NAME,CONSTRAINT_TYPE from table_constraints where CONSTRAINT_SCHE
+MA='x';
+    '> ^C
+mysql> select table_name ,CONSTRAINT_NAME,CONSTRAINT_TYPE from table_constraints where CONSTRAINT_SCHEM
+A='x';
++------------+-----------------+-----------------+
+| TABLE_NAME | CONSTRAINT_NAME | CONSTRAINT_TYPE |
++------------+-----------------+-----------------+
+| r          | c1              | UNIQUE          |
+| r1         | c2              | UNIQUE          |
+| r1         | PRIMARY         | PRIMARY KEY     |
+| r2         | c1              | UNIQUE          |
+| r3         | c1              | UNIQUE          |
+| r3         | PRIMARY         | PRIMARY KEY     |
+| r4         | PRIMARY         | PRIMARY KEY     |
++------------+-----------------+-----------------+
+7 rows in set (0.00 sec)
+
+mysql> desc r;
+ERROR 1109 (42S02): Unknown table 'R' in information_schema
+mysql> desc x.r;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| c1    | int         | NO   | PRI | NULL    |       |
+| c2    | varchar(10) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> desc x.r1;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| c1    | int  | NO   | PRI | NULL    |       |
+| c2    | int  | NO   | UNI | NULL    |       |
++-------+------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> use x;
+Database changed
+mysql> create table r5(c1 int primary key, c2 int primary key);
+ERROR 1068 (42000): Multiple primary key defined
+mysql> create table r5(c1 int, c2 int, primary key(c1, c2));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc r5;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| c1    | int  | NO   | PRI | NULL    |       |
+| c2    | int  | NO   | PRI | NULL    |       |
++-------+------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> insert into r5 valeus(1,1);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'valeus(1,1)' at line 1
+mysql>
+mysql> insert into r5 values(1,1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into r5 values(1,2);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into r5 values(2,1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from r5;
++----+----+
+| c1 | c2 |
++----+----+
+|  1 |  1 |
+|  1 |  2 |
+|  2 |  1 |
++----+----+
+3 rows in set (0.00 sec)
+
+mysql> insert into r5 values(2,1);
+ERROR 1062 (23000): Duplicate entry '2-1' for key 'r5.PRIMARY'
+mysql> desc r;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| c1    | int         | NO   | PRI | NULL    |       |
+| c2    | varchar(10) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select * from r;
+Empty set (0.00 sec)
+
+mysql> insert into r values(25,'saleel');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into r values(5,'saleel');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into r values(1,'saleel');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into r values(31,'saleel');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into r values(21,'saleel');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from r;
++----+--------+
+| c1 | c2     |
++----+--------+
+|  1 | saleel |
+|  5 | saleel |
+| 21 | saleel |
+| 25 | saleel |
+| 31 | saleel |
++----+--------+
+5 rows in set (0.00 sec)
+
+mysql> insert into r values(6,'saleel');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from r;
++----+--------+
+| c1 | c2     |
++----+--------+
+|  1 | saleel |
+|  5 | saleel |
+|  6 | saleel |
+| 21 | saleel |
+| 25 | saleel |
+| 31 | saleel |
++----+--------+
+6 rows in set (0.00 sec)
+
+mysql> update r set c1=2 where c1=25;
+Query OK, 1 row affected (0.01 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> select * from r;
++----+--------+
+| c1 | c2     |
++----+--------+
+|  1 | saleel |
+|  2 | saleel |
+|  5 | saleel |
+|  6 | saleel |
+| 21 | saleel |
+| 31 | saleel |
++----+--------+
+6 rows in set (0.00 sec)
+
+mysql> select c1 from r;
++----+
+| c1 |
++----+
+|  1 |
+|  2 |
+|  5 |
+|  6 |
+| 21 |
+| 31 |
++----+
+6 rows in set (0.00 sec)
+
+mysql> select c1, _rowid from r;
++----+--------+
+| c1 | _rowid |
++----+--------+
+|  1 |      1 |
+|  2 |      2 |
+|  5 |      5 |
+|  6 |      6 |
+| 21 |     21 |
+| 31 |     31 |
++----+--------+
+6 rows in set (0.00 sec)
+
+mysql> select * from r8;
+ERROR 1146 (42S02): Table 'x.r8' doesn't exist
+mysql> select * from r5;
++----+----+
+| c1 | c2 |
++----+----+
+|  1 |  1 |
+|  1 |  2 |
+|  2 |  1 |
++----+----+
+3 rows in set (0.00 sec)
+
+mysql> desc r8;
+ERROR 1146 (42S02): Table 'x.r8' doesn't exist
+mysql> desc r5;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| c1    | int  | NO   | PRI | NULL    |       |
+| c2    | int  | NO   | PRI | NULL    |       |
++-------+------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select * from r5;
++----+----+
+| c1 | c2 |
++----+----+
+|  1 |  1 |
+|  1 |  2 |
+|  2 |  1 |
++----+----+
+3 rows in set (0.00 sec)
+
+mysql> select c1, c2, _rowid from r5;
+ERROR 1054 (42S22): Unknown column '_rowid' in 'field list'
+mysql> select c1, c2, _rowid, _rowid from r5;
+ERROR 1054 (42S22): Unknown column '_rowid' in 'field list'
+mysql> select c1, c2, _rowid from r;
++----+--------+--------+
+| c1 | c2     | _rowid |
++----+--------+--------+
+|  1 | saleel |      1 |
+|  2 | saleel |      2 |
+|  5 | saleel |      5 |
+|  6 | saleel |      6 |
+| 21 | saleel |     21 |
+| 31 | saleel |     31 |
++----+--------+--------+
+6 rows in set (0.00 sec)
+
+mysql> create table r6(c1 int, c2 int);
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> desc r6;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| c1    | int  | YES  |     | NULL    |       |
+| c2    | int  | YES  |     | NULL    |       |
++-------+------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> alter table r6 add primary key(c1);
+Query OK, 0 rows affected (0.09 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc r6;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| c1    | int  | NO   | PRI | NULL    |       |
+| c2    | int  | YES  |     | NULL    |       |
++-------+------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> alter table r6 drop primary key;
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc r6;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| c1    | int  | NO   |     | NULL    |       |
+| c2    | int  | YES  |     | NULL    |       |
++-------+------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select * from r6;
+Empty set (0.00 sec)
+
+mysql> insert into r6 values(1,1);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into r6 values(1,1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from r6;
++----+------+
+| c1 | c2   |
++----+------+
+|  1 |    1 |
+|  1 |    1 |
++----+------+
+2 rows in set (0.00 sec)
+
+mysql> alter table r6 add primary key(c1);
+ERROR 1062 (23000): Duplicate entry '1' for key 'r6.PRIMARY'
+mysql>
+mysql>
+mysql>
+mysql> desc r5;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| c1    | int  | NO   | PRI | NULL    |       |
+| c2    | int  | NO   | PRI | NULL    |       |
++-------+------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> alter table r5 drop primary key;
+Query OK, 3 rows affected (0.07 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> desc r5;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| c1    | int  | NO   |     | NULL    |       |
+| c2    | int  | NO   |     | NULL    |       |
++-------+------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> alter table r5 add primary key(c1);
+ERROR 1062 (23000): Duplicate entry '1' for key 'r5.PRIMARY'
+mysql> select * from r5;
++----+----+
+| c1 | c2 |
++----+----+
+|  1 |  1 |
+|  1 |  2 |
+|  2 |  1 |
++----+----+
+3 rows in set (0.00 sec)
+
+mysql> alter table r5 add primary key(c1, c2);
+Query OK, 0 rows affected (0.10 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> show tables;
++-------------+
+| Tables_in_x |
++-------------+
+| r           |
+| r1          |
+| r2          |
+| r3          |
+| r4          |
+| r5          |
+| r6          |
++-------------+
+7 rows in set (0.00 sec)
+
+mysql> create table r(c1 int);
+ERROR 1050 (42S01): Table 'r' already exists
+mysql> create table r7(c1 int primary key invisible, c2 int);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc r7;
++-------+------+------+-----+---------+-----------+
+| Field | Type | Null | Key | Default | Extra     |
++-------+------+------+-----+---------+-----------+
+| c1    | int  | NO   | PRI | NULL    | INVISIBLE |
+| c2    | int  | YES  |     | NULL    |           |
++-------+------+------+-----+---------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> create table r6(c1 int, c2 int, primary key(c1, c2));
+ERROR 1050 (42S01): Table 'r6' already exists
+mysql> create table r8(c1 int, c2 int, primary key(c1, c2));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> desc r8;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| c1    | int  | NO   | PRI | NULL    |       |
+| c2    | int  | NO   | PRI | NULL    |       |
++-------+------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> create table r9(c1 int, c2 int, primary key(c1), primary key(c2));
+ERROR 1068 (42000): Multiple primary key defined
+mysql> create table r9(c1 int not null unique, c2 int);
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> desc r9;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| c1    | int  | NO   | PRI | NULL    |       |
+| c2    | int  | YES  |     | NULL    |       |
++-------+------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> alter table r9 add primary key(c1);
+Query OK, 0 rows affected (0.12 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc r9;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| c1    | int  | NO   | PRI | NULL    |       |
+| c2    | int  | YES  |     | NULL    |       |
++-------+------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select table_name ,CONSTRAINT_NAME,CONSTRAINT_TYPE from table_constraints where CONSTRAINT_SCHEM
+A='x';
+ERROR 1146 (42S02): Table 'x.table_constraints' doesn't exist
+mysql> select table_name ,CONSTRAINT_NAME,CONSTRAINT_TYPE from information_schema.table_constraints whe
+re CONSTRAINT_SCHEMA='x';
++------------+-----------------+-----------------+
+| TABLE_NAME | CONSTRAINT_NAME | CONSTRAINT_TYPE |
++------------+-----------------+-----------------+
+| r          | c1              | UNIQUE          |
+| r1         | c2              | UNIQUE          |
+| r1         | PRIMARY         | PRIMARY KEY     |
+| r2         | c1              | UNIQUE          |
+| r3         | c1              | UNIQUE          |
+| r3         | PRIMARY         | PRIMARY KEY     |
+| r4         | PRIMARY         | PRIMARY KEY     |
+| r5         | PRIMARY         | PRIMARY KEY     |
+| r7         | PRIMARY         | PRIMARY KEY     |
+| r8         | PRIMARY         | PRIMARY KEY     |
+| r9         | c1              | UNIQUE          |
+| r9         | PRIMARY         | PRIMARY KEY     |
++------------+-----------------+-----------------+
+12 rows in set (0.00 sec)
+
+mysql> desc r9;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| c1    | int  | NO   | PRI | NULL    |       |
+| c2    | int  | YES  |     | NULL    |       |
++-------+------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> alter table r9 drop primary key;
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select table_name ,CONSTRAINT_NAME,CONSTRAINT_TYPE from information_schema.table_constraints where CONSTRAINT_SCHEMA='x';
++------------+-----------------+-----------------+
+| TABLE_NAME | CONSTRAINT_NAME | CONSTRAINT_TYPE |
++------------+-----------------+-----------------+
+| r          | c1              | UNIQUE          |
+| r1         | c2              | UNIQUE          |
+| r1         | PRIMARY         | PRIMARY KEY     |
+| r2         | c1              | UNIQUE          |
+| r3         | c1              | UNIQUE          |
+| r3         | PRIMARY         | PRIMARY KEY     |
+| r4         | PRIMARY         | PRIMARY KEY     |
+| r5         | PRIMARY         | PRIMARY KEY     |
+| r7         | PRIMARY         | PRIMARY KEY     |
+| r8         | PRIMARY         | PRIMARY KEY     |
+| r9         | c1              | UNIQUE          |
++------------+-----------------+-----------------+
+11 rows in set (0.00 sec)
+
+mysql> desc r9;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| c1    | int  | NO   | PRI | NULL    |       |
+| c2    | int  | YES  |     | NULL    |       |
++-------+------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> drop database x;
+Query OK, 10 rows affected (0.09 sec)
+
+mysql> create database x;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use x;
+Database changed
+mysql> create table r (c1 int unique key, c2 int);
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> desc r;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| c1    | int  | YES  | UNI | NULL    |       |
+| c2    | int  | YES  |     | NULL    |       |
++-------+------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> create table r1(c1 int, c2 int, unique key(c1));
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> desc r1;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| c1    | int  | YES  | UNI | NULL    |       |
+| c2    | int  | YES  |     | NULL    |       |
++-------+------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> create table r2(c1 int, c2 int, unique key(c1), unique key(c2));
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> desc r2;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| c1    | int  | YES  | UNI | NULL    |       |
+| c2    | int  | YES  | UNI | NULL    |       |
++-------+------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> create table r3(c1 int, c2 int, unique key(c1, c2));
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> desc r3;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| c1    | int  | YES  | MUL | NULL    |       |
+| c2    | int  | YES  |     | NULL    |       |
++-------+------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> drop database x;
+Query OK, 4 rows affected (0.05 sec)
+
+mysql> create database x;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> use x;
+Database changed
+mysql> create table r (c1 int unique key, c2 int);
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> create table r (c1 int constraint uni_c1 unique key, c2 int);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'unique key, c2 int)' at line 1
+mysql>
+mysql>
+mysql>
+mysql> create table r (c1 int, c2 int, constraint uni_c1 unique key(c1));
+ERROR 1050 (42S01): Table 'r' already exists
+mysql> create table r2 (c1 int, c2 int, constraint uni_c1 unique key(c1));
+Query OK, 0 rows affected (0.05 sec)
+
+mysql> desc r;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| c1    | int  | YES  | UNI | NULL    |       |
+| c2    | int  | YES  |     | NULL    |       |
++-------+------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> desc r1;
+ERROR 1146 (42S02): Table 'x.r1' doesn't exist
+mysql> desc r2;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| c1    | int  | YES  | UNI | NULL    |       |
+| c2    | int  | YES  |     | NULL    |       |
++-------+------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> select table_name ,CONSTRAINT_NAME,CONSTRAINT_TYPE from information_schema.table_constraints where CONSTRAINT_SCHEMA='x';
++------------+-----------------+-----------------+
+| TABLE_NAME | CONSTRAINT_NAME | CONSTRAINT_TYPE |
++------------+-----------------+-----------------+
+| r          | c1              | UNIQUE          |
+| r2         | uni_c1          | UNIQUE          |
++------------+-----------------+-----------------+
+2 rows in set (0.00 sec)
+
+mysql> create table r1 (c1 int, c2 int, unique key(c1));
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> select table_name ,CONSTRAINT_NAME,CONSTRAINT_TYPE from information_schema.table_constraints where CONSTRAINT_SCHEMA='x';
++------------+-----------------+-----------------+
+| TABLE_NAME | CONSTRAINT_NAME | CONSTRAINT_TYPE |
++------------+-----------------+-----------------+
+| r          | c1              | UNIQUE          |
+| r1         | c1              | UNIQUE          |
+| r2         | uni_c1          | UNIQUE          |
++------------+-----------------+-----------------+
+3 rows in set (0.00 sec)
+
+mysql> alter table r drop unique key c1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'unique key c1' at line 1
+mysql> alter table r drop unique key(c1);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'unique key(c1)' at line 1
+mysql>
+mysql>
+mysql> alter table r drop index c1;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select table_name ,CONSTRAINT_NAME,CONSTRAINT_TYPE from information_schema.table_constraints where CONSTRAINT_SCHEMA='x';
++------------+-----------------+-----------------+
+| TABLE_NAME | CONSTRAINT_NAME | CONSTRAINT_TYPE |
++------------+-----------------+-----------------+
+| r1         | c1              | UNIQUE          |
+| r2         | uni_c1          | UNIQUE          |
++------------+-----------------+-----------------+
+2 rows in set (0.00 sec)
+
+mysql> desc r2;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| c1    | int  | YES  | UNI | NULL    |       |
+| c2    | int  | YES  |     | NULL    |       |
++-------+------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> alter table r drop index uni_c1;
+ERROR 1091 (42000): Can't DROP 'uni_c1'; check that column/key exists
+mysql> alter table r2 drop index uni_c1;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select table_name ,CONSTRAINT_NAME,CONSTRAINT_TYPE from information_schema.table_constraints where CONSTRAINT_SCHEMA='x';
++------------+-----------------+-----------------+
+| TABLE_NAME | CONSTRAINT_NAME | CONSTRAINT_TYPE |
++------------+-----------------+-----------------+
+| r1         | c1              | UNIQUE          |
++------------+-----------------+-----------------+
+1 row in set (0.00 sec)
+
+mysql> create table student(id int primary key, ename varchar(10))
+    -> ;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> create table address(id int primary key,  sid int, city varchar(10), state varchar(10), constraint fk_sid foreign key(sid) references student(id));
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> desc student;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int         | NO   | PRI | NULL    |       |
+| ename | varchar(10) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> desc address;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int         | NO   | PRI | NULL    |       |
+| sid   | int         | YES  | MUL | NULL    |       |
+| city  | varchar(10) | YES  |     | NULL    |       |
+| state | varchar(10) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> insert into address values(1, 1, 'baroda', 'GJ');
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`x`.`address`, CONSTRAINT `fk_sid` FOREIGN KEY (`sid`) REFERENCES `student` (`id`))
+mysql> insert into student values(1,'saleel');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into address values(1, 1, 'baroda', 'GJ');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from student;
++----+--------+
+| id | ename  |
++----+--------+
+|  1 | saleel |
++----+--------+
+1 row in set (0.00 sec)
+
+mysql> select * from address;
++----+------+--------+-------+
+| id | sid  | city   | state |
++----+------+--------+-------+
+|  1 |    1 | baroda | GJ    |
++----+------+--------+-------+
+1 row in set (0.00 sec)
+
+mysql> insert into address values(1, 2, 'baroda', 'GJ');
+ERROR 1062 (23000): Duplicate entry '1' for key 'address.PRIMARY'
+mysql> insert into address values(2, 2, 'baroda', 'GJ');
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`x`.`address`, CONSTRAINT `fk_sid` FOREIGN KEY (`sid`) REFERENCES `student` (`id`))
+mysql>
+mysql>
+mysql>
+mysql> insert into address values(2, 1, 'bharuch', 'GJ');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from student;
++----+--------+
+| id | ename  |
++----+--------+
+|  1 | saleel |
++----+--------+
+1 row in set (0.00 sec)
+
+mysql> select * from address;
++----+------+---------+-------+
+| id | sid  | city    | state |
++----+------+---------+-------+
+|  1 |    1 | baroda  | GJ    |
+|  2 |    1 | bharuch | GJ    |
++----+------+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> delete from address;
+Query OK, 2 rows affected (0.01 sec)
+
+mysql> desc address;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int         | NO   | PRI | NULL    |       |
+| sid   | int         | YES  | MUL | NULL    |       |
+| city  | varchar(10) | YES  |     | NULL    |       |
+| state | varchar(10) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> alter table address add unique key(sid);
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc address;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int         | NO   | PRI | NULL    |       |
+| sid   | int         | YES  | UNI | NULL    |       |
+| city  | varchar(10) | YES  |     | NULL    |       |
+| state | varchar(10) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> insert into address values(1, 1, 'baroda', 'GJ');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into address values(2, 1, 'baroda', 'GJ');
+ERROR 1062 (23000): Duplicate entry '1' for key 'address.sid'
+mysql> insert into address values(2, null, 'bharuch', 'GJ');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from address;
++----+------+---------+-------+
+| id | sid  | city    | state |
++----+------+---------+-------+
+|  1 |    1 | baroda  | GJ    |
+|  2 | NULL | bharuch | GJ    |
++----+------+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> show engines;
++--------------------+---------+----------------------------------------------------------------+--------------+------+------------+
+| Engine             | Support | Comment                                                        | Transactions | XA   | Savepoints |
++--------------------+---------+----------------------------------------------------------------+--------------+------+------------+
+| MEMORY             | YES     | Hash based, stored in memory, useful for temporary tables      | NO           | NO   | NO         |
+| MRG_MYISAM         | YES     | Collection of identical MyISAM tables                          | NO           | NO   | NO         |
+| CSV                | YES     | CSV storage engine                                             | NO           | NO   | NO         |
+| FEDERATED          | NO      | Federated MySQL storage engine                                 | NULL         | NULL | NULL       |
+| PERFORMANCE_SCHEMA | YES     | Performance Schema                                             | NO           | NO   | NO         |
+| MyISAM             | YES     | MyISAM storage engine                                          | NO           | NO   | NO         |
+| InnoDB             | DEFAULT | Supports transactions, row-level locking, and foreign keys     | YES          | YES  | YES        |
+| ndbinfo            | NO      | MySQL Cluster system information storage engine                | NULL         | NULL | NULL       |
+| BLACKHOLE          | YES     | /dev/null storage engine (anything you write to it disappears) | NO           | NO   | NO         |
+| ARCHIVE            | YES     | Archive storage engine                                         | NO           | NO   | NO         |
+| ndbcluster         | NO      | Clustered, fault-tolerant tables                               | NULL         | NULL | NULL       |
++--------------------+---------+----------------------------------------------------------------+--------------+------+------------+
+11 rows in set (0.01 sec)
+
+mysql> select * from student;
++----+--------+
+| id | ename  |
++----+--------+
+|  1 | saleel |
++----+--------+
+1 row in set (0.00 sec)
+
+mysql> select * from address;
++----+------+---------+-------+
+| id | sid  | city    | state |
++----+------+---------+-------+
+|  1 |    1 | baroda  | GJ    |
+|  2 | NULL | bharuch | GJ    |
++----+------+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> update address set sid=5 where sid=1;
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`x`.`address`, CONSTRAINT `fk_sid` FOREIGN KEY (`sid`) REFERENCES `student` (`id`))
+mysql>
+mysql>
+mysql> delete from studnet where id=1;
+ERROR 1146 (42S02): Table 'x.studnet' doesn't exist
+mysql> delete from student where id=1;
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`x`.`address`, CONSTRAINT `fk_sid` FOREIGN KEY (`sid`) REFERENCES `student` (`id`))
+mysql> create table address(id int primary key,  sid int, city varchar(10), state varchar(10), constraint fk_sid foreign key(sid) references student(id));
+ERROR 1050 (42S01): Table 'address' already exists
+mysql> select table_name ,CONSTRAINT_NAME,CONSTRAINT_TYPE from information_schema.table_constraints where CONSTRAINT_SCHEMA='x';
++------------+-----------------+-----------------+
+| TABLE_NAME | CONSTRAINT_NAME | CONSTRAINT_TYPE |
++------------+-----------------+-----------------+
+| address    | PRIMARY         | PRIMARY KEY     |
+| address    | sid             | UNIQUE          |
+| address    | fk_sid          | FOREIGN KEY     |
+| r1         | c1              | UNIQUE          |
+| student    | PRIMARY         | PRIMARY KEY     |
++------------+-----------------+-----------------+
+5 rows in set (0.00 sec)
+
+mysql> create table address1(id int primary key,  sid int, city varchar(10), state varchar(10), f
+oreign key(sid) references student(id));
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> select table_name ,CONSTRAINT_NAME,CONSTRAINT_TYPE from information_schema.table_constraints where CONSTRAINT_SCHEMA='x';
++------------+-----------------+-----------------+
+| TABLE_NAME | CONSTRAINT_NAME | CONSTRAINT_TYPE |
++------------+-----------------+-----------------+
+| address    | PRIMARY         | PRIMARY KEY     |
+| address    | sid             | UNIQUE          |
+| address    | fk_sid          | FOREIGN KEY     |
+| address1   | PRIMARY         | PRIMARY KEY     |
+| address1   | address1_ibfk_1 | FOREIGN KEY     |
+| r1         | c1              | UNIQUE          |
+| student    | PRIMARY         | PRIMARY KEY     |
++------------+-----------------+-----------------+
+7 rows in set (0.00 sec)
+
+mysql> alter table address1 drop foreign key address1_ibfk_1;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select table_name ,CONSTRAINT_NAME,CONSTRAINT_TYPE from information_schema.table_constraints where CONSTRAINT_SCHEMA='x';
++------------+-----------------+-----------------+
+| TABLE_NAME | CONSTRAINT_NAME | CONSTRAINT_TYPE |
++------------+-----------------+-----------------+
+| address    | PRIMARY         | PRIMARY KEY     |
+| address    | sid             | UNIQUE          |
+| address    | fk_sid          | FOREIGN KEY     |
+| address1   | PRIMARY         | PRIMARY KEY     |
+| r1         | c1              | UNIQUE          |
+| student    | PRIMARY         | PRIMARY KEY     |
++------------+-----------------+-----------------+
+6 rows in set (0.00 sec)
+
+mysql> alter table address drop foreign key fk_sid;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select table_name ,CONSTRAINT_NAME,CONSTRAINT_TYPE from information_schema.table_constraints where CONSTRAINT_SCHEMA='x';
++------------+-----------------+-----------------+
+| TABLE_NAME | CONSTRAINT_NAME | CONSTRAINT_TYPE |
++------------+-----------------+-----------------+
+| address    | PRIMARY         | PRIMARY KEY     |
+| address    | sid             | UNIQUE          |
+| address1   | PRIMARY         | PRIMARY KEY     |
+| r1         | c1              | UNIQUE          |
+| student    | PRIMARY         | PRIMARY KEY     |
++------------+-----------------+-----------------+
+5 rows in set (0.00 sec)
+
+mysql> desc address;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int         | NO   | PRI | NULL    |       |
+| sid   | int         | YES  | UNI | NULL    |       |
+| city  | varchar(10) | YES  |     | NULL    |       |
+| state | varchar(10) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> alter table address drop index sid;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select table_name ,CONSTRAINT_NAME,CONSTRAINT_TYPE from information_schema.table_constraints where CONSTRAINT_SCHEMA='x';
++------------+-----------------+-----------------+
+| TABLE_NAME | CONSTRAINT_NAME | CONSTRAINT_TYPE |
++------------+-----------------+-----------------+
+| address    | PRIMARY         | PRIMARY KEY     |
+| address1   | PRIMARY         | PRIMARY KEY     |
+| r1         | c1              | UNIQUE          |
+| student    | PRIMARY         | PRIMARY KEY     |
++------------+-----------------+-----------------+
+4 rows in set (0.00 sec)
+
+mysql> desc address;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int         | NO   | PRI | NULL    |       |
+| sid   | int         | YES  |     | NULL    |       |
+| city  | varchar(10) | YES  |     | NULL    |       |
+| state | varchar(10) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> alter table address add constraint fk_sid foreign key(sid)  references student(id);
+Query OK, 2 rows affected (0.12 sec)
+Records: 2  Duplicates: 0  Warnings: 0
+
+mysql> alter table student drop column id;
+ERROR 1829 (HY000): Cannot drop column 'id': needed in a foreign key constraint 'fk_sid' of table 'address'
+mysql> alter table address drop column sid;
+ERROR 1828 (HY000): Cannot drop column 'sid': needed in a foreign key constraint 'fk_sid'
+mysql>
+mysql>
+mysql> drop table student;
+ERROR 3730 (HY000): Cannot drop table 'student' referenced by a foreign key constraint 'fk_sid' on table 'address'.
+mysql>
+
+
