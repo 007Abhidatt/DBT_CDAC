@@ -1,0 +1,2526 @@
+Microsoft Windows [Version 10.0.26100.3624]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\SALEEL>mysql --user=root --password=root x
+mysql: [Warning] Using a password on the command line interface can be insecure.
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 8
+Server version: 8.0.41 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> show tables;
++---------------------+
+| Tables_in_x         |
++---------------------+
+| a                   |
+| agent               |
+| andor               |
+| b                   |
+| blanktablea         |
+| blanktableb         |
+| blog                |
+| bonus               |
+| books               |
+| candidate           |
+| client              |
+| coalesce            |
+| comments            |
+| company             |
+| customer            |
+| customers           |
+| demodept1           |
+| demodept2           |
+| dept                |
+| dept1               |
+| docs                |
+| doctor              |
+| doctorvisits        |
+| dummy               |
+| duplicate           |
+| emp                 |
+| emp1                |
+| emp2                |
+| emp_attendance      |
+| emp_cards           |
+| emp_phone           |
+| empj                |
+| envelope            |
+| food                |
+| fullname            |
+| hobby               |
+| item                |
+| job_list            |
+| key_parts           |
+| labtestlist         |
+| leadtable           |
+| licence             |
+| location            |
+| mass_table          |
+| medicinelist        |
+| menucard            |
+| nearest             |
+| new                 |
+| newbooks            |
+| nullif              |
+| numbers             |
+| numberstring        |
+| ord                 |
+| orderdetails        |
+| orders              |
+| overtime            |
+| patient             |
+| phonecall           |
+| pivot_table         |
+| plumber             |
+| plumber_service_map |
+| points              |
+| price               |
+| product             |
+| product_sales       |
+| products            |
+| quarterly_revenue   |
+| r                   |
+| r1                  |
+| r2                  |
+| races               |
+| regexpr             |
+| replacedept         |
+| revenue             |
+| rockets             |
+| runners             |
+| runningserver       |
+| sales               |
+| sales_channel       |
+| salespeople         |
+| salesperson         |
+| salgrade            |
+| server              |
+| service             |
+| seta                |
+| setb                |
+| shop                |
+| softdrink           |
+| sort                |
+| sourcenames         |
+| stadium             |
+| states              |
+| station             |
+| status              |
+| stringnumber        |
+| tablea              |
+| tableaa             |
+| tableb              |
+| tablebb             |
+| targetnames         |
+| tasks               |
+| temp1               |
+| traintimetable      |
+| transactions        |
+| vote_response       |
+| votes               |
+| warehouse           |
+| yearly_revenue      |
+| z                   |
++---------------------+
+109 rows in set (0.09 sec)
+
+mysql> use z
+Database changed
+mysql> show tables;
++-------------+
+| Tables_in_z |
++-------------+
+| r           |
+| s           |
++-------------+
+2 rows in set (0.00 sec)
+
+mysql> use x;
+Database changed
+mysql> desc cutsomers;
+ERROR 1146 (42S02): Table 'x.cutsomers' doesn't exist
+mysql> use db1
+Database changed
+mysql> use customers;
+ERROR 1049 (42000): Unknown database 'customers'
+mysql> desc customers;
++--------+-------------+------+-----+---------+-------+
+| Field  | Type        | Null | Key | Default | Extra |
++--------+-------------+------+-----+---------+-------+
+| CNUM   | int         | NO   | PRI | NULL    |       |
+| CNAME  | varchar(10) | YES  |     | NULL    |       |
+| CITY   | varchar(10) | YES  |     | NULL    |       |
+| RATING | float       | YES  |     | NULL    |       |
+| SNUM   | int         | YES  | MUL | NULL    |       |
++--------+-------------+------+-----+---------+-------+
+5 rows in set (0.05 sec)
+
+mysql> desc salespeople;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| SNUM  | int         | NO   | PRI | NULL    |       |
+| SNAME | varchar(10) | YES  |     | NULL    |       |
+| CITY  | varchar(10) | YES  |     | NULL    |       |
+| COMM  | float       | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+4 rows in set (0.02 sec)
+
+mysql> alter table salespeople rename column snum to sid;
+Query OK, 0 rows affected (0.19 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> select * from customers;
++------+---------+----------+--------+------+
+| CNUM | CNAME   | CITY     | RATING | SNUM |
++------+---------+----------+--------+------+
+| 2001 | Santosh | London   |    100 | 1001 |
+| 2002 | Joe     | Rome     |    200 | 1003 |
+| 2003 | Raj     | San Jose |    200 | 1002 |
+| 2004 | Grass   | Berlin   |    300 | 1002 |
+| 2006 | Raja    | London   |    100 | 1001 |
+| 2007 | Jackson | Rome     |    100 | 1004 |
+| 2008 | William | San Jose |    300 | 1007 |
+| 2009 | Smith   | Berlin   |    300 | 1007 |
+| 2010 | ADAMS   | Berlin   |    250 | 1007 |
++------+---------+----------+--------+------+
+9 rows in set (0.01 sec)
+
+mysql> select * from salespeople;
++------+---------+----------+------+
+| sid  | SNAME   | CITY     | COMM |
++------+---------+----------+------+
+| 1001 | Rajan   | London   | 0.12 |
+| 1002 | Natasha | San Jose | 0.13 |
+| 1003 | Alax    | New York |  0.1 |
+| 1004 | Monika  | London   | 0.11 |
+| 1005 | Moor    | London   | 0.26 |
+| 1006 | Jack    | Leeds    | 0.26 |
+| 1007 | James   | Derby    | 0.15 |
+| 1008 | Cooper  | Wells    | 0.19 |
+| 1009 | Leo     | Wells    | 0.26 |
++------+---------+----------+------+
+9 rows in set (0.01 sec)
+
+mysql> select * from customers c, salespeople s where c.snum= s.sid;
++------+---------+----------+--------+------+------+---------+----------+------+
+| CNUM | CNAME   | CITY     | RATING | SNUM | sid  | SNAME   | CITY     | COMM |
++------+---------+----------+--------+------+------+---------+----------+------+
+| 2001 | Santosh | London   |    100 | 1001 | 1001 | Rajan   | London   | 0.12 |
+| 2002 | Joe     | Rome     |    200 | 1003 | 1003 | Alax    | New York |  0.1 |
+| 2003 | Raj     | San Jose |    200 | 1002 | 1002 | Natasha | San Jose | 0.13 |
+| 2004 | Grass   | Berlin   |    300 | 1002 | 1002 | Natasha | San Jose | 0.13 |
+| 2006 | Raja    | London   |    100 | 1001 | 1001 | Rajan   | London   | 0.12 |
+| 2007 | Jackson | Rome     |    100 | 1004 | 1004 | Monika  | London   | 0.11 |
+| 2008 | William | San Jose |    300 | 1007 | 1007 | James   | Derby    | 0.15 |
+| 2009 | Smith   | Berlin   |    300 | 1007 | 1007 | James   | Derby    | 0.15 |
+| 2010 | ADAMS   | Berlin   |    250 | 1007 | 1007 | James   | Derby    | 0.15 |
++------+---------+----------+--------+------+------+---------+----------+------+
+9 rows in set (0.00 sec)
+
+mysql> desc orders;
++-------------+-------------+------+-----+---------+-------+
+| Field       | Type        | Null | Key | Default | Extra |
++-------------+-------------+------+-----+---------+-------+
+| ONUM        | int         | NO   | PRI | NULL    |       |
+| AMT         | float       | YES  |     | NULL    |       |
+| ODATE       | datetime    | YES  |     | NULL    |       |
+| CNUM        | int         | YES  | MUL | NULL    |       |
+| SNUM        | int         | YES  | MUL | NULL    |       |
+| type        | varchar(10) | YES  |     | NULL    |       |
+| paymentType | varchar(20) | YES  |     | NULL    |       |
+| registered  | tinyint(1)  | YES  |     | NULL    |       |
++-------------+-------------+------+-----+---------+-------+
+8 rows in set (0.00 sec)
+
+mysql> select c.cname, s.sname from customers c, salespeople s where c.snum= s.sid;
++---------+---------+
+| cname   | sname   |
++---------+---------+
+| Santosh | Rajan   |
+| Joe     | Alax    |
+| Raj     | Natasha |
+| Grass   | Natasha |
+| Raja    | Rajan   |
+| Jackson | Monika  |
+| William | James   |
+| Smith   | James   |
+| ADAMS   | James   |
++---------+---------+
+9 rows in set (0.00 sec)
+
+mysql> select c.cname, s.sname from customers c, salespeople s, orders o where c.snum= s.sid and o.cnum=c.cnum;
++---------+---------+
+| cname   | sname   |
++---------+---------+
+| Santosh | Rajan   |
+| Santosh | Rajan   |
+| Santosh | Rajan   |
+| Santosh | Rajan   |
+| Santosh | Rajan   |
+| Santosh | Rajan   |
+| Santosh | Rajan   |
+| Joe     | Alax    |
+| Joe     | Alax    |
+| Joe     | Alax    |
+| Joe     | Alax    |
+| Joe     | Alax    |
+| Joe     | Alax    |
+| Joe     | Alax    |
+| Joe     | Alax    |
+| Joe     | Alax    |
+| Joe     | Alax    |
+| Joe     | Alax    |
+| Joe     | Alax    |
+| Joe     | Alax    |
+| Joe     | Alax    |
+| Raj     | Natasha |
+| Raj     | Natasha |
+| Grass   | Natasha |
+| Grass   | Natasha |
+| Grass   | Natasha |
+| Grass   | Natasha |
+| Grass   | Natasha |
+| Raja    | Rajan   |
+| Raja    | Rajan   |
+| Raja    | Rajan   |
+| Raja    | Rajan   |
+| Raja    | Rajan   |
+| Raja    | Rajan   |
+| Raja    | Rajan   |
+| Raja    | Rajan   |
+| Raja    | Rajan   |
+| Raja    | Rajan   |
+| Raja    | Rajan   |
+| Raja    | Rajan   |
+| Jackson | Monika  |
+| Jackson | Monika  |
+| Jackson | Monika  |
+| William | James   |
+| William | James   |
+| William | James   |
+| William | James   |
+| William | James   |
+| William | James   |
++---------+---------+
+49 rows in set (0.01 sec)
+
+mysql> select c.cname, s.sname, o.* from customers c, salespeople s, orders o where c.snum= s.sid and o.cnum=c.cnum;
++---------+---------+------+---------+---------------------+------+------+--------+--------------+------------+
+| cname   | sname   | ONUM | AMT     | ODATE               | CNUM | SNUM | type   | paymentType  | registered |
++---------+---------+------+---------+---------------------+------+------+--------+--------------+------------+
+| Santosh | Rajan   | 3003 |  767.19 | 1996-10-03 13:45:00 | 2001 | 1001 | Online | Debit Cards  |          1 |
+| Santosh | Rajan   | 3017 |   18.69 | 1996-10-03 12:30:00 | 2001 | 1007 | Online | Credit Cards |          1 |
+| Santosh | Rajan   | 3049 |  500.58 | 1996-03-14 07:45:19 | 2001 | 1003 | Cash   | COD          |          0 |
+| Santosh | Rajan   | 4012 |   245.6 | 1996-03-06 13:07:00 | 2001 | 1002 | Online | Wallets      |          1 |
+| Santosh | Rajan   | 4021 |  600.65 | 1996-08-12 13:07:00 | 2001 | 1002 | Online | Wallets      |          1 |
+| Santosh | Rajan   | 5011 |  138.35 | 1996-09-14 13:07:00 | 2001 | 1007 | Cash   | COD          |          0 |
+| Santosh | Rajan   | 6501 |  125.45 | 1996-06-13 13:07:00 | 2001 | 1001 | Online | EMI Options  |          1 |
+| Joe     | Alax    | 3007 |   75.75 | 1996-10-04 16:02:00 | 2002 | 1003 | Online | Credit Cards |          1 |
+| Joe     | Alax    | 3009 | 1713.23 | 1996-10-04 15:21:00 | 2002 | 1003 | Online | Credit Cards |          1 |
+| Joe     | Alax    | 3012 | 3455.78 | 1996-10-04 15:21:00 | 2002 | 1003 | Cash   | COD          |          0 |
+| Joe     | Alax    | 3013 | 1245.98 | 1996-10-04 16:32:00 | 2002 | 1003 | Online | EMI Options  |          1 |
+| Joe     | Alax    | 3018 |  767.19 | 1996-10-03 13:45:00 | 2002 | 1001 | Online | Wallets      |          1 |
+| Joe     | Alax    | 3022 | 1713.23 | 1996-10-04 15:21:00 | 2002 | 1003 | Cash   | COD          |          0 |
+| Joe     | Alax    | 3023 |   75.75 | 1996-10-04 16:02:00 | 2002 | 1004 | Online | Wallets      |          1 |
+| Joe     | Alax    | 3025 | 1309.95 | 1996-10-06 13:12:00 | 2002 | 1002 | Online | Wallets      |          1 |
+| Joe     | Alax    | 3027 | 3455.78 | 1996-10-04 15:21:00 | 2002 | 1003 | Cash   | COD          |          0 |
+| Joe     | Alax    | 3028 | 1245.98 | 1996-10-04 16:32:00 | 2002 | 1003 | Online | Debit Cards  |          1 |
+| Joe     | Alax    | 3033 |  522.23 | 1996-12-24 14:23:00 | 2002 | 1002 | Cash   | COD          |          0 |
+| Joe     | Alax    | 5014 |  980.65 | 1996-08-23 13:07:00 | 2002 | 1007 | Online | Wallets      |          1 |
+| Joe     | Alax    | 5016 | 1000.95 | 1996-03-12 13:07:00 | 2002 | 1007 | Cash   | COD          |          0 |
+| Joe     | Alax    | 5099 |  790.75 | 1996-04-24 13:07:00 | 2002 | 1007 | Online | EMI Options  |          1 |
+| Raj     | Natasha | 3005 | 5160.45 | 1996-10-03 14:00:00 | 2003 | 1002 | Online | Debit Cards  |          1 |
+| Raj     | Natasha | 3020 | 5160.45 | 1996-10-03 14:00:00 | 2003 | 1007 | Cash   | COD          |          0 |
+| Grass   | Natasha | 3010 | 1309.95 | 1996-10-06 13:12:00 | 2004 | 1002 | Online | EMI Options  |          1 |
+| Grass   | Natasha | 3015 |   734.5 | 1996-10-06 13:16:00 | 2004 | 1002 | Online | EMI Options  |          1 |
+| Grass   | Natasha | 3030 |   734.5 | 1996-10-06 13:16:00 | 2004 | 1002 | Cash   | COD          |          0 |
+| Grass   | Natasha | 4054 |  1200.8 | 1996-11-22 13:07:00 | 2004 | 1003 | Cash   | COD          |          0 |
+| Grass   | Natasha | 5015 | 2133.35 | 1996-06-23 13:07:00 | 2004 | 1007 | Online | EMI Options  |          1 |
+| Raja    | Rajan   | 3008 |    4723 | 1996-10-05 12:07:00 | 2006 | 1001 | Cash   | COD          |          0 |
+| Raja    | Rajan   | 3011 | 9891.88 | 1996-10-06 13:09:00 | 2006 | 1001 | Online | EMI Options  |          1 |
+| Raja    | Rajan   | 3014 | 3721.53 | 1996-10-05 12:45:00 | 2006 | 1001 | Cash   | COD          |          0 |
+| Raja    | Rajan   | 3016 | 1729.67 | 1996-10-06 13:07:00 | 2006 | 1001 | Online | Wallets      |          1 |
+| Raja    | Rajan   | 3024 |    4723 | 1996-10-05 12:07:00 | 2006 | 1002 | Online | Credit Cards |          1 |
+| Raja    | Rajan   | 3026 | 9891.88 | 1996-10-06 13:09:00 | 2006 | 1001 | Online | Wallets      |          1 |
+| Raja    | Rajan   | 3029 | 3721.53 | 1996-10-05 12:45:00 | 2006 | 1001 | Online | Credit Cards |          1 |
+| Raja    | Rajan   | 3031 | 1729.67 | 1996-10-06 13:07:00 | 2006 | 1007 | Online | Wallets      |          1 |
+| Raja    | Rajan   | 3032 | 3434.55 | 1996-01-26 17:09:12 | 2006 | 1007 | Online | Wallets      |          1 |
+| Raja    | Rajan   | 5053 |  1500.5 | 1996-01-01 13:07:00 | 2006 | 1007 | Online | EMI Options  |          1 |
+| Raja    | Rajan   | 6502 |  535.25 | 1996-08-24 13:07:00 | 2006 | 1004 | Cash   | COD          |          0 |
+| Raja    | Rajan   | 6503 | 1100.25 | 1996-07-26 13:07:00 | 2006 | 1007 | Online | Wallets      |          1 |
+| Jackson | Monika  | 3002 |  1900.1 | 1996-10-03 12:05:00 | 2007 | 1004 | Online | Wallets      |          1 |
+| Jackson | Monika  | 3019 |  1900.1 | 1996-10-03 12:05:00 | 2007 | 1004 | Online | EMI Options  |          1 |
+| Jackson | Monika  | 3119 |   125.5 | 1996-07-26 18:37:00 | 2007 | 1001 | Online | Wallets      |          1 |
+| William | James   | 3001 |   18.69 | 1996-10-03 12:30:00 | 2008 | 1007 | Online | Credit Cards |          1 |
+| William | James   | 3006 | 1098.16 | 1996-10-03 13:37:00 | 2008 | 1007 | Online | Wallets      |          1 |
+| William | James   | 3021 | 1098.16 | 1996-10-03 13:37:00 | 2008 | 1007 | Online | Debit Cards  |          1 |
+| William | James   | 3074 |   457.4 | 1996-04-19 05:13:00 | 2008 | 1007 | Online | EMI Options  |          1 |
+| William | James   | 4001 |   145.2 | 1996-05-13 20:47:00 | 2008 | 1003 | Online | EMI Options  |          1 |
+| William | James   | 6504 | 1350.75 | 1996-07-21 13:07:00 | 2008 | 1007 | Cash   | COD          |          0 |
++---------+---------+------+---------+---------------------+------+------+--------+--------------+------------+
+49 rows in set (0.01 sec)
+
+mysql> select c.cname, s.sname, ONUM, AMT, ODATE, type, paymentType, registered from customers c, salespeople s, orders o where c.snum= s.sid and o.cnum=c.cnum;
++---------+---------+------+---------+---------------------+--------+--------------+------------+
+| cname   | sname   | ONUM | AMT     | ODATE               | type   | paymentType  | registered |
++---------+---------+------+---------+---------------------+--------+--------------+------------+
+| Santosh | Rajan   | 3003 |  767.19 | 1996-10-03 13:45:00 | Online | Debit Cards  |          1 |
+| Santosh | Rajan   | 3017 |   18.69 | 1996-10-03 12:30:00 | Online | Credit Cards |          1 |
+| Santosh | Rajan   | 3049 |  500.58 | 1996-03-14 07:45:19 | Cash   | COD          |          0 |
+| Santosh | Rajan   | 4012 |   245.6 | 1996-03-06 13:07:00 | Online | Wallets      |          1 |
+| Santosh | Rajan   | 4021 |  600.65 | 1996-08-12 13:07:00 | Online | Wallets      |          1 |
+| Santosh | Rajan   | 5011 |  138.35 | 1996-09-14 13:07:00 | Cash   | COD          |          0 |
+| Santosh | Rajan   | 6501 |  125.45 | 1996-06-13 13:07:00 | Online | EMI Options  |          1 |
+| Joe     | Alax    | 3007 |   75.75 | 1996-10-04 16:02:00 | Online | Credit Cards |          1 |
+| Joe     | Alax    | 3009 | 1713.23 | 1996-10-04 15:21:00 | Online | Credit Cards |          1 |
+| Joe     | Alax    | 3012 | 3455.78 | 1996-10-04 15:21:00 | Cash   | COD          |          0 |
+| Joe     | Alax    | 3013 | 1245.98 | 1996-10-04 16:32:00 | Online | EMI Options  |          1 |
+| Joe     | Alax    | 3018 |  767.19 | 1996-10-03 13:45:00 | Online | Wallets      |          1 |
+| Joe     | Alax    | 3022 | 1713.23 | 1996-10-04 15:21:00 | Cash   | COD          |          0 |
+| Joe     | Alax    | 3023 |   75.75 | 1996-10-04 16:02:00 | Online | Wallets      |          1 |
+| Joe     | Alax    | 3025 | 1309.95 | 1996-10-06 13:12:00 | Online | Wallets      |          1 |
+| Joe     | Alax    | 3027 | 3455.78 | 1996-10-04 15:21:00 | Cash   | COD          |          0 |
+| Joe     | Alax    | 3028 | 1245.98 | 1996-10-04 16:32:00 | Online | Debit Cards  |          1 |
+| Joe     | Alax    | 3033 |  522.23 | 1996-12-24 14:23:00 | Cash   | COD          |          0 |
+| Joe     | Alax    | 5014 |  980.65 | 1996-08-23 13:07:00 | Online | Wallets      |          1 |
+| Joe     | Alax    | 5016 | 1000.95 | 1996-03-12 13:07:00 | Cash   | COD          |          0 |
+| Joe     | Alax    | 5099 |  790.75 | 1996-04-24 13:07:00 | Online | EMI Options  |          1 |
+| Raj     | Natasha | 3005 | 5160.45 | 1996-10-03 14:00:00 | Online | Debit Cards  |          1 |
+| Raj     | Natasha | 3020 | 5160.45 | 1996-10-03 14:00:00 | Cash   | COD          |          0 |
+| Grass   | Natasha | 3010 | 1309.95 | 1996-10-06 13:12:00 | Online | EMI Options  |          1 |
+| Grass   | Natasha | 3015 |   734.5 | 1996-10-06 13:16:00 | Online | EMI Options  |          1 |
+| Grass   | Natasha | 3030 |   734.5 | 1996-10-06 13:16:00 | Cash   | COD          |          0 |
+| Grass   | Natasha | 4054 |  1200.8 | 1996-11-22 13:07:00 | Cash   | COD          |          0 |
+| Grass   | Natasha | 5015 | 2133.35 | 1996-06-23 13:07:00 | Online | EMI Options  |          1 |
+| Raja    | Rajan   | 3008 |    4723 | 1996-10-05 12:07:00 | Cash   | COD          |          0 |
+| Raja    | Rajan   | 3011 | 9891.88 | 1996-10-06 13:09:00 | Online | EMI Options  |          1 |
+| Raja    | Rajan   | 3014 | 3721.53 | 1996-10-05 12:45:00 | Cash   | COD          |          0 |
+| Raja    | Rajan   | 3016 | 1729.67 | 1996-10-06 13:07:00 | Online | Wallets      |          1 |
+| Raja    | Rajan   | 3024 |    4723 | 1996-10-05 12:07:00 | Online | Credit Cards |          1 |
+| Raja    | Rajan   | 3026 | 9891.88 | 1996-10-06 13:09:00 | Online | Wallets      |          1 |
+| Raja    | Rajan   | 3029 | 3721.53 | 1996-10-05 12:45:00 | Online | Credit Cards |          1 |
+| Raja    | Rajan   | 3031 | 1729.67 | 1996-10-06 13:07:00 | Online | Wallets      |          1 |
+| Raja    | Rajan   | 3032 | 3434.55 | 1996-01-26 17:09:12 | Online | Wallets      |          1 |
+| Raja    | Rajan   | 5053 |  1500.5 | 1996-01-01 13:07:00 | Online | EMI Options  |          1 |
+| Raja    | Rajan   | 6502 |  535.25 | 1996-08-24 13:07:00 | Cash   | COD          |          0 |
+| Raja    | Rajan   | 6503 | 1100.25 | 1996-07-26 13:07:00 | Online | Wallets      |          1 |
+| Jackson | Monika  | 3002 |  1900.1 | 1996-10-03 12:05:00 | Online | Wallets      |          1 |
+| Jackson | Monika  | 3019 |  1900.1 | 1996-10-03 12:05:00 | Online | EMI Options  |          1 |
+| Jackson | Monika  | 3119 |   125.5 | 1996-07-26 18:37:00 | Online | Wallets      |          1 |
+| William | James   | 3001 |   18.69 | 1996-10-03 12:30:00 | Online | Credit Cards |          1 |
+| William | James   | 3006 | 1098.16 | 1996-10-03 13:37:00 | Online | Wallets      |          1 |
+| William | James   | 3021 | 1098.16 | 1996-10-03 13:37:00 | Online | Debit Cards  |          1 |
+| William | James   | 3074 |   457.4 | 1996-04-19 05:13:00 | Online | EMI Options  |          1 |
+| William | James   | 4001 |   145.2 | 1996-05-13 20:47:00 | Online | EMI Options  |          1 |
+| William | James   | 6504 | 1350.75 | 1996-07-21 13:07:00 | Cash   | COD          |          0 |
++---------+---------+------+---------+---------------------+--------+--------------+------------+
+49 rows in set (0.01 sec)
+
+mysql> select c.cname, s.sname, ONUM, AMT, ODATE, type, paymentType, registered from customers c inner join  salespeople s on  c.snum= s.sid inner join orders o o.cnum=c.cnum;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'o.cnum=c.cnum' at line 1
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> select c.cname, s.sname, ONUM, AMT, ODATE, type, paymentType, registered from customers c inner join  salespeople s on  c.snum= s.sid inner join orders on o.cnum=c.cnum;
+ERROR 1054 (42S22): Unknown column 'o.cnum' in 'on clause'
+mysql> edit
+    -> ^C
+mysql> select c.cname, s.sname, ONUM, AMT, ODATE, type, paymentType, registered from customers c inner join  salespeople s on  c.snum= s.sid inner join orders o on o.cnum=c.cnum;
++---------+---------+------+---------+---------------------+--------+--------------+------------+
+| cname   | sname   | ONUM | AMT     | ODATE               | type   | paymentType  | registered |
++---------+---------+------+---------+---------------------+--------+--------------+------------+
+| Santosh | Rajan   | 3003 |  767.19 | 1996-10-03 13:45:00 | Online | Debit Cards  |          1 |
+| Santosh | Rajan   | 3017 |   18.69 | 1996-10-03 12:30:00 | Online | Credit Cards |          1 |
+| Santosh | Rajan   | 3049 |  500.58 | 1996-03-14 07:45:19 | Cash   | COD          |          0 |
+| Santosh | Rajan   | 4012 |   245.6 | 1996-03-06 13:07:00 | Online | Wallets      |          1 |
+| Santosh | Rajan   | 4021 |  600.65 | 1996-08-12 13:07:00 | Online | Wallets      |          1 |
+| Santosh | Rajan   | 5011 |  138.35 | 1996-09-14 13:07:00 | Cash   | COD          |          0 |
+| Santosh | Rajan   | 6501 |  125.45 | 1996-06-13 13:07:00 | Online | EMI Options  |          1 |
+| Joe     | Alax    | 3007 |   75.75 | 1996-10-04 16:02:00 | Online | Credit Cards |          1 |
+| Joe     | Alax    | 3009 | 1713.23 | 1996-10-04 15:21:00 | Online | Credit Cards |          1 |
+| Joe     | Alax    | 3012 | 3455.78 | 1996-10-04 15:21:00 | Cash   | COD          |          0 |
+| Joe     | Alax    | 3013 | 1245.98 | 1996-10-04 16:32:00 | Online | EMI Options  |          1 |
+| Joe     | Alax    | 3018 |  767.19 | 1996-10-03 13:45:00 | Online | Wallets      |          1 |
+| Joe     | Alax    | 3022 | 1713.23 | 1996-10-04 15:21:00 | Cash   | COD          |          0 |
+| Joe     | Alax    | 3023 |   75.75 | 1996-10-04 16:02:00 | Online | Wallets      |          1 |
+| Joe     | Alax    | 3025 | 1309.95 | 1996-10-06 13:12:00 | Online | Wallets      |          1 |
+| Joe     | Alax    | 3027 | 3455.78 | 1996-10-04 15:21:00 | Cash   | COD          |          0 |
+| Joe     | Alax    | 3028 | 1245.98 | 1996-10-04 16:32:00 | Online | Debit Cards  |          1 |
+| Joe     | Alax    | 3033 |  522.23 | 1996-12-24 14:23:00 | Cash   | COD          |          0 |
+| Joe     | Alax    | 5014 |  980.65 | 1996-08-23 13:07:00 | Online | Wallets      |          1 |
+| Joe     | Alax    | 5016 | 1000.95 | 1996-03-12 13:07:00 | Cash   | COD          |          0 |
+| Joe     | Alax    | 5099 |  790.75 | 1996-04-24 13:07:00 | Online | EMI Options  |          1 |
+| Raj     | Natasha | 3005 | 5160.45 | 1996-10-03 14:00:00 | Online | Debit Cards  |          1 |
+| Raj     | Natasha | 3020 | 5160.45 | 1996-10-03 14:00:00 | Cash   | COD          |          0 |
+| Grass   | Natasha | 3010 | 1309.95 | 1996-10-06 13:12:00 | Online | EMI Options  |          1 |
+| Grass   | Natasha | 3015 |   734.5 | 1996-10-06 13:16:00 | Online | EMI Options  |          1 |
+| Grass   | Natasha | 3030 |   734.5 | 1996-10-06 13:16:00 | Cash   | COD          |          0 |
+| Grass   | Natasha | 4054 |  1200.8 | 1996-11-22 13:07:00 | Cash   | COD          |          0 |
+| Grass   | Natasha | 5015 | 2133.35 | 1996-06-23 13:07:00 | Online | EMI Options  |          1 |
+| Raja    | Rajan   | 3008 |    4723 | 1996-10-05 12:07:00 | Cash   | COD          |          0 |
+| Raja    | Rajan   | 3011 | 9891.88 | 1996-10-06 13:09:00 | Online | EMI Options  |          1 |
+| Raja    | Rajan   | 3014 | 3721.53 | 1996-10-05 12:45:00 | Cash   | COD          |          0 |
+| Raja    | Rajan   | 3016 | 1729.67 | 1996-10-06 13:07:00 | Online | Wallets      |          1 |
+| Raja    | Rajan   | 3024 |    4723 | 1996-10-05 12:07:00 | Online | Credit Cards |          1 |
+| Raja    | Rajan   | 3026 | 9891.88 | 1996-10-06 13:09:00 | Online | Wallets      |          1 |
+| Raja    | Rajan   | 3029 | 3721.53 | 1996-10-05 12:45:00 | Online | Credit Cards |          1 |
+| Raja    | Rajan   | 3031 | 1729.67 | 1996-10-06 13:07:00 | Online | Wallets      |          1 |
+| Raja    | Rajan   | 3032 | 3434.55 | 1996-01-26 17:09:12 | Online | Wallets      |          1 |
+| Raja    | Rajan   | 5053 |  1500.5 | 1996-01-01 13:07:00 | Online | EMI Options  |          1 |
+| Raja    | Rajan   | 6502 |  535.25 | 1996-08-24 13:07:00 | Cash   | COD          |          0 |
+| Raja    | Rajan   | 6503 | 1100.25 | 1996-07-26 13:07:00 | Online | Wallets      |          1 |
+| Jackson | Monika  | 3002 |  1900.1 | 1996-10-03 12:05:00 | Online | Wallets      |          1 |
+| Jackson | Monika  | 3019 |  1900.1 | 1996-10-03 12:05:00 | Online | EMI Options  |          1 |
+| Jackson | Monika  | 3119 |   125.5 | 1996-07-26 18:37:00 | Online | Wallets      |          1 |
+| William | James   | 3001 |   18.69 | 1996-10-03 12:30:00 | Online | Credit Cards |          1 |
+| William | James   | 3006 | 1098.16 | 1996-10-03 13:37:00 | Online | Wallets      |          1 |
+| William | James   | 3021 | 1098.16 | 1996-10-03 13:37:00 | Online | Debit Cards  |          1 |
+| William | James   | 3074 |   457.4 | 1996-04-19 05:13:00 | Online | EMI Options  |          1 |
+| William | James   | 4001 |   145.2 | 1996-05-13 20:47:00 | Online | EMI Options  |          1 |
+| William | James   | 6504 | 1350.75 | 1996-07-21 13:07:00 | Cash   | COD          |          0 |
++---------+---------+------+---------+---------------------+--------+--------------+------------+
+49 rows in set (0.00 sec)
+
+mysql> select ename, dname from emp, dept where emp.deptno=dept.deptno;
++----------+------------+
+| ename    | dname      |
++----------+------------+
+| GITA     | SALES      |
+| VRUSHALI | HR         |
+| SHARMIN  | RESEARCH   |
+| BANDISH  | RESEARCH   |
+| SMITH    | RESEARCH   |
+| AARAV    | ACCOUNTING |
+| THOMAS   | ACCOUNTING |
+| ALLEN    | SALES      |
+| WARD     | SALES      |
+| JONES    | RESEARCH   |
+| MARTIN   | SALES      |
+| BLAKE    | SALES      |
+| CLARK    | ACCOUNTING |
+| SCOTT    | RESEARCH   |
+| KING     | ACCOUNTING |
+| FRED     | RESEARCH   |
+| TURNER   | SALES      |
+| ADAMS    | RESEARCH   |
+| JAMES    | SALES      |
+| FORD     | RESEARCH   |
+| HOFFMAN  | SALES      |
+| GRASS    | SALES      |
+| MILLER   | ACCOUNTING |
+| AARUSH   | SALES      |
+| ALEX     | SALES      |
+| NATASHA  | SALES      |
+| SANGITA  | HR         |
+| SUPRIYA  | HR         |
++----------+------------+
+28 rows in set (0.06 sec)
+
+mysql> select ename, (select dname from dept) from emp;
+ERROR 1242 (21000): Subquery returns more than 1 row
+mysql>
+mysql>
+mysql> select ename, (select dname from dept where emp.deptno=dept.deptno) from emp;
++----------+-------------------------------------------------------+
+| ename    | (select dname from dept where emp.deptno=dept.deptno) |
++----------+-------------------------------------------------------+
+| GITA     | SALES                                                 |
+| VRUSHALI | HR                                                    |
+| SHARMIN  | RESEARCH                                              |
+| BANDISH  | RESEARCH                                              |
+| SMITH    | RESEARCH                                              |
+| AARAV    | ACCOUNTING                                            |
+| THOMAS   | ACCOUNTING                                            |
+| ALLEN    | SALES                                                 |
+| WARD     | SALES                                                 |
+| JONES    | RESEARCH                                              |
+| MARTIN   | SALES                                                 |
+| BLAKE    | SALES                                                 |
+| CLARK    | ACCOUNTING                                            |
+| SCOTT    | RESEARCH                                              |
+| KING     | ACCOUNTING                                            |
+| FRED     | RESEARCH                                              |
+| TURNER   | SALES                                                 |
+| ADAMS    | RESEARCH                                              |
+| JAMES    | SALES                                                 |
+| FORD     | RESEARCH                                              |
+| HOFFMAN  | SALES                                                 |
+| GRASS    | SALES                                                 |
+| MILLER   | ACCOUNTING                                            |
+| AARUSH   | SALES                                                 |
+| ALEX     | SALES                                                 |
+| NATASHA  | SALES                                                 |
+| SANGITA  | HR                                                    |
+| SUPRIYA  | HR                                                    |
++----------+-------------------------------------------------------+
+28 rows in set (0.00 sec)
+
+mysql> use z;
+Database changed
+mysql> show tables;
++-------------+
+| Tables_in_z |
++-------------+
+| r           |
+| s           |
++-------------+
+2 rows in set (0.00 sec)
+
+mysql> create table a(c1 int, c2 varchar(10), c3 int);
+Query OK, 0 rows affected (0.06 sec)
+
+mysql> desc a;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| c1    | int         | YES  |     | NULL    |       |
+| c2    | varchar(10) | YES  |     | NULL    |       |
+| c3    | int         | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> load data infile "C:\Users\SALEEL\Desktop\2025\xyz.csv" into table a fields terminated by ",";
+ERROR 29 (HY000): File 'C:\ProgramData\MySQL\MySQL Server 8.0\Data\UsersSALEELDesktop2025xyz.csv' not found (OS errno 2 - No such file or directory)
+mysql> load data infile "C:/Users/SALEEL/Desktop/2025/xyz.csv" into table a fields terminated by ",";
+ERROR 29 (HY000): File 'C:\Users\SALEEL\Desktop\2025\xyz.csv' not found (OS errno 13 - Permission denied)
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> load data infile "C:\\Users\\SALEEL\\Desktop\\2025\\xyz.csv" into table a fields terminated by ",";
+ERROR 29 (HY000): File 'C:\Users\SALEEL\Desktop\2025\xyz.csv' not found (OS errno 13 - Permission denied)
+mysql> load data infile 'C:/Users/SALEEL/Desktop/2025/xyz.csv' into table a fields terminated by ",";
+ERROR 29 (HY000): File 'C:\Users\SALEEL\Desktop\2025\xyz.csv' not found (OS errno 13 - Permission denied)
+mysql> load data infile 'C:/Users/SALEEL/Desktop/2025/xyz.csv' into table a fields terminated by ",";
+ERROR 29 (HY000): File 'C:\Users\SALEEL\Desktop\2025\xyz.csv' not found (OS errno 2 - No such file or directory)
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> cls
+    ->
+    ->
+    -> ^C
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> load data infile "C:/saleel/xyz.csv" into table a fields terminated by ",";
+Query OK, 3 rows affected (0.02 sec)
+Records: 3  Deleted: 0  Skipped: 0  Warnings: 0
+
+mysql> select * from a;
++------+---------+------+
+| c1   | c2      | c3   |
++------+---------+------+
+|  100 | saleel  | 4000 |
+|  101 | sharmin | 5000 |
+|  102 | ruhan   | 6000 |
++------+---------+------+
+3 rows in set (0.00 sec)
+
+mysql> load data infile "C:/saleel/xyz.csv" into table a fields terminated by ",";
+Query OK, 4 rows affected (0.01 sec)
+Records: 4  Deleted: 0  Skipped: 0  Warnings: 0
+
+mysql> select * from a;
++------+---------+------+
+| c1   | c2      | c3   |
++------+---------+------+
+|  100 | saleel  | 4000 |
+|  101 | sharmin | 5000 |
+|  102 | ruhan   | 6000 |
+|  100 | saleel  | 4000 |
+|  101 | sharmin | 5000 |
+|  102 | ruhan   | 6000 |
+|  103 | bandish | 7000 |
++------+---------+------+
+7 rows in set (0.00 sec)
+
+mysql> select empno, ename from emp where not exists (select true from emp_cards where emp.empno= emp_cards.empid);
+ERROR 1146 (42S02): Table 'z.emp' doesn't exist
+mysql> use db1
+Database changed
+mysql> select empno, ename from emp where not exists (select true from emp_cards where emp.empno= emp_cards.empid);
++-------+----------+
+| empno | ename    |
++-------+----------+
+|  6001 | GITA     |
+|  6129 | VRUSHALI |
+|  6473 | SHARMIN  |
+|  6781 | BANDISH  |
+|  7415 | AARAV    |
+|  7421 | THOMAS   |
+|  7840 | FRED     |
+|  7919 | HOFFMAN  |
+|  7920 | GRASS    |
+|  7934 | MILLER   |
+|  7945 | AARUSH   |
+|  7949 | ALEX     |
+|  8433 | NATASHA  |
+|  9400 | SANGITA  |
+|  9473 | SUPRIYA  |
++-------+----------+
+15 rows in set (0.04 sec)
+
+mysql> select empno, ename from emp  except    select empid from emp_cards;
+ERROR 1222 (21000): The used SELECT statements have a different number of columns
+mysql> select empno from emp  except    select empid from emp_cards;
++-------+
+| empno |
++-------+
+|  7415 |
+|  7421 |
+|  7934 |
+|  6473 |
+|  6781 |
+|  7840 |
+|  6001 |
+|  7919 |
+|  7920 |
+|  7945 |
+|  7949 |
+|  8433 |
+|  6129 |
+|  9400 |
+|  9473 |
++-------+
+15 rows in set (0.01 sec)
+
+mysql> select ename from emp where empno in (select empno from emp  except    select empid from emp_cards);
++----------+
+| ename    |
++----------+
+| GITA     |
+| VRUSHALI |
+| SHARMIN  |
+| BANDISH  |
+| AARAV    |
+| THOMAS   |
+| FRED     |
+| HOFFMAN  |
+| GRASS    |
+| MILLER   |
+| AARUSH   |
+| ALEX     |
+| NATASHA  |
+| SANGITA  |
+| SUPRIYA  |
++----------+
+15 rows in set (0.00 sec)
+
+mysql> select empno, ename from emp where empno in (select empno from emp  except    select empid from emp_cards);
++-------+----------+
+| empno | ename    |
++-------+----------+
+|  6001 | GITA     |
+|  6129 | VRUSHALI |
+|  6473 | SHARMIN  |
+|  6781 | BANDISH  |
+|  7415 | AARAV    |
+|  7421 | THOMAS   |
+|  7840 | FRED     |
+|  7919 | HOFFMAN  |
+|  7920 | GRASS    |
+|  7934 | MILLER   |
+|  7945 | AARUSH   |
+|  7949 | ALEX     |
+|  8433 | NATASHA  |
+|  9400 | SANGITA  |
+|  9473 | SUPRIYA  |
++-------+----------+
+15 rows in set (0.00 sec)
+
+mysql> select empno, ename from emp where empno in (select empno from emp  except    select empid from emp_cards);
++-------+----------+
+| empno | ename    |
++-------+----------+
+|  6001 | GITA     |
+|  6129 | VRUSHALI |
+|  6473 | SHARMIN  |
+|  6781 | BANDISH  |
+|  7415 | AARAV    |
+|  7421 | THOMAS   |
+|  7840 | FRED     |
+|  7919 | HOFFMAN  |
+|  7920 | GRASS    |
+|  7934 | MILLER   |
+|  7945 | AARUSH   |
+|  7949 | ALEX     |
+|  8433 | NATASHA  |
+|  9400 | SANGITA  |
+|  9473 | SUPRIYA  |
++-------+----------+
+15 rows in set (0.00 sec)
+
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> use z;
+Database changed
+mysql> show tables;
++-------------+
+| Tables_in_z |
++-------------+
+| a           |
+| r           |
+| s           |
++-------------+
+3 rows in set (0.00 sec)
+
+mysql> create temporary table x(c1 int primary key auto_increment,c2 varchar(10), c3 date);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> desc x;
++-------+-------------+------+-----+---------+----------------+
+| Field | Type        | Null | Key | Default | Extra          |
++-------+-------------+------+-----+---------+----------------+
+| c1    | int         | NO   | PRI | NULL    | auto_increment |
+| c2    | varchar(10) | YES  |     | NULL    | NULL           |
+| c3    | date        | YES  |     | NULL    | NULL           |
++-------+-------------+------+-----+---------+----------------+
+3 rows in set (0.02 sec)
+
+mysql> show tables;
++-------------+
+| Tables_in_z |
++-------------+
+| a           |
+| r           |
+| s           |
++-------------+
+3 rows in set (0.00 sec)
+
+mysql> desc x;
++-------+-------------+------+-----+---------+----------------+
+| Field | Type        | Null | Key | Default | Extra          |
++-------+-------------+------+-----+---------+----------------+
+| c1    | int         | NO   | PRI | NULL    | auto_increment |
+| c2    | varchar(10) | YES  |     | NULL    | NULL           |
+| c3    | date        | YES  |     | NULL    | NULL           |
++-------+-------------+------+-----+---------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> exit
+Bye
+
+C:\Users\SALEEL>mysql --user=root --password=root x
+mysql: [Warning] Using a password on the command line interface can be insecure.
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 9
+Server version: 8.0.41 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use z;
+Database changed
+mysql> desc x;
+ERROR 1146 (42S02): Table 'z.x' doesn't exist
+mysql>
+mysql> create temporary table x(c1 int primary key auto_increment,c2 varchar(10), c3 date);
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> desc x;
++-------+-------------+------+-----+---------+----------------+
+| Field | Type        | Null | Key | Default | Extra          |
++-------+-------------+------+-----+---------+----------------+
+| c1    | int         | NO   | PRI | NULL    | auto_increment |
+| c2    | varchar(10) | YES  |     | NULL    | NULL           |
+| c3    | date        | YES  |     | NULL    | NULL           |
++-------+-------------+------+-----+---------+----------------+
+3 rows in set (0.01 sec)
+
+mysql> exit
+Bye
+
+C:\Users\SALEEL>mysql --user=root --password=root x
+mysql: [Warning] Using a password on the command line interface can be insecure.
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 10
+Server version: 8.0.41 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> use z;
+Database changed
+mysql> desc x;
+ERROR 1146 (42S02): Table 'z.x' doesn't exist
+mysql> use db1;
+Database changed
+mysql> select * from dept;
++--------+------------+----------+------------+------------+
+| DEPTNO | DNAME      | LOC      | PWD        | STARTEDON  |
++--------+------------+----------+------------+------------+
+|     10 | ACCOUNTING | NEW YORK | r50mpm     | 24/03/1989 |
+|     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 |
+|     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 |
+|     40 | OPERATIONS | BOSTON   | opr@123    | 12/07/1989 |
+|     50 | HR         | PUNE     | PUN@8877   | 22/12/1989 |
++--------+------------+----------+------------+------------+
+5 rows in set (0.01 sec)
+
+mysql> select user();
++----------------+
+| user()         |
++----------------+
+| root@localhost |
++----------------+
+1 row in set (0.01 sec)
+
+mysql> select database();
++------------+
+| database() |
++------------+
+| db1        |
++------------+
+1 row in set (0.00 sec)
+
+mysql> select user();
++----------------+
+| user()         |
++----------------+
+| root@localhost |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> desc x;
+ERROR 1146 (42S02): Table 'db1.x' doesn't exist
+mysql> use z;
+Database changed
+mysql> desc x;
+ERROR 1146 (42S02): Table 'z.x' doesn't exist
+mysql> create temporary table x(c1 int primary key auto_increment,c2 varchar(10), c3 date);
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> desc x;
++-------+-------------+------+-----+---------+----------------+
+| Field | Type        | Null | Key | Default | Extra          |
++-------+-------------+------+-----+---------+----------------+
+| c1    | int         | NO   | PRI | NULL    | auto_increment |
+| c2    | varchar(10) | YES  |     | NULL    | NULL           |
+| c3    | date        | YES  |     | NULL    | NULL           |
++-------+-------------+------+-----+---------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> insert into x values(1,1,curdate());
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from x;
++----+------+------------+
+| c1 | c2   | c3         |
++----+------+------------+
+|  1 | 1    | 2025-04-05 |
++----+------+------------+
+1 row in set (0.00 sec)
+
+mysql> show tables;
++-------------+
+| Tables_in_z |
++-------------+
+| a           |
+| r           |
+| s           |
++-------------+
+3 rows in set (0.00 sec)
+
+mysql> select ename from z;
+ERROR 1146 (42S02): Table 'z.z' doesn't exist
+mysql>
+mysql> select ename from db1.z;
+ERROR 1054 (42S22): Unknown column 'ename' in 'field list'
+mysql> select ename from emp;
+ERROR 1146 (42S02): Table 'z.emp' doesn't exist
+mysql> select ename from db1.emp;
++----------+
+| ename    |
++----------+
+| GITA     |
+| VRUSHALI |
+| SHARMIN  |
+| BANDISH  |
+| SMITH    |
+| AARAV    |
+| THOMAS   |
+| ALLEN    |
+| WARD     |
+| JONES    |
+| MARTIN   |
+| BLAKE    |
+| CLARK    |
+| SCOTT    |
+| KING     |
+| FRED     |
+| TURNER   |
+| ADAMS    |
+| JAMES    |
+| FORD     |
+| HOFFMAN  |
+| GRASS    |
+| MILLER   |
+| AARUSH   |
+| ALEX     |
+| NATASHA  |
+| SANGITA  |
+| SUPRIYA  |
++----------+
+28 rows in set (0.00 sec)
+
+mysql> show table;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+mysql> show tables;
++-------------+
+| Tables_in_z |
++-------------+
+| a           |
+| r           |
+| s           |
++-------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from db1.emp;
++-------+----------+--------+---------------------+------+------------+------+------+--------+---------+--------------+------------+------------+----------+
+| EMPNO | ENAME    | GENDER | JOB                 | MGR  | HIREDATE   | SAL  | COMM | DEPTNO | BONUSID | USER NAME    | PWD        | PHONE      | isActive |
++-------+----------+--------+---------------------+------+------------+------+------+--------+---------+--------------+------------+------------+----------+
+|  6001 | GITA     | F      | Compliance officers | 7920 | 1981-07-19 | 1750 | NULL |     30 |       1 | GITA         | sales@2017 | NULL       |        1 |
+|  6129 | VRUSHALI | F      | Compliance officers | 7920 | 1981-07-19 | 1750 | NULL |     50 |       1 | VRUSHALI     | PUN@8877   | NULL       |        1 |
+|  6473 | SHARMIN  | F      | Public Relation     | 7920 | 1981-07-19 | 1750 | NULL |     20 |       1 | SHARMIN      | a12recmpm  | NULL       |        1 |
+|  6781 | BANDISH  | F      | Public Relation     | 7920 | 1981-07-19 | 1750 | NULL |     20 |       1 | BANDISH      | a12recmpm  | NULL       |        1 |
+|  7369 | SMITH    | M      | CLERK               | 7902 | 1980-12-17 |  800 | NULL |     20 |       2 | TRITONE      | a12recmpm  | 7032300023 |        0 |
+|  7415 | AARAV    | M      | CLERK               | 7902 | 1981-12-31 | 3350 | NULL |     10 |    NULL | AARAV        | NULL       | 7032300084 |        0 |
+|  7421 | THOMAS   | M      | CLERK               | 7920 | 1981-07-19 | 1750 | NULL |     10 |       1 | THOMAS       | r50mpm     | 7032300011 |        0 |
+|  7499 | ALLEN    | M      | SALESMAN            | 7698 | 1981-02-20 | 1600 |  300 |     30 |       4 | ALWAYS TESTE | sales@2017 | 7032300096 |        1 |
+|  7521 | WARD     | M      | SALESMAN            | 7698 | 1981-02-22 | 1250 |  500 |     30 |       1 | WARD         | sales@2017 | 7132300034 |        1 |
+|  7566 | JONES    | M      | MANAGER             | 7839 | 1981-04-02 | 2975 | NULL |     20 |       4 | HONEYCOMB    | a12recmpm  | 7132300039 |        1 |
+|  7654 | MARTIN   | M      | SALESMAN            | 7698 | 1981-09-28 | 1250 | 1400 |     30 |       6 | LIFE RACER   | sales@2017 | 7132300050 |        1 |
+|  7698 | BLAKE    | M      | MANAGER             | 7839 | 1981-05-01 | 2850 | NULL |     30 |       1 | BIG BEN      | sales@2017 | 7132300027 |        1 |
+|  7782 | CLARK    | M      | MANAGER             | 7839 | 1981-06-09 | 2450 | NULL |     10 |       3 | CLARK        | r50mpm     | 7032300001 |        1 |
+|  7788 | SCOTT    | M      | ANALYST             | 7566 | 1982-12-09 | 3000 | NULL |     20 |       3 | WHITE SAND   | a12recmpm  | NULL       |        1 |
+|  7839 | KING     | M      | PRESIDENT           | NULL | 1981-11-17 | 5000 | NULL |     10 |       1 | KING         | r50mpm     | 7132300081 |        1 |
+|  7840 | FRED     | M      | vice PRESIDENT      | 7839 | 1983-08-09 | 5000 | NULL |     20 |       1 | SAND STONE   | a12recmpm  | NULL       |        1 |
+|  7844 | TURNER   | M      | SALESMAN            | 7698 | 1981-09-08 | 1500 |    0 |     30 |       5 | SAND DUST    | sales@2017 | NULL       |        1 |
+|  7876 | ADAMS    | M      | CLERK               | 7788 | 1983-01-12 | 1100 | NULL |     20 |       1 | CRAZY ANYONE | a12recmpm  | 7132300086 |        1 |
+|  7900 | JAMES    | M      | CLERK               | 7698 | 1981-12-03 |  950 | NULL |     30 |       2 | CRAZY LEADER | sales@2017 | 7132300042 |        1 |
+|  7902 | FORD     | M      | ANALYST             | 7566 | 1981-12-03 | 3000 | NULL |     20 |       4 | CONBRIO      | a12recmpm  | NULL       |        0 |
+|  7919 | HOFFMAN  | M      | MANAGER             | 7566 | 1982-03-24 | 4150 | NULL |     30 |       3 | INTERVAL     | sales@2017 | NULL       |        1 |
+|  7920 | GRASS    | M      | SALESMAN            | 7919 | 1980-02-14 | 2575 | 2700 |     30 |       5 | GRASS        | sales@2017 | NULL       |        1 |
+|  7934 | MILLER   | M      | CLERK               | 7782 | 1982-01-23 | 1300 | NULL |     10 |       2 | QUARTERNOTE  | r50mpm     | 7132300055 |        0 |
+|  7945 | AARUSH   | M      | SALESMAN            | 7902 | 1980-02-14 | 1350 | 2700 |     30 |    NULL | AARUSH       | ABCDEF     | NULL       |        0 |
+|  7949 | ALEX     | M      | MANAGER             | 7698 | 1982-01-24 | 1250 |  500 |     30 |       5 | QUARTERREST  | sales@2017 | 7156567183 |        1 |
+|  8433 | NATASHA  | F      | CLERK               | 7920 | 1981-07-19 | 1750 | NULL |     30 |       1 | NATASHA      | sales@2017 | NULL       |        1 |
+|  9400 | SANGITA  | F      | Compliance officers | 7920 | 1981-07-19 | 1750 | NULL |     50 |       1 | SANGITA      | NULL       | NULL       |        1 |
+|  9473 | SUPRIYA  | F      | ANALYST             | 7920 | 1981-07-19 | 1750 | NULL |     50 |       1 | SUPRIYA      | XYZ@1234   | NULL       |        1 |
++-------+----------+--------+---------------------+------+------------+------+------+--------+---------+--------------+------------+------------+----------+
+28 rows in set (0.00 sec)
+
+mysql> create table employee  as select * from db1.emp;
+Query OK, 28 rows affected (0.05 sec)
+Records: 28  Duplicates: 0  Warnings: 0
+
+mysql> show tables;
++-------------+
+| Tables_in_z |
++-------------+
+| a           |
+| employee    |
+| r           |
+| s           |
++-------------+
+4 rows in set (0.00 sec)
+
+mysql> desc employee;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| EMPNO     | int         | NO   |     | NULL    |       |
+| ENAME     | varchar(12) | YES  |     | NULL    |       |
+| GENDER    | char(1)     | YES  |     | NULL    |       |
+| JOB       | varchar(20) | YES  |     | NULL    |       |
+| MGR       | int         | YES  |     | NULL    |       |
+| HIREDATE  | date        | YES  |     | NULL    |       |
+| SAL       | int         | YES  |     | NULL    |       |
+| COMM      | int         | YES  |     | NULL    |       |
+| DEPTNO    | int         | NO   |     | NULL    |       |
+| BONUSID   | int         | YES  |     | NULL    |       |
+| USER NAME | varchar(20) | YES  |     | NULL    |       |
+| PWD       | varchar(20) | YES  |     | NULL    |       |
+| PHONE     | varchar(45) | YES  |     | NULL    |       |
+| isActive  | tinyint(1)  | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+14 rows in set (0.01 sec)
+
+mysql> desc db1.emp;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| EMPNO     | int         | NO   | PRI | NULL    |       |
+| ENAME     | varchar(12) | YES  |     | NULL    |       |
+| GENDER    | char(1)     | YES  |     | NULL    |       |
+| JOB       | varchar(20) | YES  |     | NULL    |       |
+| MGR       | int         | YES  | MUL | NULL    |       |
+| HIREDATE  | date        | YES  |     | NULL    |       |
+| SAL       | int         | YES  |     | NULL    |       |
+| COMM      | int         | YES  |     | NULL    |       |
+| DEPTNO    | int         | NO   | MUL | NULL    |       |
+| BONUSID   | int         | YES  |     | NULL    |       |
+| USER NAME | varchar(20) | YES  |     | NULL    |       |
+| PWD       | varchar(20) | YES  |     | NULL    |       |
+| PHONE     | varchar(45) | YES  |     | NULL    |       |
+| isActive  | tinyint(1)  | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+14 rows in set (0.00 sec)
+
+mysql> select * from employee;
++-------+----------+--------+---------------------+------+------------+------+------+--------+---------+--------------+------------+------------+----------+
+| EMPNO | ENAME    | GENDER | JOB                 | MGR  | HIREDATE   | SAL  | COMM | DEPTNO | BONUSID | USER NAME    | PWD        | PHONE      | isActive |
++-------+----------+--------+---------------------+------+------------+------+------+--------+---------+--------------+------------+------------+----------+
+|  6001 | GITA     | F      | Compliance officers | 7920 | 1981-07-19 | 1750 | NULL |     30 |       1 | GITA         | sales@2017 | NULL       |        1 |
+|  6129 | VRUSHALI | F      | Compliance officers | 7920 | 1981-07-19 | 1750 | NULL |     50 |       1 | VRUSHALI     | PUN@8877   | NULL       |        1 |
+|  6473 | SHARMIN  | F      | Public Relation     | 7920 | 1981-07-19 | 1750 | NULL |     20 |       1 | SHARMIN      | a12recmpm  | NULL       |        1 |
+|  6781 | BANDISH  | F      | Public Relation     | 7920 | 1981-07-19 | 1750 | NULL |     20 |       1 | BANDISH      | a12recmpm  | NULL       |        1 |
+|  7369 | SMITH    | M      | CLERK               | 7902 | 1980-12-17 |  800 | NULL |     20 |       2 | TRITONE      | a12recmpm  | 7032300023 |        0 |
+|  7415 | AARAV    | M      | CLERK               | 7902 | 1981-12-31 | 3350 | NULL |     10 |    NULL | AARAV        | NULL       | 7032300084 |        0 |
+|  7421 | THOMAS   | M      | CLERK               | 7920 | 1981-07-19 | 1750 | NULL |     10 |       1 | THOMAS       | r50mpm     | 7032300011 |        0 |
+|  7499 | ALLEN    | M      | SALESMAN            | 7698 | 1981-02-20 | 1600 |  300 |     30 |       4 | ALWAYS TESTE | sales@2017 | 7032300096 |        1 |
+|  7521 | WARD     | M      | SALESMAN            | 7698 | 1981-02-22 | 1250 |  500 |     30 |       1 | WARD         | sales@2017 | 7132300034 |        1 |
+|  7566 | JONES    | M      | MANAGER             | 7839 | 1981-04-02 | 2975 | NULL |     20 |       4 | HONEYCOMB    | a12recmpm  | 7132300039 |        1 |
+|  7654 | MARTIN   | M      | SALESMAN            | 7698 | 1981-09-28 | 1250 | 1400 |     30 |       6 | LIFE RACER   | sales@2017 | 7132300050 |        1 |
+|  7698 | BLAKE    | M      | MANAGER             | 7839 | 1981-05-01 | 2850 | NULL |     30 |       1 | BIG BEN      | sales@2017 | 7132300027 |        1 |
+|  7782 | CLARK    | M      | MANAGER             | 7839 | 1981-06-09 | 2450 | NULL |     10 |       3 | CLARK        | r50mpm     | 7032300001 |        1 |
+|  7788 | SCOTT    | M      | ANALYST             | 7566 | 1982-12-09 | 3000 | NULL |     20 |       3 | WHITE SAND   | a12recmpm  | NULL       |        1 |
+|  7839 | KING     | M      | PRESIDENT           | NULL | 1981-11-17 | 5000 | NULL |     10 |       1 | KING         | r50mpm     | 7132300081 |        1 |
+|  7840 | FRED     | M      | vice PRESIDENT      | 7839 | 1983-08-09 | 5000 | NULL |     20 |       1 | SAND STONE   | a12recmpm  | NULL       |        1 |
+|  7844 | TURNER   | M      | SALESMAN            | 7698 | 1981-09-08 | 1500 |    0 |     30 |       5 | SAND DUST    | sales@2017 | NULL       |        1 |
+|  7876 | ADAMS    | M      | CLERK               | 7788 | 1983-01-12 | 1100 | NULL |     20 |       1 | CRAZY ANYONE | a12recmpm  | 7132300086 |        1 |
+|  7900 | JAMES    | M      | CLERK               | 7698 | 1981-12-03 |  950 | NULL |     30 |       2 | CRAZY LEADER | sales@2017 | 7132300042 |        1 |
+|  7902 | FORD     | M      | ANALYST             | 7566 | 1981-12-03 | 3000 | NULL |     20 |       4 | CONBRIO      | a12recmpm  | NULL       |        0 |
+|  7919 | HOFFMAN  | M      | MANAGER             | 7566 | 1982-03-24 | 4150 | NULL |     30 |       3 | INTERVAL     | sales@2017 | NULL       |        1 |
+|  7920 | GRASS    | M      | SALESMAN            | 7919 | 1980-02-14 | 2575 | 2700 |     30 |       5 | GRASS        | sales@2017 | NULL       |        1 |
+|  7934 | MILLER   | M      | CLERK               | 7782 | 1982-01-23 | 1300 | NULL |     10 |       2 | QUARTERNOTE  | r50mpm     | 7132300055 |        0 |
+|  7945 | AARUSH   | M      | SALESMAN            | 7902 | 1980-02-14 | 1350 | 2700 |     30 |    NULL | AARUSH       | ABCDEF     | NULL       |        0 |
+|  7949 | ALEX     | M      | MANAGER             | 7698 | 1982-01-24 | 1250 |  500 |     30 |       5 | QUARTERREST  | sales@2017 | 7156567183 |        1 |
+|  8433 | NATASHA  | F      | CLERK               | 7920 | 1981-07-19 | 1750 | NULL |     30 |       1 | NATASHA      | sales@2017 | NULL       |        1 |
+|  9400 | SANGITA  | F      | Compliance officers | 7920 | 1981-07-19 | 1750 | NULL |     50 |       1 | SANGITA      | NULL       | NULL       |        1 |
+|  9473 | SUPRIYA  | F      | ANALYST             | 7920 | 1981-07-19 | 1750 | NULL |     50 |       1 | SUPRIYA      | XYZ@1234   | NULL       |        1 |
++-------+----------+--------+---------------------+------+------------+------+------+--------+---------+--------------+------------+------------+----------+
+28 rows in set (0.00 sec)
+
+mysql> select * from db1.emp where false;
+Empty set (0.01 sec)
+
+mysql> create table employee1  as select * from db1.emp where false;;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+ERROR:
+No query specified
+
+mysql> desc employee1;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| EMPNO     | int         | NO   |     | NULL    |       |
+| ENAME     | varchar(12) | YES  |     | NULL    |       |
+| GENDER    | char(1)     | YES  |     | NULL    |       |
+| JOB       | varchar(20) | YES  |     | NULL    |       |
+| MGR       | int         | YES  |     | NULL    |       |
+| HIREDATE  | date        | YES  |     | NULL    |       |
+| SAL       | int         | YES  |     | NULL    |       |
+| COMM      | int         | YES  |     | NULL    |       |
+| DEPTNO    | int         | NO   |     | NULL    |       |
+| BONUSID   | int         | YES  |     | NULL    |       |
+| USER NAME | varchar(20) | YES  |     | NULL    |       |
+| PWD       | varchar(20) | YES  |     | NULL    |       |
+| PHONE     | varchar(45) | YES  |     | NULL    |       |
+| isActive  | tinyint(1)  | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+14 rows in set (0.00 sec)
+
+mysql> select * from employee1;
+Empty set (0.00 sec)
+
+mysql> insert into employee1 select * from emp;
+ERROR 1146 (42S02): Table 'z.emp' doesn't exist
+mysql> insert into employee1 select * from db1.emp;
+Query OK, 28 rows affected (0.01 sec)
+Records: 28  Duplicates: 0  Warnings: 0
+
+mysql> select * from employee1;
++-------+----------+--------+---------------------+------+------------+------+------+--------+---------+--------------+------------+------------+----------+
+| EMPNO | ENAME    | GENDER | JOB                 | MGR  | HIREDATE   | SAL  | COMM | DEPTNO | BONUSID | USER NAME    | PWD        | PHONE      | isActive |
++-------+----------+--------+---------------------+------+------------+------+------+--------+---------+--------------+------------+------------+----------+
+|  6001 | GITA     | F      | Compliance officers | 7920 | 1981-07-19 | 1750 | NULL |     30 |       1 | GITA         | sales@2017 | NULL       |        1 |
+|  6129 | VRUSHALI | F      | Compliance officers | 7920 | 1981-07-19 | 1750 | NULL |     50 |       1 | VRUSHALI     | PUN@8877   | NULL       |        1 |
+|  6473 | SHARMIN  | F      | Public Relation     | 7920 | 1981-07-19 | 1750 | NULL |     20 |       1 | SHARMIN      | a12recmpm  | NULL       |        1 |
+|  6781 | BANDISH  | F      | Public Relation     | 7920 | 1981-07-19 | 1750 | NULL |     20 |       1 | BANDISH      | a12recmpm  | NULL       |        1 |
+|  7369 | SMITH    | M      | CLERK               | 7902 | 1980-12-17 |  800 | NULL |     20 |       2 | TRITONE      | a12recmpm  | 7032300023 |        0 |
+|  7415 | AARAV    | M      | CLERK               | 7902 | 1981-12-31 | 3350 | NULL |     10 |    NULL | AARAV        | NULL       | 7032300084 |        0 |
+|  7421 | THOMAS   | M      | CLERK               | 7920 | 1981-07-19 | 1750 | NULL |     10 |       1 | THOMAS       | r50mpm     | 7032300011 |        0 |
+|  7499 | ALLEN    | M      | SALESMAN            | 7698 | 1981-02-20 | 1600 |  300 |     30 |       4 | ALWAYS TESTE | sales@2017 | 7032300096 |        1 |
+|  7521 | WARD     | M      | SALESMAN            | 7698 | 1981-02-22 | 1250 |  500 |     30 |       1 | WARD         | sales@2017 | 7132300034 |        1 |
+|  7566 | JONES    | M      | MANAGER             | 7839 | 1981-04-02 | 2975 | NULL |     20 |       4 | HONEYCOMB    | a12recmpm  | 7132300039 |        1 |
+|  7654 | MARTIN   | M      | SALESMAN            | 7698 | 1981-09-28 | 1250 | 1400 |     30 |       6 | LIFE RACER   | sales@2017 | 7132300050 |        1 |
+|  7698 | BLAKE    | M      | MANAGER             | 7839 | 1981-05-01 | 2850 | NULL |     30 |       1 | BIG BEN      | sales@2017 | 7132300027 |        1 |
+|  7782 | CLARK    | M      | MANAGER             | 7839 | 1981-06-09 | 2450 | NULL |     10 |       3 | CLARK        | r50mpm     | 7032300001 |        1 |
+|  7788 | SCOTT    | M      | ANALYST             | 7566 | 1982-12-09 | 3000 | NULL |     20 |       3 | WHITE SAND   | a12recmpm  | NULL       |        1 |
+|  7839 | KING     | M      | PRESIDENT           | NULL | 1981-11-17 | 5000 | NULL |     10 |       1 | KING         | r50mpm     | 7132300081 |        1 |
+|  7840 | FRED     | M      | vice PRESIDENT      | 7839 | 1983-08-09 | 5000 | NULL |     20 |       1 | SAND STONE   | a12recmpm  | NULL       |        1 |
+|  7844 | TURNER   | M      | SALESMAN            | 7698 | 1981-09-08 | 1500 |    0 |     30 |       5 | SAND DUST    | sales@2017 | NULL       |        1 |
+|  7876 | ADAMS    | M      | CLERK               | 7788 | 1983-01-12 | 1100 | NULL |     20 |       1 | CRAZY ANYONE | a12recmpm  | 7132300086 |        1 |
+|  7900 | JAMES    | M      | CLERK               | 7698 | 1981-12-03 |  950 | NULL |     30 |       2 | CRAZY LEADER | sales@2017 | 7132300042 |        1 |
+|  7902 | FORD     | M      | ANALYST             | 7566 | 1981-12-03 | 3000 | NULL |     20 |       4 | CONBRIO      | a12recmpm  | NULL       |        0 |
+|  7919 | HOFFMAN  | M      | MANAGER             | 7566 | 1982-03-24 | 4150 | NULL |     30 |       3 | INTERVAL     | sales@2017 | NULL       |        1 |
+|  7920 | GRASS    | M      | SALESMAN            | 7919 | 1980-02-14 | 2575 | 2700 |     30 |       5 | GRASS        | sales@2017 | NULL       |        1 |
+|  7934 | MILLER   | M      | CLERK               | 7782 | 1982-01-23 | 1300 | NULL |     10 |       2 | QUARTERNOTE  | r50mpm     | 7132300055 |        0 |
+|  7945 | AARUSH   | M      | SALESMAN            | 7902 | 1980-02-14 | 1350 | 2700 |     30 |    NULL | AARUSH       | ABCDEF     | NULL       |        0 |
+|  7949 | ALEX     | M      | MANAGER             | 7698 | 1982-01-24 | 1250 |  500 |     30 |       5 | QUARTERREST  | sales@2017 | 7156567183 |        1 |
+|  8433 | NATASHA  | F      | CLERK               | 7920 | 1981-07-19 | 1750 | NULL |     30 |       1 | NATASHA      | sales@2017 | NULL       |        1 |
+|  9400 | SANGITA  | F      | Compliance officers | 7920 | 1981-07-19 | 1750 | NULL |     50 |       1 | SANGITA      | NULL       | NULL       |        1 |
+|  9473 | SUPRIYA  | F      | ANALYST             | 7920 | 1981-07-19 | 1750 | NULL |     50 |       1 | SUPRIYA      | XYZ@1234   | NULL       |        1 |
++-------+----------+--------+---------------------+------+------------+------+------+--------+---------+--------------+------------+------------+----------+
+28 rows in set (0.00 sec)
+
+mysql> desc x;
++-------+-------------+------+-----+---------+----------------+
+| Field | Type        | Null | Key | Default | Extra          |
++-------+-------------+------+-----+---------+----------------+
+| c1    | int         | NO   | PRI | NULL    | auto_increment |
+| c2    | varchar(10) | YES  |     | NULL    | NULL           |
+| c3    | date        | YES  |     | NULL    | NULL           |
++-------+-------------+------+-----+---------+----------------+
+3 rows in set (0.00 sec)
+
+mysql> insert into x select * from db1.emp;
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> insert into x select empno, ename, hiredate from db1.emp;
+Query OK, 28 rows affected (0.00 sec)
+Records: 28  Duplicates: 0  Warnings: 0
+
+mysql> select * from x;
++------+----------+------------+
+| c1   | c2       | c3         |
++------+----------+------------+
+|    1 | 1        | 2025-04-05 |
+| 6001 | GITA     | 1981-07-19 |
+| 6129 | VRUSHALI | 1981-07-19 |
+| 6473 | SHARMIN  | 1981-07-19 |
+| 6781 | BANDISH  | 1981-07-19 |
+| 7369 | SMITH    | 1980-12-17 |
+| 7415 | AARAV    | 1981-12-31 |
+| 7421 | THOMAS   | 1981-07-19 |
+| 7499 | ALLEN    | 1981-02-20 |
+| 7521 | WARD     | 1981-02-22 |
+| 7566 | JONES    | 1981-04-02 |
+| 7654 | MARTIN   | 1981-09-28 |
+| 7698 | BLAKE    | 1981-05-01 |
+| 7782 | CLARK    | 1981-06-09 |
+| 7788 | SCOTT    | 1982-12-09 |
+| 7839 | KING     | 1981-11-17 |
+| 7840 | FRED     | 1983-08-09 |
+| 7844 | TURNER   | 1981-09-08 |
+| 7876 | ADAMS    | 1983-01-12 |
+| 7900 | JAMES    | 1981-12-03 |
+| 7902 | FORD     | 1981-12-03 |
+| 7919 | HOFFMAN  | 1982-03-24 |
+| 7920 | GRASS    | 1980-02-14 |
+| 7934 | MILLER   | 1982-01-23 |
+| 7945 | AARUSH   | 1980-02-14 |
+| 7949 | ALEX     | 1982-01-24 |
+| 8433 | NATASHA  | 1981-07-19 |
+| 9400 | SANGITA  | 1981-07-19 |
+| 9473 | SUPRIYA  | 1981-07-19 |
++------+----------+------------+
+29 rows in set (0.00 sec)
+
+mysql> use db1;
+Database changed
+mysql> select deptno, sal from emp;
++--------+------+
+| deptno | sal  |
++--------+------+
+|     30 | 1750 |
+|     50 | 1750 |
+|     20 | 1750 |
+|     20 | 1750 |
+|     20 |  800 |
+|     10 | 3350 |
+|     10 | 1750 |
+|     30 | 1600 |
+|     30 | 1250 |
+|     20 | 2975 |
+|     30 | 1250 |
+|     30 | 2850 |
+|     10 | 2450 |
+|     20 | 3000 |
+|     10 | 5000 |
+|     20 | 5000 |
+|     30 | 1500 |
+|     20 | 1100 |
+|     30 |  950 |
+|     20 | 3000 |
+|     30 | 4150 |
+|     30 | 2575 |
+|     10 | 1300 |
+|     30 | 1350 |
+|     30 | 1250 |
+|     30 | 1750 |
+|     50 | 1750 |
+|     50 | 1750 |
++--------+------+
+28 rows in set (0.00 sec)
+
+mysql> update emp sal=-1 where deptno = (select deptno from dept where dname='sales');
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=-1 where deptno = (select deptno from dept where dname='sales')' at line 1
+mysql>
+mysql>
+mysql> update emp set sal=-1 where deptno = (select deptno from dept where dname='sales');
+Query OK, 12 rows affected (0.02 sec)
+Rows matched: 12  Changed: 12  Warnings: 0
+
+mysql> select deptno, sal from emp;
++--------+------+
+| deptno | sal  |
++--------+------+
+|     30 |   -1 |
+|     50 | 1750 |
+|     20 | 1750 |
+|     20 | 1750 |
+|     20 |  800 |
+|     10 | 3350 |
+|     10 | 1750 |
+|     30 |   -1 |
+|     30 |   -1 |
+|     20 | 2975 |
+|     30 |   -1 |
+|     30 |   -1 |
+|     10 | 2450 |
+|     20 | 3000 |
+|     10 | 5000 |
+|     20 | 5000 |
+|     30 |   -1 |
+|     20 | 1100 |
+|     30 |   -1 |
+|     20 | 3000 |
+|     30 |   -1 |
+|     30 |   -1 |
+|     10 | 1300 |
+|     30 |   -1 |
+|     30 |   -1 |
+|     30 |   -1 |
+|     50 | 1750 |
+|     50 | 1750 |
++--------+------+
+28 rows in set (0.00 sec)
+
+mysql> select 1 union select 2;
++---+
+| 1 |
++---+
+| 1 |
+| 2 |
++---+
+2 rows in set (0.00 sec)
+
+mysql> use db1;
+Database changed
+mysql> select deptno from dept;
++--------+
+| deptno |
++--------+
+|     10 |
+|     20 |
+|     30 |
+|     40 |
+|     50 |
++--------+
+5 rows in set (0.00 sec)
+
+mysql> select deptno from dept union select 60;
++--------+
+| deptno |
++--------+
+|     10 |
+|     20 |
+|     30 |
+|     40 |
+|     50 |
+|     60 |
++--------+
+6 rows in set (0.00 sec)
+
+mysql> select deptno from dept union select 60, 70;
+ERROR 1222 (21000): The used SELECT statements have a different number of columns
+mysql> select 60, 70;
++----+----+
+| 60 | 70 |
++----+----+
+| 60 | 70 |
++----+----+
+1 row in set (0.00 sec)
+
+mysql> select 60 R1, 70 R2;
++----+----+
+| R1 | R2 |
++----+----+
+| 60 | 70 |
++----+----+
+1 row in set (0.00 sec)
+
+mysql> select deptno from dept union select 60, 70;
+ERROR 1222 (21000): The used SELECT statements have a different number of columns
+mysql> select deptno from emp union select empno from emp;
++--------+
+| deptno |
++--------+
+|     10 |
+|     20 |
+|     30 |
+|     50 |
+|   7415 |
+|   7421 |
+|   7782 |
+|   7839 |
+|   7934 |
+|   6473 |
+|   6781 |
+|   7369 |
+|   7566 |
+|   7788 |
+|   7840 |
+|   7876 |
+|   7902 |
+|   6001 |
+|   7499 |
+|   7521 |
+|   7654 |
+|   7698 |
+|   7844 |
+|   7900 |
+|   7919 |
+|   7920 |
+|   7945 |
+|   7949 |
+|   8433 |
+|   6129 |
+|   9400 |
+|   9473 |
++--------+
+32 rows in set (0.00 sec)
+
+mysql> select deptno R1 from emp union select empno R2 from emp;
++------+
+| R1   |
++------+
+|   10 |
+|   20 |
+|   30 |
+|   50 |
+| 7415 |
+| 7421 |
+| 7782 |
+| 7839 |
+| 7934 |
+| 6473 |
+| 6781 |
+| 7369 |
+| 7566 |
+| 7788 |
+| 7840 |
+| 7876 |
+| 7902 |
+| 6001 |
+| 7499 |
+| 7521 |
+| 7654 |
+| 7698 |
+| 7844 |
+| 7900 |
+| 7919 |
+| 7920 |
+| 7945 |
+| 7949 |
+| 8433 |
+| 6129 |
+| 9400 |
+| 9473 |
++------+
+32 rows in set (0.00 sec)
+
+mysql> select * from pivot_Table;
++----+-------------+---------------+------------+
+| id | productName | storeLocation | totalSales |
++----+-------------+---------------+------------+
+|  1 | Chair       | North         |         55 |
+|  2 | Desk        | Central       |        120 |
+|  3 | Couch       | Central       |         78 |
+|  4 | Chair       | South         |         23 |
+|  5 | Chair       | South         |         10 |
+|  6 | Chair       | North         |         98 |
+|  7 | Desk        | West          |         61 |
+|  8 | Couch       | North         |        180 |
+|  9 | Chair       | South         |         14 |
+| 10 | Desk        | North         |         45 |
+| 11 | Chair       | North         |         87 |
+| 12 | Chair       | Central       |         34 |
+| 13 | Desk        | South         |         42 |
+| 14 | Couch       | West          |         58 |
+| 15 | Couch       | Central       |         27 |
+| 16 | Chair       | South         |         91 |
+| 17 | Chair       | West          |         82 |
+| 18 | Chair       | North         |         37 |
+| 19 | Desk        | North         |         68 |
+| 20 | Couch       | Central       |         54 |
+| 21 | Chair       | South         |         81 |
+| 22 | Desk        | North         |         25 |
+| 23 | Chair       | North         |         46 |
+| 24 | Chair       | Central       |        121 |
+| 25 | Desk        | South         |         85 |
+| 26 | Couch       | North         |         43 |
+| 27 | Desk        | West          |         10 |
+| 28 | Chair       | North         |          5 |
+| 29 | Chair       | Central       |         16 |
+| 30 | Desk        | South         |          9 |
+| 31 | Couch       | West          |         22 |
+| 32 | Couch       | Central       |         59 |
+| 33 | Chair       | South         |         76 |
+| 34 | Chair       | West          |         48 |
+| 35 | Chair       | North         |         19 |
+| 36 | Desk        | North         |          3 |
+| 37 | Couch       | West          |         63 |
+| 38 | Chair       | South         |         81 |
+| 39 | Desk        | North         |         85 |
+| 40 | Chair       | North         |         90 |
+| 41 | Chair       | Central       |         47 |
+| 42 | Desk        | West          |         63 |
+| 43 | Couch       | North         |         28 |
+| 44 | Chair       | East          |         89 |
+| 45 | Chair       | East          |         11 |
+| 46 | Desk        | East          |        110 |
++----+-------------+---------------+------------+
+46 rows in set (0.04 sec)
+
+mysql> select distinct productname from pivot_table;
++-------------+
+| productname |
++-------------+
+| Chair       |
+| Desk        |
+| Couch       |
++-------------+
+3 rows in set (0.01 sec)
+
+mysql> select distinct storelocation from pivot_table;
++---------------+
+| storelocation |
++---------------+
+| North         |
+| Central       |
+| South         |
+| West          |
+| East          |
++---------------+
+5 rows in set (0.00 sec)
+
+mysql> select productname, storelocation from (select distinct productname from pivot_table) a, (select distinct storelocation from pivot_table) b;
++-------------+---------------+
+| productname | storelocation |
++-------------+---------------+
+| Couch       | North         |
+| Desk        | North         |
+| Chair       | North         |
+| Couch       | Central       |
+| Desk        | Central       |
+| Chair       | Central       |
+| Couch       | South         |
+| Desk        | South         |
+| Chair       | South         |
+| Couch       | West          |
+| Desk        | West          |
+| Chair       | West          |
+| Couch       | East          |
+| Desk        | East          |
+| Chair       | East          |
++-------------+---------------+
+15 rows in set (0.01 sec)
+
+mysql> select productname, storelocation from (select distinct productname from pivot_table) a, (select distinct storelocation from pivot_table) b order by productname;
++-------------+---------------+
+| productname | storelocation |
++-------------+---------------+
+| Chair       | North         |
+| Chair       | Central       |
+| Chair       | South         |
+| Chair       | West          |
+| Chair       | East          |
+| Couch       | North         |
+| Couch       | Central       |
+| Couch       | South         |
+| Couch       | West          |
+| Couch       | East          |
+| Desk        | North         |
+| Desk        | Central       |
+| Desk        | South         |
+| Desk        | West          |
+| Desk        | East          |
++-------------+---------------+
+15 rows in set (0.01 sec)
+
+mysql> select productname, storelocation from pivot_table order by productname;
++-------------+---------------+
+| productname | storelocation |
++-------------+---------------+
+| Chair       | North         |
+| Chair       | Central       |
+| Chair       | North         |
+| Chair       | South         |
+| Chair       | South         |
+| Chair       | North         |
+| Chair       | South         |
+| Chair       | West          |
+| Chair       | South         |
+| Chair       | North         |
+| Chair       | North         |
+| Chair       | Central       |
+| Chair       | Central       |
+| Chair       | South         |
+| Chair       | North         |
+| Chair       | South         |
+| Chair       | West          |
+| Chair       | North         |
+| Chair       | Central       |
+| Chair       | East          |
+| Chair       | South         |
+| Chair       | East          |
+| Chair       | North         |
+| Couch       | Central       |
+| Couch       | North         |
+| Couch       | West          |
+| Couch       | Central       |
+| Couch       | Central       |
+| Couch       | West          |
+| Couch       | West          |
+| Couch       | North         |
+| Couch       | Central       |
+| Couch       | North         |
+| Desk        | Central       |
+| Desk        | West          |
+| Desk        | North         |
+| Desk        | South         |
+| Desk        | North         |
+| Desk        | West          |
+| Desk        | South         |
+| Desk        | North         |
+| Desk        | South         |
+| Desk        | North         |
+| Desk        | North         |
+| Desk        | West          |
+| Desk        | East          |
++-------------+---------------+
+46 rows in set (0.01 sec)
+
+mysql> select distinct productname, storelocation from pivot_table order by productname;
++-------------+---------------+
+| productname | storelocation |
++-------------+---------------+
+| Chair       | Central       |
+| Chair       | East          |
+| Chair       | North         |
+| Chair       | South         |
+| Chair       | West          |
+| Couch       | Central       |
+| Couch       | North         |
+| Couch       | West          |
+| Desk        | Central       |
+| Desk        | East          |
+| Desk        | North         |
+| Desk        | South         |
+| Desk        | West          |
++-------------+---------------+
+13 rows in set (0.00 sec)
+
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> use z;
+Database changed
+mysql> create table q(c1 int, c2 int);
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> insert into q values(4,1), (1,8), (10,1), (,7,4);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ',7,4)' at line 1
+mysql> insert into q values(4,1), (1,8), (10,1), (7,4);
+Query OK, 4 rows affected (0.02 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+mysql> select * frpom q;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'frpom q' at line 1
+mysql> select * from q;
++------+------+
+| c1   | c2   |
++------+------+
+|    4 |    1 |
+|    1 |    8 |
+|   10 |    1 |
+|    7 |    4 |
++------+------+
+4 rows in set (0.00 sec)
+
+mysql> select * from q where c1=7;
++------+------+
+| c1   | c2   |
++------+------+
+|    7 |    4 |
++------+------+
+1 row in set (0.00 sec)
+
+mysql> explain select * from q where c1=7;
++----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+-------------+
+| id | select_type | table | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra       |
++----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+-------------+
+|  1 | SIMPLE      | q     | NULL       | ALL  | NULL          | NULL | NULL    | NULL |    4 |    25.00 | Using where |
++----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+-------------+
+1 row in set, 1 warning (0.01 sec)
+
+mysql> create index ind1 on q(c1);
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc q;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| c1    | int  | YES  | MUL | NULL    |       |
+| c2    | int  | YES  |     | NULL    |       |
++-------+------+------+-----+---------+-------+
+2 rows in set (0.01 sec)
+
+mysql> table q;
++------+------+
+| c1   | c2   |
++------+------+
+|    4 |    1 |
+|    1 |    8 |
+|   10 |    1 |
+|    7 |    4 |
++------+------+
+4 rows in set (0.00 sec)
+
+mysql> insert into q values(4,23);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> table q;
++------+------+
+| c1   | c2   |
++------+------+
+|    4 |    1 |
+|    1 |    8 |
+|   10 |    1 |
+|    7 |    4 |
+|    4 |   23 |
++------+------+
+5 rows in set (0.00 sec)
+
+mysql> select * from q where c1=4;
++------+------+
+| c1   | c2   |
++------+------+
+|    4 |    1 |
+|    4 |   23 |
++------+------+
+2 rows in set (0.00 sec)
+
+mysql> explain select * from q where c1=4;
++----+-------------+-------+------------+------+---------------+------+---------+-------+------+----------+-------+
+| id | select_type | table | partitions | type | possible_keys | key  | key_len | ref   | rows | filtered | Extra |
++----+-------------+-------+------------+------+---------------+------+---------+-------+------+----------+-------+
+|  1 | SIMPLE      | q     | NULL       | ref  | ind1          | ind1 | 5       | const |    2 |   100.00 | NULL  |
++----+-------------+-------+------------+------+---------------+------+---------+-------+------+----------+-------+
+1 row in set, 1 warning (0.00 sec)
+
+mysql> drop index ind1 from q;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from q' at line 1
+mysql> drop index ind1 from q(c1);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from q(c1)' at line 1
+mysql> show indexes from q;
++-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| Table | Non_unique | Key_name | Seq_in_index | Column_name | Collation | Cardinality | Sub_part | Packed | Null | Index_type | Comment | Index_comment | Visible | Expression |
++-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+| q     |          1 | ind1     |            1 | c1          | A         |           4 |     NULL |   NULL | YES  | BTREE      |         |               | YES     | NULL       |
++-------+------------+----------+--------------+-------------+-----------+-------------+----------+--------+------+------------+---------+---------------+---------+------------+
+1 row in set (0.02 sec)
+
+mysql> drop index ind1 from q;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'from q' at line 1
+mysql> drop index ind1 on q;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> show indexes from q;
+Empty set (0.00 sec)
+
+mysql> desc q;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| c1    | int  | YES  |     | NULL    |       |
+| c2    | int  | YES  |     | NULL    |       |
++-------+------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> explain select * from q where c1=4;
++----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+-------------+
+| id | select_type | table | partitions | type | possible_keys | key  | key_len | ref  | rows | filtered | Extra       |
++----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+-------------+
+|  1 | SIMPLE      | q     | NULL       | ALL  | NULL          | NULL | NULL    | NULL |    4 |    25.00 | Using where |
++----+-------------+-------+------------+------+---------------+------+---------+------+------+----------+-------------+
+1 row in set, 1 warning (0.00 sec)
+
+mysql> select * from q where c1=4;
++------+------+
+| c1   | c2   |
++------+------+
+|    4 |    1 |
+|    4 |   23 |
++------+------+
+2 rows in set (0.00 sec)
+
+mysql> create index ind1 on q(c1,c2);
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc q;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| c1    | int  | YES  | MUL | NULL    |       |
+| c2    | int  | YES  |     | NULL    |       |
++-------+------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> table q;
++------+------+
+| c1   | c2   |
++------+------+
+|    1 |    8 |
+|    4 |    1 |
+|    4 |   23 |
+|    7 |    4 |
+|   10 |    1 |
++------+------+
+5 rows in set (0.00 sec)
+
+mysql> select * from q where c2=23;
++------+------+
+| c1   | c2   |
++------+------+
+|    4 |   23 |
++------+------+
+1 row in set (0.00 sec)
+
+mysql> explain select * from q where c2=23;
++----+-------------+-------+------------+-------+---------------+------+---------+------+------+----------+--------------------------+
+| id | select_type | table | partitions | type  | possible_keys | key  | key_len | ref  | rows | filtered | Extra                    |
++----+-------------+-------+------------+-------+---------------+------+---------+------+------+----------+--------------------------+
+|  1 | SIMPLE      | q     | NULL       | index | ind1          | ind1 | 10      | NULL |    4 |    25.00 | Using where; Using index |
++----+-------------+-------+------------+-------+---------------+------+---------+------+------+----------+--------------------------+
+1 row in set, 1 warning (0.00 sec)
+
+mysql> explain select * from q where c1=4;
++----+-------------+-------+------------+------+---------------+------+---------+-------+------+----------+-------------+
+| id | select_type | table | partitions | type | possible_keys | key  | key_len | ref   | rows | filtered | Extra       |
++----+-------------+-------+------------+------+---------------+------+---------+-------+------+----------+-------------+
+|  1 | SIMPLE      | q     | NULL       | ref  | ind1          | ind1 | 5       | const |    2 |   100.00 | Using index |
++----+-------------+-------+------------+------+---------------+------+---------+-------+------+----------+-------------+
+1 row in set, 1 warning (0.00 sec)
+
+mysql> explain select * from q where c1=4 and c2=23;
++----+-------------+-------+------------+------+---------------+------+---------+-------------+------+----------+-------------+
+| id | select_type | table | partitions | type | possible_keys | key  | key_len | ref         | rows | filtered | Extra       |
++----+-------------+-------+------------+------+---------------+------+---------+-------------+------+----------+-------------+
+|  1 | SIMPLE      | q     | NULL       | ref  | ind1          | ind1 | 10      | const,const |    1 |   100.00 | Using index |
++----+-------------+-------+------------+------+---------------+------+---------+-------------+------+----------+-------------+
+1 row in set, 1 warning (0.00 sec)
+
+mysql> select * from q;
++------+------+
+| c1   | c2   |
++------+------+
+|    1 |    8 |
+|    4 |    1 |
+|    4 |   23 |
+|    7 |    4 |
+|   10 |    1 |
++------+------+
+5 rows in set (0.00 sec)
+
+mysql> insert into q values(6,6);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from q;
++------+------+
+| c1   | c2   |
++------+------+
+|    1 |    8 |
+|    4 |    1 |
+|    4 |   23 |
+|    6 |    6 |
+|    7 |    4 |
+|   10 |    1 |
++------+------+
+6 rows in set (0.00 sec)
+
+mysql> drop index ind1 on q;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> create index ind1 on q(c1);
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> dtable q;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'dtable q' at line 1
+mysql> table q;
++------+------+
+| c1   | c2   |
++------+------+
+|    4 |    1 |
+|    1 |    8 |
+|   10 |    1 |
+|    7 |    4 |
+|    4 |   23 |
+|    6 |    6 |
++------+------+
+6 rows in set (0.00 sec)
+
+mysql> insert into q values(5,5);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> table q;
++------+------+
+| c1   | c2   |
++------+------+
+|    4 |    1 |
+|    1 |    8 |
+|   10 |    1 |
+|    7 |    4 |
+|    4 |   23 |
+|    6 |    6 |
+|    5 |    5 |
++------+------+
+7 rows in set (0.00 sec)
+
+mysql> drop table q;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> create table q(c1  int, c2 int);
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> desc q;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| c1    | int  | YES  |     | NULL    |       |
+| c2    | int  | YES  |     | NULL    |       |
++-------+------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> create index ind1 on q(c1);
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc q;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| c1    | int  | YES  | MUL | NULL    |       |
+| c2    | int  | YES  |     | NULL    |       |
++-------+------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> create table q1(c1  int, c2 int);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> create unique index ind2 on q1(c1);
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc q1;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| c1    | int  | YES  | UNI | NULL    |       |
+| c2    | int  | YES  |     | NULL    |       |
++-------+------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> create table w(c1 int primary key auto_increment, c2 int);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> insert into w(c2) values(-1), (-2), (-3);
+Query OK, 3 rows affected (0.02 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from w;
++----+------+
+| c1 | c2   |
++----+------+
+|  1 |   -1 |
+|  2 |   -2 |
+|  3 |   -3 |
++----+------+
+3 rows in set (0.00 sec)
+
+mysql> delete from w;
+Query OK, 3 rows affected (0.01 sec)
+
+mysql> commit;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> insert into w(c2) values(-1), (-2), (-3);
+Query OK, 3 rows affected (0.02 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from w;
++----+------+
+| c1 | c2   |
++----+------+
+|  4 |   -1 |
+|  5 |   -2 |
+|  6 |   -3 |
++----+------+
+3 rows in set (0.00 sec)
+
+mysql> truncate table w;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> insert into w(c2) values(-1), (-2), (-3);
+Query OK, 3 rows affected (0.02 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> select * from w;
++----+------+
+| c1 | c2   |
++----+------+
+|  1 |   -1 |
+|  2 |   -2 |
+|  3 |   -3 |
++----+------+
+3 rows in set (0.00 sec)
+
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> select * from dept;
+ERROR 1146 (42S02): Table 'z.dept' doesn't exist
+mysql>
+mysql> select * from db1.dept;
++--------+------------+----------+------------+------------+
+| DEPTNO | DNAME      | LOC      | PWD        | STARTEDON  |
++--------+------------+----------+------------+------------+
+|     10 | ACCOUNTING | NEW YORK | r50mpm     | 24/03/1989 |
+|     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 |
+|     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 |
+|     40 | OPERATIONS | BOSTON   | opr@123    | 12/07/1989 |
+|     50 | HR         | PUNE     | PUN@8877   | 22/12/1989 |
++--------+------------+----------+------------+------------+
+5 rows in set (0.00 sec)
+
+mysql> select * from db1.dept;
++--------+------------+----------+------------+------------+
+| DEPTNO | DNAME      | LOC      | PWD        | STARTEDON  |
++--------+------------+----------+------------+------------+
+|     10 | ACCOUNTING | NEW YORK | r50mpm     | 24/03/1989 |
+|     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 |
+|     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 |
+|     40 | OPERATIONS | BOSTON   | opr@123    | 12/07/1989 |
+|     50 | HR         | PUNE     | PUN@8877   | 22/12/1989 |
++--------+------------+----------+------------+------------+
+5 rows in set (0.00 sec)
+
+mysql> select * from db1.dept;
++--------+------------+----------+------------+------------+
+| DEPTNO | DNAME      | LOC      | PWD        | STARTEDON  |
++--------+------------+----------+------------+------------+
+|     10 | ACCOUNTING | NEW YORK | r50mpm     | 24/03/1989 |
+|     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 |
+|     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 |
+|     40 | OPERATIONS | BOSTON   | opr@123    | 12/07/1989 |
+|     50 | HR         | PUNE     | PUN@8877   | 22/12/1989 |
++--------+------------+----------+------------+------------+
+5 rows in set (0.00 sec)
+
+mysql> create view v1 as select * from db1.dept;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * from v1;
++--------+------------+----------+------------+------------+
+| DEPTNO | DNAME      | LOC      | PWD        | STARTEDON  |
++--------+------------+----------+------------+------------+
+|     10 | ACCOUNTING | NEW YORK | r50mpm     | 24/03/1989 |
+|     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 |
+|     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 |
+|     40 | OPERATIONS | BOSTON   | opr@123    | 12/07/1989 |
+|     50 | HR         | PUNE     | PUN@8877   | 22/12/1989 |
++--------+------------+----------+------------+------------+
+5 rows in set (0.01 sec)
+
+mysql> show create v1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'v1' at line 1
+mysql> show create view v1;
++------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------+----------------------+
+| View | Create View                                                                                                                                                                                                                                                                        | character_set_client | collation_connection |
++------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------+----------------------+
+| v1   | CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `v1` AS select `db1`.`dept`.`DEPTNO` AS `DEPTNO`,`db1`.`dept`.`DNAME` AS `DNAME`,`db1`.`dept`.`LOC` AS `LOC`,`db1`.`dept`.`PWD` AS `PWD`,`db1`.`dept`.`STARTEDON` AS `STARTEDON` from `db1`.`dept` | cp850                | cp850_general_ci     |
++------+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------+----------------------+
+1 row in set (0.01 sec)
+
+mysql> select * from v1;
++--------+------------+----------+------------+------------+
+| DEPTNO | DNAME      | LOC      | PWD        | STARTEDON  |
++--------+------------+----------+------------+------------+
+|     10 | ACCOUNTING | NEW YORK | r50mpm     | 24/03/1989 |
+|     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 |
+|     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 |
+|     40 | OPERATIONS | BOSTON   | opr@123    | 12/07/1989 |
+|     50 | HR         | PUNE     | PUN@8877   | 22/12/1989 |
++--------+------------+----------+------------+------------+
+5 rows in set (0.00 sec)
+
+mysql> desc v1;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| DEPTNO    | int         | NO   |     | NULL    |       |
+| DNAME     | varchar(12) | YES  |     | NULL    |       |
+| LOC       | varchar(10) | YES  |     | NULL    |       |
+| PWD       | varchar(20) | YES  |     | NULL    |       |
+| STARTEDON | varchar(10) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> create view dept as select * from db1.dept;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> desc dept;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| DEPTNO    | int         | NO   |     | NULL    |       |
+| DNAME     | varchar(12) | YES  |     | NULL    |       |
+| LOC       | varchar(10) | YES  |     | NULL    |       |
+| PWD       | varchar(20) | YES  |     | NULL    |       |
+| STARTEDON | varchar(10) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> select * from dept;
++--------+------------+----------+------------+------------+
+| DEPTNO | DNAME      | LOC      | PWD        | STARTEDON  |
++--------+------------+----------+------------+------------+
+|     10 | ACCOUNTING | NEW YORK | r50mpm     | 24/03/1989 |
+|     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 |
+|     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 |
+|     40 | OPERATIONS | BOSTON   | opr@123    | 12/07/1989 |
+|     50 | HR         | PUNE     | PUN@8877   | 22/12/1989 |
++--------+------------+----------+------------+------------+
+5 rows in set (0.00 sec)
+
+mysql> show create view dept;
++------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------+----------------------+
+| View | Create View                                                                                                                                                                                                                                                                          | character_set_client | collation_connection |
++------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------+----------------------+
+| dept | CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `dept` AS select `db1`.`dept`.`DEPTNO` AS `DEPTNO`,`db1`.`dept`.`DNAME` AS `DNAME`,`db1`.`dept`.`LOC` AS `LOC`,`db1`.`dept`.`PWD` AS `PWD`,`db1`.`dept`.`STARTEDON` AS `STARTEDON` from `db1`.`dept` | cp850                | cp850_general_ci     |
++------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------+----------------------+
+1 row in set (0.00 sec)
+
+mysql> select * from dept;
++--------+------------+----------+------------+------------+
+| DEPTNO | DNAME      | LOC      | PWD        | STARTEDON  |
++--------+------------+----------+------------+------------+
+|     10 | ACCOUNTING | NEW YORK | r50mpm     | 24/03/1989 |
+|     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 |
+|     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 |
+|     40 | OPERATIONS | BOSTON   | opr@123    | 12/07/1989 |
+|     50 | HR         | PUNE     | PUN@8877   | 22/12/1989 |
++--------+------------+----------+------------+------------+
+5 rows in set (0.00 sec)
+
+mysql> desc dept;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| DEPTNO    | int         | NO   |     | NULL    |       |
+| DNAME     | varchar(12) | YES  |     | NULL    |       |
+| LOC       | varchar(10) | YES  |     | NULL    |       |
+| PWD       | varchar(20) | YES  |     | NULL    |       |
+| STARTEDON | varchar(10) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> alter table dept add column c1 int;
+ERROR 1347 (HY000): 'z.dept' is not BASE TABLE
+mysql> desc dept;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| DEPTNO    | int         | NO   |     | NULL    |       |
+| DNAME     | varchar(12) | YES  |     | NULL    |       |
+| LOC       | varchar(10) | YES  |     | NULL    |       |
+| PWD       | varchar(20) | YES  |     | NULL    |       |
+| STARTEDON | varchar(10) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> show tables;
++-------------+
+| Tables_in_z |
++-------------+
+| a           |
+| dept        |
+| employee    |
+| employee1   |
+| q           |
+| q1          |
+| r           |
+| s           |
+| v1          |
+| w           |
++-------------+
+10 rows in set (0.00 sec)
+
+mysql> show fi=ull tables;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'fi=ull tables' at line 1
+mysql> show full tables;
++-------------+------------+
+| Tables_in_z | Table_type |
++-------------+------------+
+| a           | BASE TABLE |
+| dept        | VIEW       |
+| employee    | BASE TABLE |
+| employee1   | BASE TABLE |
+| q           | BASE TABLE |
+| q1          | BASE TABLE |
+| r           | BASE TABLE |
+| s           | BASE TABLE |
+| v1          | VIEW       |
+| w           | BASE TABLE |
++-------------+------------+
+10 rows in set (0.00 sec)
+
+mysql> desc dept;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| DEPTNO    | int         | NO   |     | NULL    |       |
+| DNAME     | varchar(12) | YES  |     | NULL    |       |
+| LOC       | varchar(10) | YES  |     | NULL    |       |
+| PWD       | varchar(20) | YES  |     | NULL    |       |
+| STARTEDON | varchar(10) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> show create view dept;
++------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------+----------------------+
+| View | Create View                                                                                                                                                                                                                                                                          | character_set_client | collation_connection |
++------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------+----------------------+
+| dept | CREATE ALGORITHM=UNDEFINED DEFINER=`root`@`localhost` SQL SECURITY DEFINER VIEW `dept` AS select `db1`.`dept`.`DEPTNO` AS `DEPTNO`,`db1`.`dept`.`DNAME` AS `DNAME`,`db1`.`dept`.`LOC` AS `LOC`,`db1`.`dept`.`PWD` AS `PWD`,`db1`.`dept`.`STARTEDON` AS `STARTEDON` from `db1`.`dept` | cp850                | cp850_general_ci     |
++------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------------+----------------------+
+1 row in set (0.00 sec)
+
+mysql> select * from dept;
++--------+------------+----------+------------+------------+
+| DEPTNO | DNAME      | LOC      | PWD        | STARTEDON  |
++--------+------------+----------+------------+------------+
+|     10 | ACCOUNTING | NEW YORK | r50mpm     | 24/03/1989 |
+|     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 |
+|     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 |
+|     40 | OPERATIONS | BOSTON   | opr@123    | 12/07/1989 |
+|     50 | HR         | PUNE     | PUN@8877   | 22/12/1989 |
++--------+------------+----------+------------+------------+
+5 rows in set (0.00 sec)
+
+mysql> select * from dept;
++--------+------------+----------+------------+------------+
+| DEPTNO | DNAME      | LOC      | PWD        | STARTEDON  |
++--------+------------+----------+------------+------------+
+|      1 | 1          | 1        | 1          | 1          |
+|     10 | ACCOUNTING | NEW YORK | r50mpm     | 24/03/1989 |
+|     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 |
+|     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 |
+|     40 | OPERATIONS | BOSTON   | opr@123    | 12/07/1989 |
+|     50 | HR         | PUNE     | PUN@8877   | 22/12/1989 |
++--------+------------+----------+------------+------------+
+6 rows in set (0.00 sec)
+
+mysql> insert into dept values(2,2,2,2,2,2);
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+mysql> insert into dept values(2,2,2,2,2);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from dept;
++--------+------------+----------+------------+------------+
+| DEPTNO | DNAME      | LOC      | PWD        | STARTEDON  |
++--------+------------+----------+------------+------------+
+|      1 | 1          | 1        | 1          | 1          |
+|      2 | 2          | 2        | 2          | 2          |
+|     10 | ACCOUNTING | NEW YORK | r50mpm     | 24/03/1989 |
+|     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 |
+|     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 |
+|     40 | OPERATIONS | BOSTON   | opr@123    | 12/07/1989 |
+|     50 | HR         | PUNE     | PUN@8877   | 22/12/1989 |
++--------+------------+----------+------------+------------+
+7 rows in set (0.00 sec)
+
+mysql> drop view dept;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> create view v1 as select * from dept;
+ERROR 1146 (42S02): Table 'z.dept' doesn't exist
+mysql> create view v1 as select * from db1.dept;
+ERROR 1050 (42S01): Table 'v1' already exists
+mysql> create or replace view v1 as select * from db1.dept;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> table v1;
++--------+------------+----------+------------+------------+------+
+| DEPTNO | DNAME      | LOC      | PWD        | STARTEDON  | c1   |
++--------+------------+----------+------------+------------+------+
+|     10 | ACCOUNTING | NEW YORK | r50mpm     | 24/03/1989 | NULL |
+|     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 | NULL |
+|     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 | NULL |
+|     40 | OPERATIONS | BOSTON   | opr@123    | 12/07/1989 | NULL |
+|     50 | HR         | PUNE     | PUN@8877   | 22/12/1989 | NULL |
++--------+------------+----------+------------+------------+------+
+5 rows in set (0.00 sec)
+
+mysql> insert into v1 values(1,1,1,1,1,1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> delect from v1 where deptno=1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'delect from v1 where deptno=1' at line 1
+mysql> delete from v1 where deptno=1;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> exit
+Bye
+
+C:\Users\SALEEL>mysql --user=abc --password=abc
+mysql: [Warning] Using a password on the command line interface can be insecure.
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 13
+Server version: 8.0.41 MySQL Community Server - GPL
+
+Copyright (c) 2000, 2025, Oracle and/or its affiliates.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> select user();
++---------------+
+| user()        |
++---------------+
+| abc@localhost |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| performance_schema |
++--------------------+
+2 rows in set (0.01 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| db1                |
+| information_schema |
+| performance_schema |
++--------------------+
+3 rows in set (0.00 sec)
+
+mysql> select * from dept;
+ERROR 1046 (3D000): No database selected
+mysql> use db1;
+Database changed
+mysql> show tables;
++---------------+
+| Tables_in_db1 |
++---------------+
+| dept          |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> desc dept;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| DEPTNO    | int         | NO   | PRI | NULL    |       |
+| DNAME     | varchar(12) | YES  |     | NULL    |       |
+| LOC       | varchar(10) | YES  |     | NULL    |       |
+| PWD       | varchar(20) | YES  |     | NULL    |       |
+| STARTEDON | varchar(10) | YES  |     | NULL    |       |
+| c1        | int         | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> show sull tables;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'sull tables' at line 1
+mysql> show full tables;
++---------------+------------+
+| Tables_in_db1 | Table_type |
++---------------+------------+
+| dept          | BASE TABLE |
++---------------+------------+
+1 row in set (0.00 sec)
+
+mysql> alter tabe dept add column cccc int;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'tabe dept add column cccc int' at line 1
+mysql> alter table dept add column cccc int;
+ERROR 1142 (42000): ALTER command denied to user 'abc'@'localhost' for table 'dept'
+mysql> alter table dept add column cccc int;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc dept;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| DEPTNO    | int         | NO   | PRI | NULL    |       |
+| DNAME     | varchar(12) | YES  |     | NULL    |       |
+| LOC       | varchar(10) | YES  |     | NULL    |       |
+| PWD       | varchar(20) | YES  |     | NULL    |       |
+| STARTEDON | varchar(10) | YES  |     | NULL    |       |
+| c1        | int         | YES  |     | NULL    |       |
+| cccc      | int         | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> desc dept;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| DEPTNO    | int         | NO   | PRI | NULL    |       |
+| DNAME     | varchar(12) | YES  |     | NULL    |       |
+| LOC       | varchar(10) | YES  |     | NULL    |       |
+| PWD       | varchar(20) | YES  |     | NULL    |       |
+| STARTEDON | varchar(10) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| performance_schema |
++--------------------+
+2 rows in set (0.00 sec)
+
+mysql> show databases;
++--------------------+
+| Database           |
++--------------------+
+| db1                |
+| information_schema |
+| performance_schema |
++--------------------+
+3 rows in set (0.00 sec)
+
+mysql> use db1;
+Database changed
+mysql> select * fro v1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'fro v1' at line 1
+mysql> select * from v1;
++--------+------------+----------+------------+------------+
+| DEPTNO | DNAME      | LOC      | PWD        | STARTEDON  |
++--------+------------+----------+------------+------------+
+|     10 | ACCOUNTING | NEW YORK | r50mpm     | 24/03/1989 |
+|     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 |
+|     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 |
+|     40 | OPERATIONS | BOSTON   | opr@123    | 12/07/1989 |
+|     50 | HR         | PUNE     | PUN@8877   | 22/12/1989 |
++--------+------------+----------+------------+------------+
+5 rows in set (0.00 sec)
+
+mysql> show tables;
++---------------+
+| Tables_in_db1 |
++---------------+
+| v1            |
++---------------+
+1 row in set (0.00 sec)
+
+mysql> alter table v1 add column cccc int;
+ERROR 1142 (42000): ALTER command denied to user 'abc'@'localhost' for table 'v1'
+mysql> alter table v1 add column cccc int;
+ERROR 1347 (HY000): 'db1.v1' is not BASE TABLE
+mysql>
+mysql>
+mysql>
+mysql> select * from v1;
++--------+------------+----------+------------+------------+
+| DEPTNO | DNAME      | LOC      | PWD        | STARTEDON  |
++--------+------------+----------+------------+------------+
+|     10 | ACCOUNTING | NEW YORK | r50mpm     | 24/03/1989 |
+|     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 |
+|     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 |
+|     40 | OPERATIONS | BOSTON   | opr@123    | 12/07/1989 |
+|     50 | HR         | PUNE     | PUN@8877   | 22/12/1989 |
++--------+------------+----------+------------+------------+
+5 rows in set (0.00 sec)
+
+mysql> insert into v1 valuews(1,1,1,1,1);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'valuews(1,1,1,1,1)' at line 1
+mysql> insert into v1 values(1,1,1,1,1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql>

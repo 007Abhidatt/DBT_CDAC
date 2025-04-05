@@ -1,0 +1,600 @@
+mysql> select database();
++------------+
+| database() |
++------------+
+| db1        |
++------------+
+1 row in set (0.00 sec)
+
+mysql> select user();
++----------------+
+| user()         |
++----------------+
+| root@localhost |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> use z;
+Database changed
+mysql> desc x;
+ERROR 1146 (42S02): Table 'z.x' doesn't exist
+mysql> \r
+Connection id:    12
+Current database: z
+
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> use db1;
+Database changed
+mysql> desc dept;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| DEPTNO    | int         | NO   | PRI | NULL    |       |
+| DNAME     | varchar(12) | YES  |     | NULL    |       |
+| LOC       | varchar(10) | YES  |     | NULL    |       |
+| PWD       | varchar(20) | YES  |     | NULL    |       |
+| STARTEDON | varchar(10) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+5 rows in set (0.01 sec)
+
+mysql> show full tables;
++---------------------+------------+
+| Tables_in_db1       | Table_type |
++---------------------+------------+
+| a                   | BASE TABLE |
+| abc                 | BASE TABLE |
+| agent               | BASE TABLE |
+| andor               | BASE TABLE |
+| b                   | BASE TABLE |
+| blanktablea         | BASE TABLE |
+| blanktableb         | BASE TABLE |
+| blog                | BASE TABLE |
+| bonus               | BASE TABLE |
+| books               | BASE TABLE |
+| candidate           | BASE TABLE |
+| client              | BASE TABLE |
+| coalesce            | BASE TABLE |
+| comments            | BASE TABLE |
+| company             | BASE TABLE |
+| customer            | BASE TABLE |
+| customers           | BASE TABLE |
+| d                   | BASE TABLE |
+| d1                  | BASE TABLE |
+| dbk1                | BASE TABLE |
+| dbk2                | BASE TABLE |
+| demodept1           | BASE TABLE |
+| demodept2           | BASE TABLE |
+| dept                | BASE TABLE |
+| dept1               | BASE TABLE |
+| docs                | BASE TABLE |
+| doctor              | BASE TABLE |
+| doctorvisits        | BASE TABLE |
+| dummy               | BASE TABLE |
+| duplicate           | BASE TABLE |
+| e10                 | BASE TABLE |
+| e20                 | BASE TABLE |
+| emp                 | BASE TABLE |
+| emp1                | BASE TABLE |
+| emp2                | BASE TABLE |
+| emp_attendance      | BASE TABLE |
+| emp_cards           | BASE TABLE |
+| emp_phone           | BASE TABLE |
+| empj                | BASE TABLE |
+| envelope            | BASE TABLE |
+| food                | BASE TABLE |
+| fullname            | BASE TABLE |
+| hobby               | BASE TABLE |
+| icc_world_cup       | BASE TABLE |
+| item                | BASE TABLE |
+| job_list            | BASE TABLE |
+| key_parts           | BASE TABLE |
+| labtestlist         | BASE TABLE |
+| leading_zeroes      | BASE TABLE |
+| leadtable           | BASE TABLE |
+| licence             | BASE TABLE |
+| location            | BASE TABLE |
+| log                 | BASE TABLE |
+| mass_table          | BASE TABLE |
+| medicinelist        | BASE TABLE |
+| menucard            | BASE TABLE |
+| nearest             | BASE TABLE |
+| new                 | BASE TABLE |
+| newbooks            | BASE TABLE |
+| nullif              | BASE TABLE |
+| numbers             | BASE TABLE |
+| numberstring        | BASE TABLE |
+| ord                 | BASE TABLE |
+| orderdetails        | BASE TABLE |
+| orders              | BASE TABLE |
+| overtime            | BASE TABLE |
+| patient             | BASE TABLE |
+| phonecall           | BASE TABLE |
+| pivot_table         | BASE TABLE |
+| plumber             | BASE TABLE |
+| plumber_service_map | BASE TABLE |
+| points              | BASE TABLE |
+| price               | BASE TABLE |
+| product             | BASE TABLE |
+| product_sales       | BASE TABLE |
+| products            | BASE TABLE |
+| quarterly_revenue   | BASE TABLE |
+| r                   | BASE TABLE |
+| r1                  | BASE TABLE |
+| r2                  | BASE TABLE |
+| races               | BASE TABLE |
+| regexpr             | BASE TABLE |
+| replacedept         | BASE TABLE |
+| revenue             | BASE TABLE |
+| rockets             | BASE TABLE |
+| runners             | BASE TABLE |
+| runningserver       | BASE TABLE |
+| sales               | VIEW       |
+| sales_channel       | BASE TABLE |
+| salespeople         | BASE TABLE |
+| salesperson         | BASE TABLE |
+| salgrade            | BASE TABLE |
+| server              | BASE TABLE |
+| service             | BASE TABLE |
+| seta                | BASE TABLE |
+| setb                | BASE TABLE |
+| shop                | BASE TABLE |
+| softdrink           | BASE TABLE |
+| sort                | BASE TABLE |
+| sourcenames         | BASE TABLE |
+| stadium             | BASE TABLE |
+| states              | BASE TABLE |
+| station             | BASE TABLE |
+| status              | BASE TABLE |
+| stringnumber        | BASE TABLE |
+| t1                  | BASE TABLE |
+| t3                  | BASE TABLE |
+| t3log               | BASE TABLE |
+| tablea              | BASE TABLE |
+| tableaa             | BASE TABLE |
+| tableb              | BASE TABLE |
+| tablebb             | BASE TABLE |
+| targetnames         | BASE TABLE |
+| tasks               | BASE TABLE |
+| temp1               | BASE TABLE |
+| traintimetable      | BASE TABLE |
+| transactions        | BASE TABLE |
+| vote_response       | BASE TABLE |
+| votes               | BASE TABLE |
+| warehouse           | BASE TABLE |
+| xyz                 | BASE TABLE |
+| yearly_revenue      | BASE TABLE |
+| z                   | BASE TABLE |
++---------------------+------------+
+123 rows in set (0.00 sec)
+
+mysql> dec dept;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'dec dept' at line 1
+mysql> desc dept;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| DEPTNO    | int         | NO   | PRI | NULL    |       |
+| DNAME     | varchar(12) | YES  |     | NULL    |       |
+| LOC       | varchar(10) | YES  |     | NULL    |       |
+| PWD       | varchar(20) | YES  |     | NULL    |       |
+| STARTEDON | varchar(10) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> alter table dept add column c1 int;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc dept;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| DEPTNO    | int         | NO   | PRI | NULL    |       |
+| DNAME     | varchar(12) | YES  |     | NULL    |       |
+| LOC       | varchar(10) | YES  |     | NULL    |       |
+| PWD       | varchar(20) | YES  |     | NULL    |       |
+| STARTEDON | varchar(10) | YES  |     | NULL    |       |
+| c1        | int         | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> select * from dept;
++--------+------------+----------+------------+------------+------+
+| DEPTNO | DNAME      | LOC      | PWD        | STARTEDON  | c1   |
++--------+------------+----------+------------+------------+------+
+|     10 | ACCOUNTING | NEW YORK | r50mpm     | 24/03/1989 | NULL |
+|     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 | NULL |
+|     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 | NULL |
+|     40 | OPERATIONS | BOSTON   | opr@123    | 12/07/1989 | NULL |
+|     50 | HR         | PUNE     | PUN@8877   | 22/12/1989 | NULL |
++--------+------------+----------+------------+------------+------+
+5 rows in set (0.00 sec)
+
+mysql> insert  into dept valeus(1,1,1,1,1,1);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'valeus(1,1,1,1,1,1)' at line 1
+mysql>
+mysql> insert  into dept valuses(1,1,1,1,1,1);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'valuses(1,1,1,1,1,1)' at line 1
+mysql> insert  into dept values(1,1,1,1,1,1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from dept;
++--------+------------+----------+------------+------------+------+
+| DEPTNO | DNAME      | LOC      | PWD        | STARTEDON  | c1   |
++--------+------------+----------+------------+------------+------+
+|      1 | 1          | 1        | 1          | 1          |    1 |
+|     10 | ACCOUNTING | NEW YORK | r50mpm     | 24/03/1989 | NULL |
+|     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 | NULL |
+|     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 | NULL |
+|     40 | OPERATIONS | BOSTON   | opr@123    | 12/07/1989 | NULL |
+|     50 | HR         | PUNE     | PUN@8877   | 22/12/1989 | NULL |
++--------+------------+----------+------------+------------+------+
+6 rows in set (0.00 sec)
+
+mysql> select * from dept;
++--------+------------+----------+------------+------------+------+
+| DEPTNO | DNAME      | LOC      | PWD        | STARTEDON  | c1   |
++--------+------------+----------+------------+------------+------+
+|      1 | 1          | 1        | 1          | 1          |    1 |
+|      2 | 2          | 2        | 2          | 2          | NULL |
+|     10 | ACCOUNTING | NEW YORK | r50mpm     | 24/03/1989 | NULL |
+|     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 | NULL |
+|     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 | NULL |
+|     40 | OPERATIONS | BOSTON   | opr@123    | 12/07/1989 | NULL |
+|     50 | HR         | PUNE     | PUN@8877   | 22/12/1989 | NULL |
++--------+------------+----------+------------+------------+------+
+7 rows in set (0.00 sec)
+
+mysql> delete from dept where deptno <10;
+Query OK, 2 rows affected (0.01 sec)
+
+mysql> select * from dept;
++--------+------------+----------+------------+------------+------+
+| DEPTNO | DNAME      | LOC      | PWD        | STARTEDON  | c1   |
++--------+------------+----------+------------+------------+------+
+|     10 | ACCOUNTING | NEW YORK | r50mpm     | 24/03/1989 | NULL |
+|     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 | NULL |
+|     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 | NULL |
+|     40 | OPERATIONS | BOSTON   | opr@123    | 12/07/1989 | NULL |
+|     50 | HR         | PUNE     | PUN@8877   | 22/12/1989 | NULL |
++--------+------------+----------+------------+------------+------+
+5 rows in set (0.00 sec)
+
+mysql> select * from dept;
++--------+------------+----------+------------+------------+------+
+| DEPTNO | DNAME      | LOC      | PWD        | STARTEDON  | c1   |
++--------+------------+----------+------------+------------+------+
+|      1 | 1          | 1        | 1          | 1          |    1 |
+|     10 | ACCOUNTING | NEW YORK | r50mpm     | 24/03/1989 | NULL |
+|     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 | NULL |
+|     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 | NULL |
+|     40 | OPERATIONS | BOSTON   | opr@123    | 12/07/1989 | NULL |
+|     50 | HR         | PUNE     | PUN@8877   | 22/12/1989 | NULL |
++--------+------------+----------+------------+------------+------+
+6 rows in set (0.00 sec)
+
+mysql> select * from dept;
++--------+------------+----------+------------+------------+------+
+| DEPTNO | DNAME      | LOC      | PWD        | STARTEDON  | c1   |
++--------+------------+----------+------------+------------+------+
+|     10 | ACCOUNTING | NEW YORK | r50mpm     | 24/03/1989 | NULL |
+|     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 | NULL |
+|     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 | NULL |
+|     40 | OPERATIONS | BOSTON   | opr@123    | 12/07/1989 | NULL |
+|     50 | HR         | PUNE     | PUN@8877   | 22/12/1989 | NULL |
++--------+------------+----------+------------+------------+------+
+5 rows in set (0.00 sec)
+
+mysql> create user 'abc'@'localhost'identified by 'abc';
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> grant select on dept to 'abc'@'localhost';
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select database();
++------------+
+| database() |
++------------+
+| db1        |
++------------+
+1 row in set (0.00 sec)
+
+mysql> show tables;
++---------------------+
+| Tables_in_db1       |
++---------------------+
+| a                   |
+| abc                 |
+| agent               |
+| andor               |
+| b                   |
+| blanktablea         |
+| blanktableb         |
+| blog                |
+| bonus               |
+| books               |
+| candidate           |
+| client              |
+| coalesce            |
+| comments            |
+| company             |
+| customer            |
+| customers           |
+| d                   |
+| d1                  |
+| dbk1                |
+| dbk2                |
+| demodept1           |
+| demodept2           |
+| dept                |
+| dept1               |
+| docs                |
+| doctor              |
+| doctorvisits        |
+| dummy               |
+| duplicate           |
+| e10                 |
+| e20                 |
+| emp                 |
+| emp1                |
+| emp2                |
+| emp_attendance      |
+| emp_cards           |
+| emp_phone           |
+| empj                |
+| envelope            |
+| food                |
+| fullname            |
+| hobby               |
+| icc_world_cup       |
+| item                |
+| job_list            |
+| key_parts           |
+| labtestlist         |
+| leading_zeroes      |
+| leadtable           |
+| licence             |
+| location            |
+| log                 |
+| mass_table          |
+| medicinelist        |
+| menucard            |
+| nearest             |
+| new                 |
+| newbooks            |
+| nullif              |
+| numbers             |
+| numberstring        |
+| ord                 |
+| orderdetails        |
+| orders              |
+| overtime            |
+| patient             |
+| phonecall           |
+| pivot_table         |
+| plumber             |
+| plumber_service_map |
+| points              |
+| price               |
+| product             |
+| product_sales       |
+| products            |
+| quarterly_revenue   |
+| r                   |
+| r1                  |
+| r2                  |
+| races               |
+| regexpr             |
+| replacedept         |
+| revenue             |
+| rockets             |
+| runners             |
+| runningserver       |
+| sales               |
+| sales_channel       |
+| salespeople         |
+| salesperson         |
+| salgrade            |
+| server              |
+| service             |
+| seta                |
+| setb                |
+| shop                |
+| softdrink           |
+| sort                |
+| sourcenames         |
+| stadium             |
+| states              |
+| station             |
+| status              |
+| stringnumber        |
+| t1                  |
+| t3                  |
+| t3log               |
+| tablea              |
+| tableaa             |
+| tableb              |
+| tablebb             |
+| targetnames         |
+| tasks               |
+| temp1               |
+| traintimetable      |
+| transactions        |
+| vote_response       |
+| votes               |
+| warehouse           |
+| xyz                 |
+| yearly_revenue      |
+| z                   |
++---------------------+
+123 rows in set (0.00 sec)
+
+mysql> grant alter on dept to 'abc'@'localhost';
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> decs dept;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'decs dept' at line 1
+mysql> desc dept;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| DEPTNO    | int         | NO   | PRI | NULL    |       |
+| DNAME     | varchar(12) | YES  |     | NULL    |       |
+| LOC       | varchar(10) | YES  |     | NULL    |       |
+| PWD       | varchar(20) | YES  |     | NULL    |       |
+| STARTEDON | varchar(10) | YES  |     | NULL    |       |
+| c1        | int         | YES  |     | NULL    |       |
+| cccc      | int         | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> alterl table dept drop column cccc;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'alterl table dept drop column cccc' at line 1
+mysql> alter table dept drop column cccc;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc dept;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| DEPTNO    | int         | NO   | PRI | NULL    |       |
+| DNAME     | varchar(12) | YES  |     | NULL    |       |
+| LOC       | varchar(10) | YES  |     | NULL    |       |
+| PWD       | varchar(20) | YES  |     | NULL    |       |
+| STARTEDON | varchar(10) | YES  |     | NULL    |       |
+| c1        | int         | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> alter table dept drop column c1;
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc dept;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| DEPTNO    | int         | NO   | PRI | NULL    |       |
+| DNAME     | varchar(12) | YES  |     | NULL    |       |
+| LOC       | varchar(10) | YES  |     | NULL    |       |
+| PWD       | varchar(20) | YES  |     | NULL    |       |
+| STARTEDON | varchar(10) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> create view v1 as select * from dept;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> desc v1;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| DEPTNO    | int         | NO   |     | NULL    |       |
+| DNAME     | varchar(12) | YES  |     | NULL    |       |
+| LOC       | varchar(10) | YES  |     | NULL    |       |
+| PWD       | varchar(20) | YES  |     | NULL    |       |
+| STARTEDON | varchar(10) | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> revoke select, alter on dept from 'abc'@'localhost';
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> grant select, insert on v1 to 'abc'@'localhost';
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> grant alter on v1 to 'abc'@'localhost';
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> select * from dept;
++--------+------------+----------+------------+------------+
+| DEPTNO | DNAME      | LOC      | PWD        | STARTEDON  |
++--------+------------+----------+------------+------------+
+|     10 | ACCOUNTING | NEW YORK | r50mpm     | 24/03/1989 |
+|     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 |
+|     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 |
+|     40 | OPERATIONS | BOSTON   | opr@123    | 12/07/1989 |
+|     50 | HR         | PUNE     | PUN@8877   | 22/12/1989 |
++--------+------------+----------+------------+------------+
+5 rows in set (0.00 sec)
+
+mysql> select * from dept;
++--------+------------+----------+------------+------------+
+| DEPTNO | DNAME      | LOC      | PWD        | STARTEDON  |
++--------+------------+----------+------------+------------+
+|      1 | 1          | 1        | 1          | 1          |
+|     10 | ACCOUNTING | NEW YORK | r50mpm     | 24/03/1989 |
+|     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 |
+|     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 |
+|     40 | OPERATIONS | BOSTON   | opr@123    | 12/07/1989 |
+|     50 | HR         | PUNE     | PUN@8877   | 22/12/1989 |
++--------+------------+----------+------------+------------+
+6 rows in set (0.00 sec)
+
+mysql> select * from emp,dept where emp.deptno=dept.deptno;
++-------+----------+--------+---------------------+------+------------+------+------+--------+---------+--------------+------------+------------+----------+--------+------------+----------+------------+------------+
+| EMPNO | ENAME    | GENDER | JOB                 | MGR  | HIREDATE   | SAL  | COMM | DEPTNO | BONUSID | USER NAME    | PWD        | PHONE      | isActive | DEPTNO | DNAME      | LOC      | PWD        | STARTEDON  |
++-------+----------+--------+---------------------+------+------------+------+------+--------+---------+--------------+------------+------------+----------+--------+------------+----------+------------+------------+
+|  7415 | AARAV    | M      | CLERK               | 7902 | 1981-12-31 | 3350 | NULL |     10 |    NULL | AARAV        | NULL       | 7032300084 |        0 |     10 | ACCOUNTING | NEW YORK | r50mpm     | 24/03/1989 |
+|  7421 | THOMAS   | M      | CLERK               | 7920 | 1981-07-19 | 1750 | NULL |     10 |       1 | THOMAS       | r50mpm     | 7032300011 |        0 |     10 | ACCOUNTING | NEW YORK | r50mpm     | 24/03/1989 |
+|  7782 | CLARK    | M      | MANAGER             | 7839 | 1981-06-09 | 2450 | NULL |     10 |       3 | CLARK        | r50mpm     | 7032300001 |        1 |     10 | ACCOUNTING | NEW YORK | r50mpm     | 24/03/1989 |
+|  7839 | KING     | M      | PRESIDENT           | NULL | 1981-11-17 | 5000 | NULL |     10 |       1 | KING         | r50mpm     | 7132300081 |        1 |     10 | ACCOUNTING | NEW YORK | r50mpm     | 24/03/1989 |
+|  7934 | MILLER   | M      | CLERK               | 7782 | 1982-01-23 | 1300 | NULL |     10 |       2 | QUARTERNOTE  | r50mpm     | 7132300055 |        0 |     10 | ACCOUNTING | NEW YORK | r50mpm     | 24/03/1989 |
+|  6473 | SHARMIN  | F      | Public Relation     | 7920 | 1981-07-19 | 1750 | NULL |     20 |       1 | SHARMIN      | a12recmpm  | NULL       |        1 |     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 |
+|  6781 | BANDISH  | F      | Public Relation     | 7920 | 1981-07-19 | 1750 | NULL |     20 |       1 | BANDISH      | a12recmpm  | NULL       |        1 |     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 |
+|  7369 | SMITH    | M      | CLERK               | 7902 | 1980-12-17 |  800 | NULL |     20 |       2 | TRITONE      | a12recmpm  | 7032300023 |        0 |     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 |
+|  7566 | JONES    | M      | MANAGER             | 7839 | 1981-04-02 | 2975 | NULL |     20 |       4 | HONEYCOMB    | a12recmpm  | 7132300039 |        1 |     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 |
+|  7788 | SCOTT    | M      | ANALYST             | 7566 | 1982-12-09 | 3000 | NULL |     20 |       3 | WHITE SAND   | a12recmpm  | NULL       |        1 |     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 |
+|  7840 | FRED     | M      | vice PRESIDENT      | 7839 | 1983-08-09 | 5000 | NULL |     20 |       1 | SAND STONE   | a12recmpm  | NULL       |        1 |     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 |
+|  7876 | ADAMS    | M      | CLERK               | 7788 | 1983-01-12 | 1100 | NULL |     20 |       1 | CRAZY ANYONE | a12recmpm  | 7132300086 |        1 |     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 |
+|  7902 | FORD     | M      | ANALYST             | 7566 | 1981-12-03 | 3000 | NULL |     20 |       4 | CONBRIO      | a12recmpm  | NULL       |        0 |     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 |
+|  6001 | GITA     | F      | Compliance officers | 7920 | 1981-07-19 |   -1 | NULL |     30 |       1 | GITA         | sales@2017 | NULL       |        1 |     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 |
+|  7499 | ALLEN    | M      | SALESMAN            | 7698 | 1981-02-20 |   -1 |  300 |     30 |       4 | ALWAYS TESTE | sales@2017 | 7032300096 |        1 |     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 |
+|  7521 | WARD     | M      | SALESMAN            | 7698 | 1981-02-22 |   -1 |  500 |     30 |       1 | WARD         | sales@2017 | 7132300034 |        1 |     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 |
+|  7654 | MARTIN   | M      | SALESMAN            | 7698 | 1981-09-28 |   -1 | 1400 |     30 |       6 | LIFE RACER   | sales@2017 | 7132300050 |        1 |     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 |
+|  7698 | BLAKE    | M      | MANAGER             | 7839 | 1981-05-01 |   -1 | NULL |     30 |       1 | BIG BEN      | sales@2017 | 7132300027 |        1 |     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 |
+|  7844 | TURNER   | M      | SALESMAN            | 7698 | 1981-09-08 |   -1 |    0 |     30 |       5 | SAND DUST    | sales@2017 | NULL       |        1 |     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 |
+|  7900 | JAMES    | M      | CLERK               | 7698 | 1981-12-03 |   -1 | NULL |     30 |       2 | CRAZY LEADER | sales@2017 | 7132300042 |        1 |     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 |
+|  7919 | HOFFMAN  | M      | MANAGER             | 7566 | 1982-03-24 |   -1 | NULL |     30 |       3 | INTERVAL     | sales@2017 | NULL       |        1 |     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 |
+|  7920 | GRASS    | M      | SALESMAN            | 7919 | 1980-02-14 |   -1 | 2700 |     30 |       5 | GRASS        | sales@2017 | NULL       |        1 |     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 |
+|  7945 | AARUSH   | M      | SALESMAN            | 7902 | 1980-02-14 |   -1 | 2700 |     30 |    NULL | AARUSH       | ABCDEF     | NULL       |        0 |     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 |
+|  7949 | ALEX     | M      | MANAGER             | 7698 | 1982-01-24 |   -1 |  500 |     30 |       5 | QUARTERREST  | sales@2017 | 7156567183 |        1 |     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 |
+|  8433 | NATASHA  | F      | CLERK               | 7920 | 1981-07-19 |   -1 | NULL |     30 |       1 | NATASHA      | sales@2017 | NULL       |        1 |     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 |
+|  6129 | VRUSHALI | F      | Compliance officers | 7920 | 1981-07-19 | 1750 | NULL |     50 |       1 | VRUSHALI     | PUN@8877   | NULL       |        1 |     50 | HR         | PUNE     | PUN@8877   | 22/12/1989 |
+|  9400 | SANGITA  | F      | Compliance officers | 7920 | 1981-07-19 | 1750 | NULL |     50 |       1 | SANGITA      | NULL       | NULL       |        1 |     50 | HR         | PUNE     | PUN@8877   | 22/12/1989 |
+|  9473 | SUPRIYA  | F      | ANALYST             | 7920 | 1981-07-19 | 1750 | NULL |     50 |       1 | SUPRIYA      | XYZ@1234   | NULL       |        1 |     50 | HR         | PUNE     | PUN@8877   | 22/12/1989 |
++-------+----------+--------+---------------------+------+------------+------+------+--------+---------+--------------+------------+------------+----------+--------+------------+----------+------------+------------+
+28 rows in set (0.00 sec)
+
+mysql> create view v2 as select * from emp,dept where emp.deptno=dept.deptno;
+ERROR 1060 (42S21): Duplicate column name 'DEPTNO'
+mysql> create view v2 as select * from emp inner join dept using(deptno);
+ERROR 1060 (42S21): Duplicate column name 'PWD'
+mysql> create view v2 as select * from emp natural join dept;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql>

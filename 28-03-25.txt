@@ -1,0 +1,7322 @@
+mysql> create table r (ename varchar(10), city varchar(10), c1 varchar(22) generated always as (concat(ename, '-', city)) );
+Query OK, 0 rows affected (0.11 sec)
+
+mysql> desc r;
++-------+-------------+------+-----+---------+-------------------+
+| Field | Type        | Null | Key | Default | Extra             |
++-------+-------------+------+-----+---------+-------------------+
+| ename | varchar(10) | YES  |     | NULL    |                   |
+| city  | varchar(10) | YES  |     | NULL    |                   |
+| c1    | varchar(22) | YES  |     | NULL    | VIRTUAL GENERATED |
++-------+-------------+------+-----+---------+-------------------+
+3 rows in set (0.06 sec)
+
+mysql> insert into r(ename, city) values('saleel','baroda');
+Query OK, 1 row affected (0.03 sec)
+
+mysql> select * from r;
++--------+--------+---------------+
+| ename  | city   | c1            |
++--------+--------+---------------+
+| saleel | baroda | saleel-baroda |
++--------+--------+---------------+
+1 row in set (0.01 sec)
+
+mysql> drop table x;
+ERROR 1051 (42S02): Unknown table 'x.x'
+mysql> drop table r;
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> create table r(c1 int, c2 enum('A','B','C'));
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> drop table r;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> create table r(c1 int, c2 set('A','B','C'));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> insert into r values(1,0);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from r;
++------+------+
+| c1   | c2   |
++------+------+
+|    1 |      |
++------+------+
+1 row in set (0.00 sec)
+
+mysql> insert into r values(2,1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from r;
++------+------+
+| c1   | c2   |
++------+------+
+|    1 |      |
+|    2 | A    |
++------+------+
+2 rows in set (0.00 sec)
+
+mysql> insert into r values(3,2);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> select * from r;
++------+------+
+| c1   | c2   |
++------+------+
+|    1 |      |
+|    2 | A    |
+|    3 | B    |
++------+------+
+3 rows in set (0.00 sec)
+
+mysql> select version();
++-----------+
+| version() |
++-----------+
+| 8.0.41    |
++-----------+
+1 row in set (0.00 sec)
+
+mysql> drop table r;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> create table r(c1 int primary key);
+Query OK, 0 rows affected (0.04 sec)
+
+mysql> create table r1(a1 int, constraint fk_c1 foreign key(a1) references r(c1));
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> insert into r(1),(2),(3);
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '1),(2),(3)' at line 1
+mysql> insert into r values (1),(2),(3);
+Query OK, 3 rows affected (0.02 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> table r;
++----+
+| c1 |
++----+
+|  1 |
+|  2 |
+|  3 |
++----+
+3 rows in set (0.00 sec)
+
+mysql> table r1;
+Empty set (0.00 sec)
+
+mysql> insert into r1 values(4);
+ERROR 1452 (23000): Cannot add or update a child row: a foreign key constraint fails (`x`.`r1`, CONSTRAINT `fk_c1` FOREIGN KEY (`a1`) REFERENCES `r` (`c1`))
+mysql>
+mysql>
+mysql> insert into r1 values(1);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into r1 values(1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into r1 values(null);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> table r;
++----+
+| c1 |
++----+
+|  1 |
+|  2 |
+|  3 |
++----+
+3 rows in set (0.00 sec)
+
+mysql> table r1;
++------+
+| a1   |
++------+
+| NULL |
+|    1 |
+|    1 |
++------+
+3 rows in set (0.00 sec)
+
+mysql> delete from r where c1=1;
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`x`.`r1`, CONSTRAINT `fk_c1` FOREIGN KEY (`a1`) REFERENCES `r` (`c1`))
+mysql> delete from r where c1=2;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> table r;
++----+
+| c1 |
++----+
+|  1 |
+|  3 |
++----+
+2 rows in set (0.00 sec)
+
+mysql> table r1;
++------+
+| a1   |
++------+
+| NULL |
+|    1 |
+|    1 |
++------+
+3 rows in set (0.00 sec)
+
+mysql> delete from r where c1=1;
+ERROR 1451 (23000): Cannot delete or update a parent row: a foreign key constraint fails (`x`.`r1`, CONSTRAINT `fk_c1` FOREIGN KEY (`a1`) REFERENCES `r` (`c1`))
+mysql> drop table r1;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> create table r1(a1 int, constraint fk_c1 foreign key(a1) references r(c1) on delete cascade);
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> table r;
++----+
+| c1 |
++----+
+|  1 |
+|  3 |
++----+
+2 rows in set (0.00 sec)
+
+mysql> insert into r1 values(1);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into r1 values(1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> insert into r1 values(1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> table r;
++----+
+| c1 |
++----+
+|  1 |
+|  3 |
++----+
+2 rows in set (0.00 sec)
+
+mysql> table r1;
++------+
+| a1   |
++------+
+|    1 |
+|    1 |
+|    1 |
++------+
+3 rows in set (0.00 sec)
+
+mysql> delete from r where c1=1;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> table r;
++----+
+| c1 |
++----+
+|  3 |
++----+
+1 row in set (0.00 sec)
+
+mysql> table r1;
+Empty set (0.00 sec)
+
+mysql> droo table r1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'droo table r1' at line 1
+mysql> drop table r1;
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> create table r1(a1 int, constraint fk_c1 foreign key(a1) references r(c1) on delete set null);
+
+Query OK, 0 rows affected (0.08 sec)
+
+mysql> table  r;
++----+
+| c1 |
++----+
+|  3 |
++----+
+1 row in set (0.00 sec)
+
+mysql> insert into r1 values(3);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into r1 values(3);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into r1 values(3);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> table r;
++----+
+| c1 |
++----+
+|  3 |
++----+
+1 row in set (0.00 sec)
+
+mysql> table r1;
++------+
+| a1   |
++------+
+|    3 |
+|    3 |
+|    3 |
++------+
+3 rows in set (0.00 sec)
+
+mysql> drop table r1;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> create table r1(a1 int,a2 varchar(10), constraint fk_c1 foreign key(a1) references r(c1) on de
+lete set null);
+Query OK, 0 rows affected (0.07 sec)
+
+mysql> insert into r1 values(3, 'saleel');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into r1 values(3, 'sharmin');
+Query OK, 1 row affected (0.02 sec)
+
+mysql> insert into r1 values(3, 'ruhan');
+Query OK, 1 row affected (0.01 sec)
+
+mysql> table r;
++----+
+| c1 |
++----+
+|  3 |
++----+
+1 row in set (0.00 sec)
+
+mysql> table r1;
++------+---------+
+| a1   | a2      |
++------+---------+
+|    3 | saleel  |
+|    3 | sharmin |
+|    3 | ruhan   |
++------+---------+
+3 rows in set (0.00 sec)
+
+mysql> delete from r where c1=3;
+Query OK, 1 row affected (0.01 sec)
+
+mysql> table r1;
++------+---------+
+| a1   | a2      |
++------+---------+
+| NULL | saleel  |
+| NULL | sharmin |
+| NULL | ruhan   |
++------+---------+
+3 rows in set (0.00 sec)
+
+mysql> drop table r, r1;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> create table r(c1 int primary key);
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> create table r1(a1 int,a2 varchar(10), constraint fk_c1 foreign key(a1) references r(c1) on delete set null);
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> drop table r1, r;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> create table r(c1 int, sal int, check (sal>5000));
+Query OK, 0 rows affected (0.03 sec)
+
+mysql> insert into r values(1,1);
+ERROR 3819 (HY000): Check constraint 'r_chk_1' is violated.
+mysql> insert into r values(1,10000);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> table r;
++------+-------+
+| c1   | sal   |
++------+-------+
+|    1 | 10000 |
++------+-------+
+1 row in set (0.00 sec)
+
+mysql> drop table r;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> create table r(c1 int, sal int, check (sal>1000 and sal <3000));
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> insert into r values(1,1000);
+ERROR 3819 (HY000): Check constraint 'r_chk_1' is violated.
+mysql> insert into r values(1,1001);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> insert into r values(1,3000);
+ERROR 3819 (HY000): Check constraint 'r_chk_1' is violated.
+mysql> insert into r values(1,2999);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> drop table r;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> create table r (c1 int);
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> desc r;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| c1    | int  | YES  |     | NULL    |       |
++-------+------+------+-----+---------+-------+
+1 row in set (0.01 sec)
+
+mysql> alter table r add column c2 int;
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc r;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| c1    | int  | YES  |     | NULL    |       |
+| c2    | int  | YES  |     | NULL    |       |
++-------+------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> alter table r add column c0 int first;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc r;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| c0    | int  | YES  |     | NULL    |       |
+| c1    | int  | YES  |     | NULL    |       |
+| c2    | int  | YES  |     | NULL    |       |
++-------+------+------+-----+---------+-------+
+3 rows in set (0.00 sec)
+
+mysql> alter table r add column c3 int after c1;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc r;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| c0    | int  | YES  |     | NULL    |       |
+| c1    | int  | YES  |     | NULL    |       |
+| c3    | int  | YES  |     | NULL    |       |
+| c2    | int  | YES  |     | NULL    |       |
++-------+------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> alter table r add column (c4 int, c5 int);
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc r;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| c0    | int  | YES  |     | NULL    |       |
+| c1    | int  | YES  |     | NULL    |       |
+| c3    | int  | YES  |     | NULL    |       |
+| c2    | int  | YES  |     | NULL    |       |
+| c4    | int  | YES  |     | NULL    |       |
+| c5    | int  | YES  |     | NULL    |       |
++-------+------+------+-----+---------+-------+
+6 rows in set (0.00 sec)
+
+mysql> alter table r add column id int primary key first;
+Query OK, 0 rows affected (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc r;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| id    | int  | NO   | PRI | NULL    |       |
+| c0    | int  | YES  |     | NULL    |       |
+| c1    | int  | YES  |     | NULL    |       |
+| c3    | int  | YES  |     | NULL    |       |
+| c2    | int  | YES  |     | NULL    |       |
+| c4    | int  | YES  |     | NULL    |       |
+| c5    | int  | YES  |     | NULL    |       |
++-------+------+------+-----+---------+-------+
+7 rows in set (0.00 sec)
+
+mysql> alter table r drop column c5;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> alter table r drop column c4;
+Query OK, 0 rows affected (0.03 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc r;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| id    | int  | NO   | PRI | NULL    |       |
+| c0    | int  | YES  |     | NULL    |       |
+| c1    | int  | YES  |     | NULL    |       |
+| c3    | int  | YES  |     | NULL    |       |
+| c2    | int  | YES  |     | NULL    |       |
++-------+------+------+-----+---------+-------+
+5 rows in set (0.00 sec)
+
+mysql> drop table r;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> create table r (c1 int);
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> insert into r values(1);
+Query OK, 1 row affected (0.01 sec)
+
+mysql> desc r;
++-------+------+------+-----+---------+-------+
+| Field | Type | Null | Key | Default | Extra |
++-------+------+------+-----+---------+-------+
+| c1    | int  | YES  |     | NULL    |       |
++-------+------+------+-----+---------+-------+
+1 row in set (0.01 sec)
+
+mysql> alter table r modify column c1 varchar(10);
+Query OK, 1 row affected (0.04 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+mysql> desc r;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| c1    | varchar(10) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+1 row in set (0.00 sec)
+
+mysql> table r;
++------+
+| c1   |
++------+
+| 1    |
++------+
+1 row in set (0.00 sec)
+
+mysql> alter table r modify column c1 varchar(20);
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> table r;
++------+
+| c1   |
++------+
+| 1    |
++------+
+1 row in set (0.00 sec)
+
+mysql> desc r;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| c1    | varchar(20) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+1 row in set (0.00 sec)
+
+mysql> alter table r alter column c1 set default 'baroda'
+    -> ;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc r;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| c1    | varchar(20) | YES  |     | baroda  |       |
++-------+-------------+------+-----+---------+-------+
+1 row in set (0.00 sec)
+
+mysql> alter table r alter column c1 drop default;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc r;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| c1    | varchar(20) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+1 row in set (0.00 sec)
+
+mysql> alter table r alter column c1 set invisible;
+ERROR 4028 (HY000): A table must have at least one visible column.
+mysql> alter table r add column id int primary key first;
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc r;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int         | NO   | PRI | NULL    |       |
+| c1    | varchar(20) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> alter table r alter column c1 set invisible;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc r;
++-------+-------------+------+-----+---------+-----------+
+| Field | Type        | Null | Key | Default | Extra     |
++-------+-------------+------+-----+---------+-----------+
+| id    | int         | NO   | PRI | NULL    |           |
+| c1    | varchar(20) | YES  |     | NULL    | INVISIBLE |
++-------+-------------+------+-----+---------+-----------+
+2 rows in set (0.00 sec)
+
+mysql> alter table r alter column c1 set visible;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc r;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int         | NO   | PRI | NULL    |       |
+| c1    | varchar(20) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> alter table r rename column c1 to ename;
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc r;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int         | NO   | PRI | NULL    |       |
+| ename | varchar(20) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> alter table r modify id int auto_increment;
+Query OK, 1 row affected (0.04 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+mysql> desc r;
++-------+-------------+------+-----+---------+----------------+
+| Field | Type        | Null | Key | Default | Extra          |
++-------+-------------+------+-----+---------+----------------+
+| id    | int         | NO   | PRI | NULL    | auto_increment |
+| ename | varchar(20) | YES  |     | NULL    |                |
++-------+-------------+------+-----+---------+----------------+
+2 rows in set (0.00 sec)
+
+mysql> alter table r modify id int;
+Query OK, 1 row affected (0.03 sec)
+Records: 1  Duplicates: 0  Warnings: 0
+
+mysql> desc r;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int         | NO   | PRI | NULL    |       |
+| ename | varchar(20) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> alter table rename r to r1;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'rename r to r1' at line 1
+mysql> alter table r rename to r1;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> desc r;
+ERROR 1146 (42S02): Table 'x.r' doesn't exist
+mysql> desc r1;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int         | NO   | PRI | NULL    |       |
+| ename | varchar(20) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> alter table r1 rename to r;
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> show tables;
++-------------+
+| Tables_in_x |
++-------------+
+| r           |
++-------------+
+1 row in set (0.02 sec)
+
+mysql> desc r;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int         | NO   | PRI | NULL    |       |
+| ename | varchar(20) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> alter table r add (sal int, job varchar(10));
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc r;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int         | NO   | PRI | NULL    |       |
+| ename | varchar(20) | YES  |     | NULL    |       |
+| sal   | int         | YES  |     | NULL    |       |
+| job   | varchar(10) | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> alter table r change job varchar(10) after ename;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'varchar(10) after ename' at line 1
+mysql> alter table r change job after ename;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'ename' at line 1
+mysql>
+mysql>
+mysql> alter table r change  column job to job varchar(10) after ename;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'to job varchar(10) after ename' at line 1
+mysql>
+mysql>
+mysql> alter table r change  column job job varchar(10) after ename;
+Query OK, 0 rows affected (0.07 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+mysql> desc r;
++-------+-------------+------+-----+---------+-------+
+| Field | Type        | Null | Key | Default | Extra |
++-------+-------------+------+-----+---------+-------+
+| id    | int         | NO   | PRI | NULL    |       |
+| ename | varchar(20) | YES  |     | NULL    |       |
+| job   | varchar(10) | YES  |     | NULL    |       |
+| sal   | int         | YES  |     | NULL    |       |
++-------+-------------+------+-----+---------+-------+
+4 rows in set (0.00 sec)
+
+mysql> drop table r;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> create table r(c1 int, c2 int as(c1*2));
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> desc r;
++-------+------+------+-----+---------+-------------------+
+| Field | Type | Null | Key | Default | Extra             |
++-------+------+------+-----+---------+-------------------+
+| c1    | int  | YES  |     | NULL    |                   |
+| c2    | int  | YES  |     | NULL    | VIRTUAL GENERATED |
++-------+------+------+-----+---------+-------------------+
+2 rows in set (0.00 sec)
+
+mysql> alter table r modify column c2 float(10,2);
+ERROR 3106 (HY000): 'Changing the STORED status' is not supported for generated columns.
+mysql> alter table r modify column c2 float(10,2) as(c1*2);
+Query OK, 0 rows affected, 1 warning (0.04 sec)
+Records: 0  Duplicates: 0  Warnings: 1
+
+mysql> desc r;
++-------+-------------+------+-----+---------+-------------------+
+| Field | Type        | Null | Key | Default | Extra             |
++-------+-------------+------+-----+---------+-------------------+
+| c1    | int         | YES  |     | NULL    |                   |
+| c2    | float(10,2) | YES  |     | NULL    | VIRTUAL GENERATED |
++-------+-------------+------+-----+---------+-------------------+
+2 rows in set (0.00 sec)
+
+mysql> drop table r;
+Query OK, 0 rows affected (0.01 sec)
+
+mysql> create table r(c1 int, c2 float(4,1));
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+mysql> desc r;
++-------+------------+------+-----+---------+-------+
+| Field | Type       | Null | Key | Default | Extra |
++-------+------------+------+-----+---------+-------+
+| c1    | int        | YES  |     | NULL    |       |
+| c2    | float(4,1) | YES  |     | NULL    |       |
++-------+------------+------+-----+---------+-------+
+2 rows in set (0.00 sec)
+
+mysql> insert into r values(1.4, 1.4);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> table r;
++------+------+
+| c1   | c2   |
++------+------+
+|    1 |  1.4 |
++------+------+
+1 row in set (0.00 sec)
+
+mysql> insert into r values(1.5, 1.5);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> table r;
++------+------+
+| c1   | c2   |
++------+------+
+|    1 |  1.4 |
+|    2 |  1.5 |
++------+------+
+2 rows in set (0.00 sec)
+
+mysql> insert into r values(1.56, 1.56);
+Query OK, 1 row affected (0.00 sec)
+
+mysql> table r;
++------+------+
+| c1   | c2   |
++------+------+
+|    1 |  1.4 |
+|    2 |  1.5 |
+|    2 |  1.6 |
++------+------+
+3 rows in set (0.00 sec)
+
+mysql> select database();
++------------+
+| database() |
++------------+
+| x          |
++------------+
+1 row in set (0.00 sec)
+
+mysql> source C:\saleel\MySQLDEMOBLD7.SQL
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 0 rows affected (0.03 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 17 rows affected (0.00 sec)
+Records: 17  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+Query OK, 0 rows affected (0.03 sec)
+
+Query OK, 0 rows affected (0.02 sec)
+
+Query OK, 0 rows affected (0.03 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 10 rows affected (0.00 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 46 rows affected (0.00 sec)
+Records: 46  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 11 rows affected (0.00 sec)
+Records: 11  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 43 rows affected (0.00 sec)
+Records: 43  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 22 rows affected (0.00 sec)
+Records: 22  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 6 rows affected (0.00 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 9 rows affected (0.00 sec)
+Records: 9  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 1 row affected (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 33 rows affected (0.00 sec)
+Records: 33  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 10 rows affected (0.00 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 6 rows affected (0.00 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 26 rows affected (0.00 sec)
+Records: 26  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+Query OK, 8 rows affected (0.00 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.02 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 9 rows affected (0.00 sec)
+Records: 9  Duplicates: 0  Warnings: 0
+
+Query OK, 10 rows affected (0.00 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 3 rows affected (0.00 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+Query OK, 3 rows affected (0.00 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 4 rows affected (0.00 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 6 rows affected (0.00 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected, 4 warnings (0.01 sec)
+
+Query OK, 7 rows affected (0.00 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 4 rows affected (0.00 sec)
+Records: 4  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 10 rows affected (0.00 sec)
+Records: 10  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 7 rows affected (0.00 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 33 rows affected (0.00 sec)
+Records: 33  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 218 rows affected (0.00 sec)
+Records: 218  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 6 rows affected (0.00 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 7 rows affected (0.00 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 15 rows affected (0.00 sec)
+Records: 15  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 5 rows affected (0.00 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 32 rows affected (0.00 sec)
+Records: 32  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected, 3 warnings (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.02 sec)
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected, 2 warnings (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.05 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 5 rows affected (0.01 sec)
+Records: 5  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.06 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.03 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected, 1 warning (0.01 sec)
+
+Query OK, 0 rows affected, 1 warning (0.02 sec)
+
+Query OK, 0 rows affected, 2 warnings (0.01 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 0 rows affected, 2 warnings (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+ERROR 1136 (21S01): Column count doesn't match value count at row 1
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.02 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected, 2 warnings (0.02 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 0 rows affected (0.02 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.03 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected, 2 warnings (0.03 sec)
+
+Query OK, 68 rows affected (0.00 sec)
+Records: 68  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 41 rows affected (0.00 sec)
+Records: 41  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 7 rows affected (0.00 sec)
+Records: 7  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 6 rows affected (0.00 sec)
+Records: 6  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 0 rows affected (0.03 sec)
+
+Query OK, 0 rows affected (0.03 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 49 rows affected (0.00 sec)
+Rows matched: 49  Changed: 49  Warnings: 0
+
+Query OK, 12 rows affected (0.00 sec)
+Rows matched: 12  Changed: 12  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 0 rows affected (0.00 sec)
+Rows matched: 0  Changed: 0  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 28 rows affected (0.00 sec)
+Rows matched: 28  Changed: 28  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 28 rows affected (0.00 sec)
+Rows matched: 28  Changed: 28  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 75 rows affected (0.00 sec)
+
+Query OK, 18 rows affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 9 rows affected (0.01 sec)
+Records: 9  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.00 sec)
+
+Query OK, 9 rows affected, 1 warning (0.00 sec)
+Rows matched: 9  Changed: 9  Warnings: 1
+
+Query OK, 8 rows affected (0.00 sec)
+Records: 8  Duplicates: 0  Warnings: 0
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 28 rows affected (0.00 sec)
+Records: 28  Duplicates: 0  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '' at line 1
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+Query OK, 0 rows affected (0.01 sec)
+
+Query OK, 28 rows affected (0.01 sec)
+Records: 28  Duplicates: 0  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+Records: 0  Duplicates: 0  Warnings: 0
+
+Query OK, 28 rows affected (0.00 sec)
+Records: 28  Duplicates: 0  Warnings: 0
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 1 row affected (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> show tables;
++---------------------+
+| Tables_in_x         |
++---------------------+
+| a                   |
+| agent               |
+| andor               |
+| b                   |
+| blanktablea         |
+| blanktableb         |
+| blog                |
+| bonus               |
+| books               |
+| candidate           |
+| client              |
+| coalesce            |
+| comments            |
+| company             |
+| customer            |
+| customers           |
+| demodept1           |
+| demodept2           |
+| dept                |
+| dept1               |
+| docs                |
+| doctor              |
+| doctorvisits        |
+| dummy               |
+| duplicate           |
+| emp                 |
+| emp1                |
+| emp2                |
+| emp_attendance      |
+| emp_cards           |
+| emp_phone           |
+| empj                |
+| envelope            |
+| food                |
+| fullname            |
+| hobby               |
+| item                |
+| job_list            |
+| key_parts           |
+| labtestlist         |
+| leadtable           |
+| licence             |
+| location            |
+| mass_table          |
+| medicinelist        |
+| menucard            |
+| nearest             |
+| new                 |
+| newbooks            |
+| nullif              |
+| numbers             |
+| numberstring        |
+| ord                 |
+| orderdetails        |
+| orders              |
+| overtime            |
+| patient             |
+| phonecall           |
+| pivot_table         |
+| plumber             |
+| plumber_service_map |
+| points              |
+| price               |
+| product             |
+| product_sales       |
+| products            |
+| quarterly_revenue   |
+| r                   |
+| r1                  |
+| r2                  |
+| races               |
+| regexpr             |
+| replacedept         |
+| revenue             |
+| rockets             |
+| runners             |
+| runningserver       |
+| sales               |
+| sales_channel       |
+| salespeople         |
+| salesperson         |
+| salgrade            |
+| server              |
+| service             |
+| seta                |
+| setb                |
+| shop                |
+| softdrink           |
+| sort                |
+| sourcenames         |
+| stadium             |
+| states              |
+| station             |
+| status              |
+| stringnumber        |
+| tablea              |
+| tableaa             |
+| tableb              |
+| tablebb             |
+| targetnames         |
+| tasks               |
+| temp1               |
+| traintimetable      |
+| transactions        |
+| vote_response       |
+| votes               |
+| warehouse           |
+| yearly_revenue      |
+| z                   |
++---------------------+
+109 rows in set (0.00 sec)
+
+mysql> desc emp;
++-----------+-------------+------+-----+---------+-------+
+| Field     | Type        | Null | Key | Default | Extra |
++-----------+-------------+------+-----+---------+-------+
+| EMPNO     | int         | NO   | PRI | NULL    |       |
+| ENAME     | varchar(12) | YES  |     | NULL    |       |
+| GENDER    | char(1)     | YES  |     | NULL    |       |
+| JOB       | varchar(20) | YES  |     | NULL    |       |
+| MGR       | int         | YES  | MUL | NULL    |       |
+| HIREDATE  | date        | YES  |     | NULL    |       |
+| SAL       | int         | YES  |     | NULL    |       |
+| COMM      | int         | YES  |     | NULL    |       |
+| DEPTNO    | int         | NO   | MUL | NULL    |       |
+| BONUSID   | int         | YES  |     | NULL    |       |
+| USER NAME | varchar(20) | YES  |     | NULL    |       |
+| PWD       | varchar(20) | YES  |     | NULL    |       |
+| PHONE     | varchar(45) | YES  |     | NULL    |       |
+| isActive  | tinyint(1)  | YES  |     | NULL    |       |
++-----------+-------------+------+-----+---------+-------+
+14 rows in set (0.00 sec)
+
+mysql> select * from emp;
++-------+----------+--------+---------------------+------+------------+------+------+--------+---------+--------------+------------+------------+----------+
+| EMPNO | ENAME    | GENDER | JOB                 | MGR  | HIREDATE   | SAL  | COMM | DEPTNO | BONUSID | USER NAME    | PWD        | PHONE      | isActive |
++-------+----------+--------+---------------------+------+------------+------+------+--------+---------+--------------+------------+------------+----------+
+|  6001 | GITA     | F      | Compliance officers | 7920 | 1981-07-19 | 1750 | NULL |     30 |       1 | GITA         | sales@2017 | NULL       |        1 |
+|  6129 | VRUSHALI | F      | Compliance officers | 7920 | 1981-07-19 | 1750 | NULL |     50 |       1 | VRUSHALI     | PUN@8877   | NULL       |        1 |
+|  6473 | SHARMIN  | F      | Public Relation     | 7920 | 1981-07-19 | 1750 | NULL |     20 |       1 | SHARMIN      | a12recmpm  | NULL       |        1 |
+|  6781 | BANDISH  | F      | Public Relation     | 7920 | 1981-07-19 | 1750 | NULL |     20 |       1 | BANDISH      | a12recmpm  | NULL       |        1 |
+|  7369 | SMITH    | M      | CLERK               | 7902 | 1980-12-17 |  800 | NULL |     20 |       2 | TRITONE      | a12recmpm  | 7032300023 |        0 |
+|  7415 | AARAV    | M      | CLERK               | 7902 | 1981-12-31 | 3350 | NULL |     10 |    NULL | AARAV        | NULL       | 7032300084 |        0 |
+|  7421 | THOMAS   | M      | CLERK               | 7920 | 1981-07-19 | 1750 | NULL |     10 |       1 | THOMAS       | r50mpm     | 7032300011 |        0 |
+|  7499 | ALLEN    | M      | SALESMAN            | 7698 | 1981-02-20 | 1600 |  300 |     30 |       4 | ALWAYS TESTE | sales@2017 | 7032300096 |        1 |
+|  7521 | WARD     | M      | SALESMAN            | 7698 | 1981-02-22 | 1250 |  500 |     30 |       1 | WARD         | sales@2017 | 7132300034 |        1 |
+|  7566 | JONES    | M      | MANAGER             | 7839 | 1981-04-02 | 2975 | NULL |     20 |       4 | HONEYCOMB    | a12recmpm  | 7132300039 |        1 |
+|  7654 | MARTIN   | M      | SALESMAN            | 7698 | 1981-09-28 | 1250 | 1400 |     30 |       6 | LIFE RACER   | sales@2017 | 7132300050 |        1 |
+|  7698 | BLAKE    | M      | MANAGER             | 7839 | 1981-05-01 | 2850 | NULL |     30 |       1 | BIG BEN      | sales@2017 | 7132300027 |        1 |
+|  7782 | CLARK    | M      | MANAGER             | 7839 | 1981-06-09 | 2450 | NULL |     10 |       3 | CLARK        | r50mpm     | 7032300001 |        1 |
+|  7788 | SCOTT    | M      | ANALYST             | 7566 | 1982-12-09 | 3000 | NULL |     20 |       3 | WHITE SAND   | a12recmpm  | NULL       |        1 |
+|  7839 | KING     | M      | PRESIDENT           | NULL | 1981-11-17 | 5000 | NULL |     10 |       1 | KING         | r50mpm     | 7132300081 |        1 |
+|  7840 | FRED     | M      | vice PRESIDENT      | 7839 | 1983-08-09 | 5000 | NULL |     20 |       1 | SAND STONE   | a12recmpm  | NULL       |        1 |
+|  7844 | TURNER   | M      | SALESMAN            | 7698 | 1981-09-08 | 1500 |    0 |     30 |       5 | SAND DUST    | sales@2017 | NULL       |        1 |
+|  7876 | ADAMS    | M      | CLERK               | 7788 | 1983-01-12 | 1100 | NULL |     20 |       1 | CRAZY ANYONE | a12recmpm  | 7132300086 |        1 |
+|  7900 | JAMES    | M      | CLERK               | 7698 | 1981-12-03 |  950 | NULL |     30 |       2 | CRAZY LEADER | sales@2017 | 7132300042 |        1 |
+|  7902 | FORD     | M      | ANALYST             | 7566 | 1981-12-03 | 3000 | NULL |     20 |       4 | CONBRIO      | a12recmpm  | NULL       |        0 |
+|  7919 | HOFFMAN  | M      | MANAGER             | 7566 | 1982-03-24 | 4150 | NULL |     30 |       3 | INTERVAL     | sales@2017 | NULL       |        1 |
+|  7920 | GRASS    | M      | SALESMAN            | 7919 | 1980-02-14 | 2575 | 2700 |     30 |       5 | GRASS        | sales@2017 | NULL       |        1 |
+|  7934 | MILLER   | M      | CLERK               | 7782 | 1982-01-23 | 1300 | NULL |     10 |       2 | QUARTERNOTE  | r50mpm     | 7132300055 |        0 |
+|  7945 | AARUSH   | M      | SALESMAN            | 7902 | 1980-02-14 | 1350 | 2700 |     30 |    NULL | AARUSH       | ABCDEF     | NULL       |        0 |
+|  7949 | ALEX     | M      | MANAGER             | 7698 | 1982-01-24 | 1250 |  500 |     30 |       5 | QUARTERREST  | sales@2017 | 7156567183 |        1 |
+|  8433 | NATASHA  | F      | CLERK               | 7920 | 1981-07-19 | 1750 | NULL |     30 |       1 | NATASHA      | sales@2017 | NULL       |        1 |
+|  9400 | SANGITA  | F      | Compliance officers | 7920 | 1981-07-19 | 1750 | NULL |     50 |       1 | SANGITA      | NULL       | NULL       |        1 |
+|  9473 | SUPRIYA  | F      | ANALYST             | 7920 | 1981-07-19 | 1750 | NULL |     50 |       1 | SUPRIYA      | XYZ@1234   | NULL       |        1 |
++-------+----------+--------+---------------------+------+------------+------+------+--------+---------+--------------+------------+------------+----------+
+28 rows in set (0.00 sec)
+
+mysql> select * from dept;
++--------+------------+----------+------------+------------+
+| DEPTNO | DNAME      | LOC      | PWD        | STARTEDON  |
++--------+------------+----------+------------+------------+
+|     10 | ACCOUNTING | NEW YORK | r50mpm     | 24/03/1989 |
+|     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 |
+|     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 |
+|     40 | OPERATIONS | BOSTON   | opr@123    | 12/07/1989 |
+|     50 | HR         | PUNE     | PUN@8877   | 22/12/1989 |
++--------+------------+----------+------------+------------+
+5 rows in set (0.00 sec)
+
+mysql> select ename, job, sal from emp;
++----------+---------------------+------+
+| ename    | job                 | sal  |
++----------+---------------------+------+
+| GITA     | Compliance officers | 1750 |
+| VRUSHALI | Compliance officers | 1750 |
+| SHARMIN  | Public Relation     | 1750 |
+| BANDISH  | Public Relation     | 1750 |
+| SMITH    | CLERK               |  800 |
+| AARAV    | CLERK               | 3350 |
+| THOMAS   | CLERK               | 1750 |
+| ALLEN    | SALESMAN            | 1600 |
+| WARD     | SALESMAN            | 1250 |
+| JONES    | MANAGER             | 2975 |
+| MARTIN   | SALESMAN            | 1250 |
+| BLAKE    | MANAGER             | 2850 |
+| CLARK    | MANAGER             | 2450 |
+| SCOTT    | ANALYST             | 3000 |
+| KING     | PRESIDENT           | 5000 |
+| FRED     | vice PRESIDENT      | 5000 |
+| TURNER   | SALESMAN            | 1500 |
+| ADAMS    | CLERK               | 1100 |
+| JAMES    | CLERK               |  950 |
+| FORD     | ANALYST             | 3000 |
+| HOFFMAN  | MANAGER             | 4150 |
+| GRASS    | SALESMAN            | 2575 |
+| MILLER   | CLERK               | 1300 |
+| AARUSH   | SALESMAN            | 1350 |
+| ALEX     | MANAGER             | 1250 |
+| NATASHA  | CLERK               | 1750 |
+| SANGITA  | Compliance officers | 1750 |
+| SUPRIYA  | ANALYST             | 1750 |
++----------+---------------------+------+
+28 rows in set (0.00 sec)
+
+mysql> select ename dddd , job, sal from emp;
++----------+---------------------+------+
+| dddd     | job                 | sal  |
++----------+---------------------+------+
+| GITA     | Compliance officers | 1750 |
+| VRUSHALI | Compliance officers | 1750 |
+| SHARMIN  | Public Relation     | 1750 |
+| BANDISH  | Public Relation     | 1750 |
+| SMITH    | CLERK               |  800 |
+| AARAV    | CLERK               | 3350 |
+| THOMAS   | CLERK               | 1750 |
+| ALLEN    | SALESMAN            | 1600 |
+| WARD     | SALESMAN            | 1250 |
+| JONES    | MANAGER             | 2975 |
+| MARTIN   | SALESMAN            | 1250 |
+| BLAKE    | MANAGER             | 2850 |
+| CLARK    | MANAGER             | 2450 |
+| SCOTT    | ANALYST             | 3000 |
+| KING     | PRESIDENT           | 5000 |
+| FRED     | vice PRESIDENT      | 5000 |
+| TURNER   | SALESMAN            | 1500 |
+| ADAMS    | CLERK               | 1100 |
+| JAMES    | CLERK               |  950 |
+| FORD     | ANALYST             | 3000 |
+| HOFFMAN  | MANAGER             | 4150 |
+| GRASS    | SALESMAN            | 2575 |
+| MILLER   | CLERK               | 1300 |
+| AARUSH   | SALESMAN            | 1350 |
+| ALEX     | MANAGER             | 1250 |
+| NATASHA  | CLERK               | 1750 |
+| SANGITA  | Compliance officers | 1750 |
+| SUPRIYA  | ANALYST             | 1750 |
++----------+---------------------+------+
+28 rows in set (0.00 sec)
+
+mysql> select ename employeeName , job, sal from emp;
++--------------+---------------------+------+
+| employeeName | job                 | sal  |
++--------------+---------------------+------+
+| GITA         | Compliance officers | 1750 |
+| VRUSHALI     | Compliance officers | 1750 |
+| SHARMIN      | Public Relation     | 1750 |
+| BANDISH      | Public Relation     | 1750 |
+| SMITH        | CLERK               |  800 |
+| AARAV        | CLERK               | 3350 |
+| THOMAS       | CLERK               | 1750 |
+| ALLEN        | SALESMAN            | 1600 |
+| WARD         | SALESMAN            | 1250 |
+| JONES        | MANAGER             | 2975 |
+| MARTIN       | SALESMAN            | 1250 |
+| BLAKE        | MANAGER             | 2850 |
+| CLARK        | MANAGER             | 2450 |
+| SCOTT        | ANALYST             | 3000 |
+| KING         | PRESIDENT           | 5000 |
+| FRED         | vice PRESIDENT      | 5000 |
+| TURNER       | SALESMAN            | 1500 |
+| ADAMS        | CLERK               | 1100 |
+| JAMES        | CLERK               |  950 |
+| FORD         | ANALYST             | 3000 |
+| HOFFMAN      | MANAGER             | 4150 |
+| GRASS        | SALESMAN            | 2575 |
+| MILLER       | CLERK               | 1300 |
+| AARUSH       | SALESMAN            | 1350 |
+| ALEX         | MANAGER             | 1250 |
+| NATASHA      | CLERK               | 1750 |
+| SANGITA      | Compliance officers | 1750 |
+| SUPRIYA      | ANALYST             | 1750 |
++--------------+---------------------+------+
+28 rows in set (0.00 sec)
+
+mysql> select ename employeeName , job, sal Salary from emp;
++--------------+---------------------+--------+
+| employeeName | job                 | Salary |
++--------------+---------------------+--------+
+| GITA         | Compliance officers |   1750 |
+| VRUSHALI     | Compliance officers |   1750 |
+| SHARMIN      | Public Relation     |   1750 |
+| BANDISH      | Public Relation     |   1750 |
+| SMITH        | CLERK               |    800 |
+| AARAV        | CLERK               |   3350 |
+| THOMAS       | CLERK               |   1750 |
+| ALLEN        | SALESMAN            |   1600 |
+| WARD         | SALESMAN            |   1250 |
+| JONES        | MANAGER             |   2975 |
+| MARTIN       | SALESMAN            |   1250 |
+| BLAKE        | MANAGER             |   2850 |
+| CLARK        | MANAGER             |   2450 |
+| SCOTT        | ANALYST             |   3000 |
+| KING         | PRESIDENT           |   5000 |
+| FRED         | vice PRESIDENT      |   5000 |
+| TURNER       | SALESMAN            |   1500 |
+| ADAMS        | CLERK               |   1100 |
+| JAMES        | CLERK               |    950 |
+| FORD         | ANALYST             |   3000 |
+| HOFFMAN      | MANAGER             |   4150 |
+| GRASS        | SALESMAN            |   2575 |
+| MILLER       | CLERK               |   1300 |
+| AARUSH       | SALESMAN            |   1350 |
+| ALEX         | MANAGER             |   1250 |
+| NATASHA      | CLERK               |   1750 |
+| SANGITA      | Compliance officers |   1750 |
+| SUPRIYA      | ANALYST             |   1750 |
++--------------+---------------------+--------+
+28 rows in set (0.00 sec)
+
+mysql> select ename employee Name , job, sal Salary from emp;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'Name , job, sal Salary from emp' at line 1
+mysql> select ename "employee Name" , job, sal Salary from emp;
++---------------+---------------------+--------+
+| employee Name | job                 | Salary |
++---------------+---------------------+--------+
+| GITA          | Compliance officers |   1750 |
+| VRUSHALI      | Compliance officers |   1750 |
+| SHARMIN       | Public Relation     |   1750 |
+| BANDISH       | Public Relation     |   1750 |
+| SMITH         | CLERK               |    800 |
+| AARAV         | CLERK               |   3350 |
+| THOMAS        | CLERK               |   1750 |
+| ALLEN         | SALESMAN            |   1600 |
+| WARD          | SALESMAN            |   1250 |
+| JONES         | MANAGER             |   2975 |
+| MARTIN        | SALESMAN            |   1250 |
+| BLAKE         | MANAGER             |   2850 |
+| CLARK         | MANAGER             |   2450 |
+| SCOTT         | ANALYST             |   3000 |
+| KING          | PRESIDENT           |   5000 |
+| FRED          | vice PRESIDENT      |   5000 |
+| TURNER        | SALESMAN            |   1500 |
+| ADAMS         | CLERK               |   1100 |
+| JAMES         | CLERK               |    950 |
+| FORD          | ANALYST             |   3000 |
+| HOFFMAN       | MANAGER             |   4150 |
+| GRASS         | SALESMAN            |   2575 |
+| MILLER        | CLERK               |   1300 |
+| AARUSH        | SALESMAN            |   1350 |
+| ALEX          | MANAGER             |   1250 |
+| NATASHA       | CLERK               |   1750 |
+| SANGITA       | Compliance officers |   1750 |
+| SUPRIYA       | ANALYST             |   1750 |
++---------------+---------------------+--------+
+28 rows in set (0.00 sec)
+
+mysql> select ename `employee Name` , job, sal Salary from emp;
++---------------+---------------------+--------+
+| employee Name | job                 | Salary |
++---------------+---------------------+--------+
+| GITA          | Compliance officers |   1750 |
+| VRUSHALI      | Compliance officers |   1750 |
+| SHARMIN       | Public Relation     |   1750 |
+| BANDISH       | Public Relation     |   1750 |
+| SMITH         | CLERK               |    800 |
+| AARAV         | CLERK               |   3350 |
+| THOMAS        | CLERK               |   1750 |
+| ALLEN         | SALESMAN            |   1600 |
+| WARD          | SALESMAN            |   1250 |
+| JONES         | MANAGER             |   2975 |
+| MARTIN        | SALESMAN            |   1250 |
+| BLAKE         | MANAGER             |   2850 |
+| CLARK         | MANAGER             |   2450 |
+| SCOTT         | ANALYST             |   3000 |
+| KING          | PRESIDENT           |   5000 |
+| FRED          | vice PRESIDENT      |   5000 |
+| TURNER        | SALESMAN            |   1500 |
+| ADAMS         | CLERK               |   1100 |
+| JAMES         | CLERK               |    950 |
+| FORD          | ANALYST             |   3000 |
+| HOFFMAN       | MANAGER             |   4150 |
+| GRASS         | SALESMAN            |   2575 |
+| MILLER        | CLERK               |   1300 |
+| AARUSH        | SALESMAN            |   1350 |
+| ALEX          | MANAGER             |   1250 |
+| NATASHA       | CLERK               |   1750 |
+| SANGITA       | Compliance officers |   1750 |
+| SUPRIYA       | ANALYST             |   1750 |
++---------------+---------------------+--------+
+28 rows in set (0.00 sec)
+
+mysql> select ename `employee Name` , "job", sal Salary from emp;
++---------------+-----+--------+
+| employee Name | job | Salary |
++---------------+-----+--------+
+| GITA          | job |   1750 |
+| VRUSHALI      | job |   1750 |
+| SHARMIN       | job |   1750 |
+| BANDISH       | job |   1750 |
+| SMITH         | job |    800 |
+| AARAV         | job |   3350 |
+| THOMAS        | job |   1750 |
+| ALLEN         | job |   1600 |
+| WARD          | job |   1250 |
+| JONES         | job |   2975 |
+| MARTIN        | job |   1250 |
+| BLAKE         | job |   2850 |
+| CLARK         | job |   2450 |
+| SCOTT         | job |   3000 |
+| KING          | job |   5000 |
+| FRED          | job |   5000 |
+| TURNER        | job |   1500 |
+| ADAMS         | job |   1100 |
+| JAMES         | job |    950 |
+| FORD          | job |   3000 |
+| HOFFMAN       | job |   4150 |
+| GRASS         | job |   2575 |
+| MILLER        | job |   1300 |
+| AARUSH        | job |   1350 |
+| ALEX          | job |   1250 |
+| NATASHA       | job |   1750 |
+| SANGITA       | job |   1750 |
+| SUPRIYA       | job |   1750 |
++---------------+-----+--------+
+28 rows in set (0.00 sec)
+
+mysql> select ename `employee Name` , `job`, sal Salary from emp;
++---------------+---------------------+--------+
+| employee Name | job                 | Salary |
++---------------+---------------------+--------+
+| GITA          | Compliance officers |   1750 |
+| VRUSHALI      | Compliance officers |   1750 |
+| SHARMIN       | Public Relation     |   1750 |
+| BANDISH       | Public Relation     |   1750 |
+| SMITH         | CLERK               |    800 |
+| AARAV         | CLERK               |   3350 |
+| THOMAS        | CLERK               |   1750 |
+| ALLEN         | SALESMAN            |   1600 |
+| WARD          | SALESMAN            |   1250 |
+| JONES         | MANAGER             |   2975 |
+| MARTIN        | SALESMAN            |   1250 |
+| BLAKE         | MANAGER             |   2850 |
+| CLARK         | MANAGER             |   2450 |
+| SCOTT         | ANALYST             |   3000 |
+| KING          | PRESIDENT           |   5000 |
+| FRED          | vice PRESIDENT      |   5000 |
+| TURNER        | SALESMAN            |   1500 |
+| ADAMS         | CLERK               |   1100 |
+| JAMES         | CLERK               |    950 |
+| FORD          | ANALYST             |   3000 |
+| HOFFMAN       | MANAGER             |   4150 |
+| GRASS         | SALESMAN            |   2575 |
+| MILLER        | CLERK               |   1300 |
+| AARUSH        | SALESMAN            |   1350 |
+| ALEX          | MANAGER             |   1250 |
+| NATASHA       | CLERK               |   1750 |
+| SANGITA       | Compliance officers |   1750 |
+| SUPRIYA       | ANALYST             |   1750 |
++---------------+---------------------+--------+
+28 rows in set (0.00 sec)
+
+mysql> select ename as `employee Name` , `job`, sal Salary from emp;
++---------------+---------------------+--------+
+| employee Name | job                 | Salary |
++---------------+---------------------+--------+
+| GITA          | Compliance officers |   1750 |
+| VRUSHALI      | Compliance officers |   1750 |
+| SHARMIN       | Public Relation     |   1750 |
+| BANDISH       | Public Relation     |   1750 |
+| SMITH         | CLERK               |    800 |
+| AARAV         | CLERK               |   3350 |
+| THOMAS        | CLERK               |   1750 |
+| ALLEN         | SALESMAN            |   1600 |
+| WARD          | SALESMAN            |   1250 |
+| JONES         | MANAGER             |   2975 |
+| MARTIN        | SALESMAN            |   1250 |
+| BLAKE         | MANAGER             |   2850 |
+| CLARK         | MANAGER             |   2450 |
+| SCOTT         | ANALYST             |   3000 |
+| KING          | PRESIDENT           |   5000 |
+| FRED          | vice PRESIDENT      |   5000 |
+| TURNER        | SALESMAN            |   1500 |
+| ADAMS         | CLERK               |   1100 |
+| JAMES         | CLERK               |    950 |
+| FORD          | ANALYST             |   3000 |
+| HOFFMAN       | MANAGER             |   4150 |
+| GRASS         | SALESMAN            |   2575 |
+| MILLER        | CLERK               |   1300 |
+| AARUSH        | SALESMAN            |   1350 |
+| ALEX          | MANAGER             |   1250 |
+| NATASHA       | CLERK               |   1750 |
+| SANGITA       | Compliance officers |   1750 |
+| SUPRIYA       | ANALYST             |   1750 |
++---------------+---------------------+--------+
+28 rows in set (0.00 sec)
+
+mysql> select ename as, sal Salary from emp;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ', sal Salary from emp' at line 1
+mysql>
+mysql>
+mysql> select ename as 123, sal Salary from emp;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '123, sal Salary from emp' at line 1
+mysql>
+mysql>
+mysql> select ename as "123", sal Salary from emp;
++----------+--------+
+| 123      | Salary |
++----------+--------+
+| GITA     |   1750 |
+| VRUSHALI |   1750 |
+| SHARMIN  |   1750 |
+| BANDISH  |   1750 |
+| SMITH    |    800 |
+| AARAV    |   3350 |
+| THOMAS   |   1750 |
+| ALLEN    |   1600 |
+| WARD     |   1250 |
+| JONES    |   2975 |
+| MARTIN   |   1250 |
+| BLAKE    |   2850 |
+| CLARK    |   2450 |
+| SCOTT    |   3000 |
+| KING     |   5000 |
+| FRED     |   5000 |
+| TURNER   |   1500 |
+| ADAMS    |   1100 |
+| JAMES    |    950 |
+| FORD     |   3000 |
+| HOFFMAN  |   4150 |
+| GRASS    |   2575 |
+| MILLER   |   1300 |
+| AARUSH   |   1350 |
+| ALEX     |   1250 |
+| NATASHA  |   1750 |
+| SANGITA  |   1750 |
+| SUPRIYA  |   1750 |
++----------+--------+
+28 rows in set (0.00 sec)
+
+mysql> select ename as "123", sal '123' from emp;
++----------+------+
+| 123      | 123  |
++----------+------+
+| GITA     | 1750 |
+| VRUSHALI | 1750 |
+| SHARMIN  | 1750 |
+| BANDISH  | 1750 |
+| SMITH    |  800 |
+| AARAV    | 3350 |
+| THOMAS   | 1750 |
+| ALLEN    | 1600 |
+| WARD     | 1250 |
+| JONES    | 2975 |
+| MARTIN   | 1250 |
+| BLAKE    | 2850 |
+| CLARK    | 2450 |
+| SCOTT    | 3000 |
+| KING     | 5000 |
+| FRED     | 5000 |
+| TURNER   | 1500 |
+| ADAMS    | 1100 |
+| JAMES    |  950 |
+| FORD     | 3000 |
+| HOFFMAN  | 4150 |
+| GRASS    | 2575 |
+| MILLER   | 1300 |
+| AARUSH   | 1350 |
+| ALEX     | 1250 |
+| NATASHA  | 1750 |
+| SANGITA  | 1750 |
+| SUPRIYA  | 1750 |
++----------+------+
+28 rows in set (0.00 sec)
+
+mysql>
+mysql> select ename 'as'  from emp;
++----------+
+| as       |
++----------+
+| GITA     |
+| VRUSHALI |
+| SHARMIN  |
+| BANDISH  |
+| SMITH    |
+| AARAV    |
+| THOMAS   |
+| ALLEN    |
+| WARD     |
+| JONES    |
+| MARTIN   |
+| BLAKE    |
+| CLARK    |
+| SCOTT    |
+| KING     |
+| FRED     |
+| TURNER   |
+| ADAMS    |
+| JAMES    |
+| FORD     |
+| HOFFMAN  |
+| GRASS    |
+| MILLER   |
+| AARUSH   |
+| ALEX     |
+| NATASHA  |
+| SANGITA  |
+| SUPRIYA  |
++----------+
+28 rows in set (0.00 sec)
+
+mysql>
+mysql> select ename `as`  from emp;
++----------+
+| as       |
++----------+
+| GITA     |
+| VRUSHALI |
+| SHARMIN  |
+| BANDISH  |
+| SMITH    |
+| AARAV    |
+| THOMAS   |
+| ALLEN    |
+| WARD     |
+| JONES    |
+| MARTIN   |
+| BLAKE    |
+| CLARK    |
+| SCOTT    |
+| KING     |
+| FRED     |
+| TURNER   |
+| ADAMS    |
+| JAMES    |
+| FORD     |
+| HOFFMAN  |
+| GRASS    |
+| MILLER   |
+| AARUSH   |
+| ALEX     |
+| NATASHA  |
+| SANGITA  |
+| SUPRIYA  |
++----------+
+28 rows in set (0.00 sec)
+
+mysql> select 1+2;
++-----+
+| 1+2 |
++-----+
+|   3 |
++-----+
+1 row in set (0.00 sec)
+
+mysql> select sal from emp;
++------+
+| sal  |
++------+
+| 1750 |
+| 1750 |
+| 1750 |
+| 1750 |
+|  800 |
+| 3350 |
+| 1750 |
+| 1600 |
+| 1250 |
+| 2975 |
+| 1250 |
+| 2850 |
+| 2450 |
+| 3000 |
+| 5000 |
+| 5000 |
+| 1500 |
+| 1100 |
+|  950 |
+| 3000 |
+| 4150 |
+| 2575 |
+| 1300 |
+| 1350 |
+| 1250 |
+| 1750 |
+| 1750 |
+| 1750 |
++------+
+28 rows in set (0.00 sec)
+
+mysql> select sal, sal+1000 from emp;
++------+----------+
+| sal  | sal+1000 |
++------+----------+
+| 1750 |     2750 |
+| 1750 |     2750 |
+| 1750 |     2750 |
+| 1750 |     2750 |
+|  800 |     1800 |
+| 3350 |     4350 |
+| 1750 |     2750 |
+| 1600 |     2600 |
+| 1250 |     2250 |
+| 2975 |     3975 |
+| 1250 |     2250 |
+| 2850 |     3850 |
+| 2450 |     3450 |
+| 3000 |     4000 |
+| 5000 |     6000 |
+| 5000 |     6000 |
+| 1500 |     2500 |
+| 1100 |     2100 |
+|  950 |     1950 |
+| 3000 |     4000 |
+| 4150 |     5150 |
+| 2575 |     3575 |
+| 1300 |     2300 |
+| 1350 |     2350 |
+| 1250 |     2250 |
+| 1750 |     2750 |
+| 1750 |     2750 |
+| 1750 |     2750 |
++------+----------+
+28 rows in set (0.00 sec)
+
+mysql> select sal, sal+1000 R1 from emp;
++------+------+
+| sal  | R1   |
++------+------+
+| 1750 | 2750 |
+| 1750 | 2750 |
+| 1750 | 2750 |
+| 1750 | 2750 |
+|  800 | 1800 |
+| 3350 | 4350 |
+| 1750 | 2750 |
+| 1600 | 2600 |
+| 1250 | 2250 |
+| 2975 | 3975 |
+| 1250 | 2250 |
+| 2850 | 3850 |
+| 2450 | 3450 |
+| 3000 | 4000 |
+| 5000 | 6000 |
+| 5000 | 6000 |
+| 1500 | 2500 |
+| 1100 | 2100 |
+|  950 | 1950 |
+| 3000 | 4000 |
+| 4150 | 5150 |
+| 2575 | 3575 |
+| 1300 | 2300 |
+| 1350 | 2350 |
+| 1250 | 2250 |
+| 1750 | 2750 |
+| 1750 | 2750 |
+| 1750 | 2750 |
++------+------+
+28 rows in set (0.00 sec)
+
+mysql> select sal, sal+1000 R1, sal+sal*.25 R2 from emp;
++------+------+---------+
+| sal  | R1   | R2      |
++------+------+---------+
+| 1750 | 2750 | 2187.50 |
+| 1750 | 2750 | 2187.50 |
+| 1750 | 2750 | 2187.50 |
+| 1750 | 2750 | 2187.50 |
+|  800 | 1800 | 1000.00 |
+| 3350 | 4350 | 4187.50 |
+| 1750 | 2750 | 2187.50 |
+| 1600 | 2600 | 2000.00 |
+| 1250 | 2250 | 1562.50 |
+| 2975 | 3975 | 3718.75 |
+| 1250 | 2250 | 1562.50 |
+| 2850 | 3850 | 3562.50 |
+| 2450 | 3450 | 3062.50 |
+| 3000 | 4000 | 3750.00 |
+| 5000 | 6000 | 6250.00 |
+| 5000 | 6000 | 6250.00 |
+| 1500 | 2500 | 1875.00 |
+| 1100 | 2100 | 1375.00 |
+|  950 | 1950 | 1187.50 |
+| 3000 | 4000 | 3750.00 |
+| 4150 | 5150 | 5187.50 |
+| 2575 | 3575 | 3218.75 |
+| 1300 | 2300 | 1625.00 |
+| 1350 | 2350 | 1687.50 |
+| 1250 | 2250 | 1562.50 |
+| 1750 | 2750 | 2187.50 |
+| 1750 | 2750 | 2187.50 |
+| 1750 | 2750 | 2187.50 |
++------+------+---------+
+28 rows in set (0.00 sec)
+
+mysql> select sal, 1000, R1, 2000 R2 from emp;
+ERROR 1054 (42S22): Unknown column 'R1' in 'field list'
+mysql> select sal, 1000 R1, 2000 R2 from emp;
++------+------+------+
+| sal  | R1   | R2   |
++------+------+------+
+| 1750 | 1000 | 2000 |
+| 1750 | 1000 | 2000 |
+| 1750 | 1000 | 2000 |
+| 1750 | 1000 | 2000 |
+|  800 | 1000 | 2000 |
+| 3350 | 1000 | 2000 |
+| 1750 | 1000 | 2000 |
+| 1600 | 1000 | 2000 |
+| 1250 | 1000 | 2000 |
+| 2975 | 1000 | 2000 |
+| 1250 | 1000 | 2000 |
+| 2850 | 1000 | 2000 |
+| 2450 | 1000 | 2000 |
+| 3000 | 1000 | 2000 |
+| 5000 | 1000 | 2000 |
+| 5000 | 1000 | 2000 |
+| 1500 | 1000 | 2000 |
+| 1100 | 1000 | 2000 |
+|  950 | 1000 | 2000 |
+| 3000 | 1000 | 2000 |
+| 4150 | 1000 | 2000 |
+| 2575 | 1000 | 2000 |
+| 1300 | 1000 | 2000 |
+| 1350 | 1000 | 2000 |
+| 1250 | 1000 | 2000 |
+| 1750 | 1000 | 2000 |
+| 1750 | 1000 | 2000 |
+| 1750 | 1000 | 2000 |
++------+------+------+
+28 rows in set (0.00 sec)
+
+mysql> select  1000 R1, 2000 R2;
++------+------+
+| R1   | R2   |
++------+------+
+| 1000 | 2000 |
++------+------+
+1 row in set (0.00 sec)
+
+mysql> select  1000 R1, 2000 R2, r1+r2;
+ERROR 1054 (42S22): Unknown column 'r1' in 'field list'
+mysql> select  1000 R1, 2000 R2, R1+R2;
+ERROR 1054 (42S22): Unknown column 'R1' in 'field list'
+mysql>
+mysql> select 10+20 R1;
++----+
+| R1 |
++----+
+| 30 |
++----+
+1 row in set (0.04 sec)
+
+mysql> select 10+'20' R1;
++----+
+| R1 |
++----+
+| 30 |
++----+
+1 row in set (0.01 sec)
+
+mysql> select 10+'20data' R1;
++----+
+| R1 |
++----+
+| 30 |
++----+
+1 row in set, 1 warning (0.00 sec)
+
+mysql> select 10+'data20' R1;
++----+
+| R1 |
++----+
+| 10 |
++----+
+1 row in set, 1 warning (0.00 sec)
+
+mysql> select -1 - -1;
++---------+
+| -1 - -1 |
++---------+
+|       0 |
++---------+
+1 row in set (0.01 sec)
+
+mysql> select -1 - -2;
++---------+
+| -1 - -2 |
++---------+
+|       1 |
++---------+
+1 row in set (0.01 sec)
+
+mysql> select 1 - -2;
++--------+
+| 1 - -2 |
++--------+
+|      3 |
++--------+
+1 row in set (0.00 sec)
+
+mysql> select 123 * 1;
++---------+
+| 123 * 1 |
++---------+
+|     123 |
++---------+
+1 row in set (0.00 sec)
+
+mysql> select 123 * -1;
++----------+
+| 123 * -1 |
++----------+
+|     -123 |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select 123/1;
++----------+
+| 123/1    |
++----------+
+| 123.0000 |
++----------+
+1 row in set (0.01 sec)
+
+mysql> select 123/0;
++-------+
+| 123/0 |
++-------+
+|  NULL |
++-------+
+1 row in set, 1 warning (0.00 sec)
+
+mysql> select 4 * 0;
++-------+
+| 4 * 0 |
++-------+
+|     0 |
++-------+
+1 row in set (0.00 sec)
+
+mysql> select 4 * null;
++----------+
+| 4 * null |
++----------+
+|     NULL |
++----------+
+1 row in set (0.00 sec)
+
+mysql> select 10 + null;
++-----------+
+| 10 + null |
++-----------+
+|      NULL |
++-----------+
+1 row in set (0.00 sec)
+
+mysql> select 10 + null + 10 ;
++----------------+
+| 10 + null + 10 |
++----------------+
+|           NULL |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> select 10 + 10 + null + 10 ;
++---------------------+
+| 10 + 10 + null + 10 |
++---------------------+
+|                NULL |
++---------------------+
+1 row in set (0.01 sec)
+
+mysql> select sal, comm from emp;
++------+------+
+| sal  | comm |
++------+------+
+| 1750 | NULL |
+| 1750 | NULL |
+| 1750 | NULL |
+| 1750 | NULL |
+|  800 | NULL |
+| 3350 | NULL |
+| 1750 | NULL |
+| 1600 |  300 |
+| 1250 |  500 |
+| 2975 | NULL |
+| 1250 | 1400 |
+| 2850 | NULL |
+| 2450 | NULL |
+| 3000 | NULL |
+| 5000 | NULL |
+| 5000 | NULL |
+| 1500 |    0 |
+| 1100 | NULL |
+|  950 | NULL |
+| 3000 | NULL |
+| 4150 | NULL |
+| 2575 | 2700 |
+| 1300 | NULL |
+| 1350 | 2700 |
+| 1250 |  500 |
+| 1750 | NULL |
+| 1750 | NULL |
+| 1750 | NULL |
++------+------+
+28 rows in set (0.03 sec)
+
+mysql> select sal, comm, sal + comm R1 from emp;
++------+------+------+
+| sal  | comm | R1   |
++------+------+------+
+| 1750 | NULL | NULL |
+| 1750 | NULL | NULL |
+| 1750 | NULL | NULL |
+| 1750 | NULL | NULL |
+|  800 | NULL | NULL |
+| 3350 | NULL | NULL |
+| 1750 | NULL | NULL |
+| 1600 |  300 | 1900 |
+| 1250 |  500 | 1750 |
+| 2975 | NULL | NULL |
+| 1250 | 1400 | 2650 |
+| 2850 | NULL | NULL |
+| 2450 | NULL | NULL |
+| 3000 | NULL | NULL |
+| 5000 | NULL | NULL |
+| 5000 | NULL | NULL |
+| 1500 |    0 | 1500 |
+| 1100 | NULL | NULL |
+|  950 | NULL | NULL |
+| 3000 | NULL | NULL |
+| 4150 | NULL | NULL |
+| 2575 | 2700 | 5275 |
+| 1300 | NULL | NULL |
+| 1350 | 2700 | 4050 |
+| 1250 |  500 | 1750 |
+| 1750 | NULL | NULL |
+| 1750 | NULL | NULL |
+| 1750 | NULL | NULL |
++------+------+------+
+28 rows in set (0.01 sec)
+
+mysql> select sal, comm, ifnull(null, -1) R1 from emp;
++------+------+----+
+| sal  | comm | R1 |
++------+------+----+
+| 1750 | NULL | -1 |
+| 1750 | NULL | -1 |
+| 1750 | NULL | -1 |
+| 1750 | NULL | -1 |
+|  800 | NULL | -1 |
+| 3350 | NULL | -1 |
+| 1750 | NULL | -1 |
+| 1600 |  300 | -1 |
+| 1250 |  500 | -1 |
+| 2975 | NULL | -1 |
+| 1250 | 1400 | -1 |
+| 2850 | NULL | -1 |
+| 2450 | NULL | -1 |
+| 3000 | NULL | -1 |
+| 5000 | NULL | -1 |
+| 5000 | NULL | -1 |
+| 1500 |    0 | -1 |
+| 1100 | NULL | -1 |
+|  950 | NULL | -1 |
+| 3000 | NULL | -1 |
+| 4150 | NULL | -1 |
+| 2575 | 2700 | -1 |
+| 1300 | NULL | -1 |
+| 1350 | 2700 | -1 |
+| 1250 |  500 | -1 |
+| 1750 | NULL | -1 |
+| 1750 | NULL | -1 |
+| 1750 | NULL | -1 |
++------+------+----+
+28 rows in set (0.01 sec)
+
+mysql> select sal, comm, ifnull(comm, -1) R1 from emp;
++------+------+------+
+| sal  | comm | R1   |
++------+------+------+
+| 1750 | NULL |   -1 |
+| 1750 | NULL |   -1 |
+| 1750 | NULL |   -1 |
+| 1750 | NULL |   -1 |
+|  800 | NULL |   -1 |
+| 3350 | NULL |   -1 |
+| 1750 | NULL |   -1 |
+| 1600 |  300 |  300 |
+| 1250 |  500 |  500 |
+| 2975 | NULL |   -1 |
+| 1250 | 1400 | 1400 |
+| 2850 | NULL |   -1 |
+| 2450 | NULL |   -1 |
+| 3000 | NULL |   -1 |
+| 5000 | NULL |   -1 |
+| 5000 | NULL |   -1 |
+| 1500 |    0 |    0 |
+| 1100 | NULL |   -1 |
+|  950 | NULL |   -1 |
+| 3000 | NULL |   -1 |
+| 4150 | NULL |   -1 |
+| 2575 | 2700 | 2700 |
+| 1300 | NULL |   -1 |
+| 1350 | 2700 | 2700 |
+| 1250 |  500 |  500 |
+| 1750 | NULL |   -1 |
+| 1750 | NULL |   -1 |
+| 1750 | NULL |   -1 |
++------+------+------+
+28 rows in set (0.00 sec)
+
+mysql> select sal, comm, ifnull(comm, 0) + sal R1 from emp;
++------+------+------+
+| sal  | comm | R1   |
++------+------+------+
+| 1750 | NULL | 1750 |
+| 1750 | NULL | 1750 |
+| 1750 | NULL | 1750 |
+| 1750 | NULL | 1750 |
+|  800 | NULL |  800 |
+| 3350 | NULL | 3350 |
+| 1750 | NULL | 1750 |
+| 1600 |  300 | 1900 |
+| 1250 |  500 | 1750 |
+| 2975 | NULL | 2975 |
+| 1250 | 1400 | 2650 |
+| 2850 | NULL | 2850 |
+| 2450 | NULL | 2450 |
+| 3000 | NULL | 3000 |
+| 5000 | NULL | 5000 |
+| 5000 | NULL | 5000 |
+| 1500 |    0 | 1500 |
+| 1100 | NULL | 1100 |
+|  950 | NULL |  950 |
+| 3000 | NULL | 3000 |
+| 4150 | NULL | 4150 |
+| 2575 | 2700 | 5275 |
+| 1300 | NULL | 1300 |
+| 1350 | 2700 | 4050 |
+| 1250 |  500 | 1750 |
+| 1750 | NULL | 1750 |
+| 1750 | NULL | 1750 |
+| 1750 | NULL | 1750 |
++------+------+------+
+28 rows in set (0.01 sec)
+
+mysql> select * from numberstring;
++---------------+
+| c1            |
++---------------+
+| 1saleel       |
+| 34sharmin     |
+| 56731vrushali |
+| 6001GITA      |
+| 6129VRUSHALI  |
+| 6473SHARMIN   |
+| 6781BANDISH   |
+| 7369SMITH     |
+| 7415AARAV     |
+| 7421THOMAS    |
+| 743ruhan      |
+| 7499ALLEN     |
+| 7521WARD      |
+| 7566JONES     |
+| 7654MARTIN    |
+| 7657822ajay   |
+| 7698BLAKE     |
+| 7782CLARK     |
+| 7788SCOTT     |
+| 7839KING      |
+| 7840FRED      |
+| 7844TURNER    |
+| 7876ADAMS     |
+| 7900JAMES     |
+| 7902FORD      |
+| 7919HOFFMAN   |
+| 7920GRASS     |
+| 7934MILLER    |
+| 7945AARUSH    |
+| 7949ALEX      |
+| 836379bandish |
+| 8433NATASHA   |
+| 9400SANGITA   |
+| 9473SUPRIYA   |
++---------------+
+34 rows in set (0.02 sec)
+
+mysql> select c1 from numberstring;
++---------------+
+| c1            |
++---------------+
+| 1saleel       |
+| 34sharmin     |
+| 56731vrushali |
+| 6001GITA      |
+| 6129VRUSHALI  |
+| 6473SHARMIN   |
+| 6781BANDISH   |
+| 7369SMITH     |
+| 7415AARAV     |
+| 7421THOMAS    |
+| 743ruhan      |
+| 7499ALLEN     |
+| 7521WARD      |
+| 7566JONES     |
+| 7654MARTIN    |
+| 7657822ajay   |
+| 7698BLAKE     |
+| 7782CLARK     |
+| 7788SCOTT     |
+| 7839KING      |
+| 7840FRED      |
+| 7844TURNER    |
+| 7876ADAMS     |
+| 7900JAMES     |
+| 7902FORD      |
+| 7919HOFFMAN   |
+| 7920GRASS     |
+| 7934MILLER    |
+| 7945AARUSH    |
+| 7949ALEX      |
+| 836379bandish |
+| 8433NATASHA   |
+| 9400SANGITA   |
+| 9473SUPRIYA   |
++---------------+
+34 rows in set (0.00 sec)
+
+mysql> select c1, c1/1 R1 from numberstring;
++---------------+---------+
+| c1            | R1      |
++---------------+---------+
+| 1saleel       |       1 |
+| 34sharmin     |      34 |
+| 56731vrushali |   56731 |
+| 6001GITA      |    6001 |
+| 6129VRUSHALI  |    6129 |
+| 6473SHARMIN   |    6473 |
+| 6781BANDISH   |    6781 |
+| 7369SMITH     |    7369 |
+| 7415AARAV     |    7415 |
+| 7421THOMAS    |    7421 |
+| 743ruhan      |     743 |
+| 7499ALLEN     |    7499 |
+| 7521WARD      |    7521 |
+| 7566JONES     |    7566 |
+| 7654MARTIN    |    7654 |
+| 7657822ajay   | 7657822 |
+| 7698BLAKE     |    7698 |
+| 7782CLARK     |    7782 |
+| 7788SCOTT     |    7788 |
+| 7839KING      |    7839 |
+| 7840FRED      |    7840 |
+| 7844TURNER    |    7844 |
+| 7876ADAMS     |    7876 |
+| 7900JAMES     |    7900 |
+| 7902FORD      |    7902 |
+| 7919HOFFMAN   |    7919 |
+| 7920GRASS     |    7920 |
+| 7934MILLER    |    7934 |
+| 7945AARUSH    |    7945 |
+| 7949ALEX      |    7949 |
+| 836379bandish |  836379 |
+| 8433NATASHA   |    8433 |
+| 9400SANGITA   |    9400 |
+| 9473SUPRIYA   |    9473 |
++---------------+---------+
+34 rows in set, 34 warnings (0.01 sec)
+
+mysql> select c1, c1/1 R1, length(c1/1) R1 from numberstring;
++---------------+---------+------+
+| c1            | R1      | R1   |
++---------------+---------+------+
+| 1saleel       |       1 |    1 |
+| 34sharmin     |      34 |    2 |
+| 56731vrushali |   56731 |    5 |
+| 6001GITA      |    6001 |    4 |
+| 6129VRUSHALI  |    6129 |    4 |
+| 6473SHARMIN   |    6473 |    4 |
+| 6781BANDISH   |    6781 |    4 |
+| 7369SMITH     |    7369 |    4 |
+| 7415AARAV     |    7415 |    4 |
+| 7421THOMAS    |    7421 |    4 |
+| 743ruhan      |     743 |    3 |
+| 7499ALLEN     |    7499 |    4 |
+| 7521WARD      |    7521 |    4 |
+| 7566JONES     |    7566 |    4 |
+| 7654MARTIN    |    7654 |    4 |
+| 7657822ajay   | 7657822 |    7 |
+| 7698BLAKE     |    7698 |    4 |
+| 7782CLARK     |    7782 |    4 |
+| 7788SCOTT     |    7788 |    4 |
+| 7839KING      |    7839 |    4 |
+| 7840FRED      |    7840 |    4 |
+| 7844TURNER    |    7844 |    4 |
+| 7876ADAMS     |    7876 |    4 |
+| 7900JAMES     |    7900 |    4 |
+| 7902FORD      |    7902 |    4 |
+| 7919HOFFMAN   |    7919 |    4 |
+| 7920GRASS     |    7920 |    4 |
+| 7934MILLER    |    7934 |    4 |
+| 7945AARUSH    |    7945 |    4 |
+| 7949ALEX      |    7949 |    4 |
+| 836379bandish |  836379 |    6 |
+| 8433NATASHA   |    8433 |    4 |
+| 9400SANGITA   |    9400 |    4 |
+| 9473SUPRIYA   |    9473 |    4 |
++---------------+---------+------+
+34 rows in set, 68 warnings (0.01 sec)
+
+mysql> select c1, length(c1) R1, c1/1 R2, length(c1/1) R3 from numberstring;
++---------------+----+---------+------+
+| c1            | R1 | R2      | R3   |
++---------------+----+---------+------+
+| 1saleel       |  7 |       1 |    1 |
+| 34sharmin     |  9 |      34 |    2 |
+| 56731vrushali | 13 |   56731 |    5 |
+| 6001GITA      |  8 |    6001 |    4 |
+| 6129VRUSHALI  | 12 |    6129 |    4 |
+| 6473SHARMIN   | 11 |    6473 |    4 |
+| 6781BANDISH   | 11 |    6781 |    4 |
+| 7369SMITH     |  9 |    7369 |    4 |
+| 7415AARAV     |  9 |    7415 |    4 |
+| 7421THOMAS    | 10 |    7421 |    4 |
+| 743ruhan      |  8 |     743 |    3 |
+| 7499ALLEN     |  9 |    7499 |    4 |
+| 7521WARD      |  8 |    7521 |    4 |
+| 7566JONES     |  9 |    7566 |    4 |
+| 7654MARTIN    | 10 |    7654 |    4 |
+| 7657822ajay   | 11 | 7657822 |    7 |
+| 7698BLAKE     |  9 |    7698 |    4 |
+| 7782CLARK     |  9 |    7782 |    4 |
+| 7788SCOTT     |  9 |    7788 |    4 |
+| 7839KING      |  8 |    7839 |    4 |
+| 7840FRED      |  8 |    7840 |    4 |
+| 7844TURNER    | 10 |    7844 |    4 |
+| 7876ADAMS     |  9 |    7876 |    4 |
+| 7900JAMES     |  9 |    7900 |    4 |
+| 7902FORD      |  8 |    7902 |    4 |
+| 7919HOFFMAN   | 11 |    7919 |    4 |
+| 7920GRASS     |  9 |    7920 |    4 |
+| 7934MILLER    | 10 |    7934 |    4 |
+| 7945AARUSH    | 10 |    7945 |    4 |
+| 7949ALEX      |  8 |    7949 |    4 |
+| 836379bandish | 13 |  836379 |    6 |
+| 8433NATASHA   | 11 |    8433 |    4 |
+| 9400SANGITA   | 11 |    9400 |    4 |
+| 9473SUPRIYA   | 11 |    9473 |    4 |
++---------------+----+---------+------+
+34 rows in set, 68 warnings (0.00 sec)
+
+mysql> create databas y;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near 'databas y' at line 1
+mysql> create database y;
+Query OK, 1 row affected (0.05 sec)
+
+mysql> select * from dept;
++--------+------------+----------+------------+------------+
+| DEPTNO | DNAME      | LOC      | PWD        | STARTEDON  |
++--------+------------+----------+------------+------------+
+|     10 | ACCOUNTING | NEW YORK | r50mpm     | 24/03/1989 |
+|     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 |
+|     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 |
+|     40 | OPERATIONS | BOSTON   | opr@123    | 12/07/1989 |
+|     50 | HR         | PUNE     | PUN@8877   | 22/12/1989 |
++--------+------------+----------+------------+------------+
+5 rows in set (0.01 sec)
+
+mysql> use y;
+Database changed
+mysql> select * from dept;
+ERROR 1146 (42S02): Table 'y.dept' doesn't exist
+mysql> select * from x.dept;
++--------+------------+----------+------------+------------+
+| DEPTNO | DNAME      | LOC      | PWD        | STARTEDON  |
++--------+------------+----------+------------+------------+
+|     10 | ACCOUNTING | NEW YORK | r50mpm     | 24/03/1989 |
+|     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 |
+|     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 |
+|     40 | OPERATIONS | BOSTON   | opr@123    | 12/07/1989 |
+|     50 | HR         | PUNE     | PUN@8877   | 22/12/1989 |
++--------+------------+----------+------------+------------+
+5 rows in set (0.00 sec)
+
+mysql> select * from dept;
+ERROR 1146 (42S02): Table 'y.dept' doesn't exist
+mysql> select ename from x.emp;
++----------+
+| ename    |
++----------+
+| GITA     |
+| VRUSHALI |
+| SHARMIN  |
+| BANDISH  |
+| SMITH    |
+| AARAV    |
+| THOMAS   |
+| ALLEN    |
+| WARD     |
+| JONES    |
+| MARTIN   |
+| BLAKE    |
+| CLARK    |
+| SCOTT    |
+| KING     |
+| FRED     |
+| TURNER   |
+| ADAMS    |
+| JAMES    |
+| FORD     |
+| HOFFMAN  |
+| GRASS    |
+| MILLER   |
+| AARUSH   |
+| ALEX     |
+| NATASHA  |
+| SANGITA  |
+| SUPRIYA  |
++----------+
+28 rows in set (0.00 sec)
+
+mysql> use x;
+Database changed
+mysql> select comm from emp;
++------+
+| comm |
++------+
+| NULL |
+| NULL |
+| NULL |
+| NULL |
+| NULL |
+| NULL |
+| NULL |
+|  300 |
+|  500 |
+| NULL |
+| 1400 |
+| NULL |
+| NULL |
+| NULL |
+| NULL |
+| NULL |
+|    0 |
+| NULL |
+| NULL |
+| NULL |
+| NULL |
+| 2700 |
+| NULL |
+| 2700 |
+|  500 |
+| NULL |
+| NULL |
+| NULL |
++------+
+28 rows in set (0.00 sec)
+
+mysql> select comm, ifnull(comm, 'N/A') from emp;
++------+---------------------+
+| comm | ifnull(comm, 'N/A') |
++------+---------------------+
+| NULL | N/A                 |
+| NULL | N/A                 |
+| NULL | N/A                 |
+| NULL | N/A                 |
+| NULL | N/A                 |
+| NULL | N/A                 |
+| NULL | N/A                 |
+|  300 | 300                 |
+|  500 | 500                 |
+| NULL | N/A                 |
+| 1400 | 1400                |
+| NULL | N/A                 |
+| NULL | N/A                 |
+| NULL | N/A                 |
+| NULL | N/A                 |
+| NULL | N/A                 |
+|    0 | 0                   |
+| NULL | N/A                 |
+| NULL | N/A                 |
+| NULL | N/A                 |
+| NULL | N/A                 |
+| 2700 | 2700                |
+| NULL | N/A                 |
+| 2700 | 2700                |
+|  500 | 500                 |
+| NULL | N/A                 |
+| NULL | N/A                 |
+| NULL | N/A                 |
++------+---------------------+
+28 rows in set (0.00 sec)
+
+mysql> select ename, job, comm, ifnull(comm, 'N/A') from emp;
++----------+---------------------+------+---------------------+
+| ename    | job                 | comm | ifnull(comm, 'N/A') |
++----------+---------------------+------+---------------------+
+| GITA     | Compliance officers | NULL | N/A                 |
+| VRUSHALI | Compliance officers | NULL | N/A                 |
+| SHARMIN  | Public Relation     | NULL | N/A                 |
+| BANDISH  | Public Relation     | NULL | N/A                 |
+| SMITH    | CLERK               | NULL | N/A                 |
+| AARAV    | CLERK               | NULL | N/A                 |
+| THOMAS   | CLERK               | NULL | N/A                 |
+| ALLEN    | SALESMAN            |  300 | 300                 |
+| WARD     | SALESMAN            |  500 | 500                 |
+| JONES    | MANAGER             | NULL | N/A                 |
+| MARTIN   | SALESMAN            | 1400 | 1400                |
+| BLAKE    | MANAGER             | NULL | N/A                 |
+| CLARK    | MANAGER             | NULL | N/A                 |
+| SCOTT    | ANALYST             | NULL | N/A                 |
+| KING     | PRESIDENT           | NULL | N/A                 |
+| FRED     | vice PRESIDENT      | NULL | N/A                 |
+| TURNER   | SALESMAN            |    0 | 0                   |
+| ADAMS    | CLERK               | NULL | N/A                 |
+| JAMES    | CLERK               | NULL | N/A                 |
+| FORD     | ANALYST             | NULL | N/A                 |
+| HOFFMAN  | MANAGER             | NULL | N/A                 |
+| GRASS    | SALESMAN            | 2700 | 2700                |
+| MILLER   | CLERK               | NULL | N/A                 |
+| AARUSH   | SALESMAN            | 2700 | 2700                |
+| ALEX     | MANAGER             |  500 | 500                 |
+| NATASHA  | CLERK               | NULL | N/A                 |
+| SANGITA  | Compliance officers | NULL | N/A                 |
+| SUPRIYA  | ANALYST             | NULL | N/A                 |
++----------+---------------------+------+---------------------+
+28 rows in set (0.01 sec)
+
+mysql> select ename, job, comm, ifnull(comm, 8) from emp;
++----------+---------------------+------+-----------------+
+| ename    | job                 | comm | ifnull(comm, 8) |
++----------+---------------------+------+-----------------+
+| GITA     | Compliance officers | NULL |               8 |
+| VRUSHALI | Compliance officers | NULL |               8 |
+| SHARMIN  | Public Relation     | NULL |               8 |
+| BANDISH  | Public Relation     | NULL |               8 |
+| SMITH    | CLERK               | NULL |               8 |
+| AARAV    | CLERK               | NULL |               8 |
+| THOMAS   | CLERK               | NULL |               8 |
+| ALLEN    | SALESMAN            |  300 |             300 |
+| WARD     | SALESMAN            |  500 |             500 |
+| JONES    | MANAGER             | NULL |               8 |
+| MARTIN   | SALESMAN            | 1400 |            1400 |
+| BLAKE    | MANAGER             | NULL |               8 |
+| CLARK    | MANAGER             | NULL |               8 |
+| SCOTT    | ANALYST             | NULL |               8 |
+| KING     | PRESIDENT           | NULL |               8 |
+| FRED     | vice PRESIDENT      | NULL |               8 |
+| TURNER   | SALESMAN            |    0 |               0 |
+| ADAMS    | CLERK               | NULL |               8 |
+| JAMES    | CLERK               | NULL |               8 |
+| FORD     | ANALYST             | NULL |               8 |
+| HOFFMAN  | MANAGER             | NULL |               8 |
+| GRASS    | SALESMAN            | 2700 |            2700 |
+| MILLER   | CLERK               | NULL |               8 |
+| AARUSH   | SALESMAN            | 2700 |            2700 |
+| ALEX     | MANAGER             |  500 |             500 |
+| NATASHA  | CLERK               | NULL |               8 |
+| SANGITA  | Compliance officers | NULL |               8 |
+| SUPRIYA  | ANALYST             | NULL |               8 |
++----------+---------------------+------+-----------------+
+28 rows in set (0.00 sec)
+
+mysql> select ename, sal, if(sal>2000, 'Good','Bad') R1 from emp;
++----------+------+------+
+| ename    | sal  | R1   |
++----------+------+------+
+| GITA     | 1750 | Bad  |
+| VRUSHALI | 1750 | Bad  |
+| SHARMIN  | 1750 | Bad  |
+| BANDISH  | 1750 | Bad  |
+| SMITH    |  800 | Bad  |
+| AARAV    | 3350 | Good |
+| THOMAS   | 1750 | Bad  |
+| ALLEN    | 1600 | Bad  |
+| WARD     | 1250 | Bad  |
+| JONES    | 2975 | Good |
+| MARTIN   | 1250 | Bad  |
+| BLAKE    | 2850 | Good |
+| CLARK    | 2450 | Good |
+| SCOTT    | 3000 | Good |
+| KING     | 5000 | Good |
+| FRED     | 5000 | Good |
+| TURNER   | 1500 | Bad  |
+| ADAMS    | 1100 | Bad  |
+| JAMES    |  950 | Bad  |
+| FORD     | 3000 | Good |
+| HOFFMAN  | 4150 | Good |
+| GRASS    | 2575 | Good |
+| MILLER   | 1300 | Bad  |
+| AARUSH   | 1350 | Bad  |
+| ALEX     | 1250 | Bad  |
+| NATASHA  | 1750 | Bad  |
+| SANGITA  | 1750 | Bad  |
+| SUPRIYA  | 1750 | Bad  |
++----------+------+------+
+28 rows in set (0.01 sec)
+
+mysql> select ename, sal, if(job='manager', sal+1000, -1) R1 from emp;
++----------+------+------+
+| ename    | sal  | R1   |
++----------+------+------+
+| GITA     | 1750 |   -1 |
+| VRUSHALI | 1750 |   -1 |
+| SHARMIN  | 1750 |   -1 |
+| BANDISH  | 1750 |   -1 |
+| SMITH    |  800 |   -1 |
+| AARAV    | 3350 |   -1 |
+| THOMAS   | 1750 |   -1 |
+| ALLEN    | 1600 |   -1 |
+| WARD     | 1250 |   -1 |
+| JONES    | 2975 | 3975 |
+| MARTIN   | 1250 |   -1 |
+| BLAKE    | 2850 | 3850 |
+| CLARK    | 2450 | 3450 |
+| SCOTT    | 3000 |   -1 |
+| KING     | 5000 |   -1 |
+| FRED     | 5000 |   -1 |
+| TURNER   | 1500 |   -1 |
+| ADAMS    | 1100 |   -1 |
+| JAMES    |  950 |   -1 |
+| FORD     | 3000 |   -1 |
+| HOFFMAN  | 4150 | 5150 |
+| GRASS    | 2575 |   -1 |
+| MILLER   | 1300 |   -1 |
+| AARUSH   | 1350 |   -1 |
+| ALEX     | 1250 | 2250 |
+| NATASHA  | 1750 |   -1 |
+| SANGITA  | 1750 |   -1 |
+| SUPRIYA  | 1750 |   -1 |
++----------+------+------+
+28 rows in set (0.00 sec)
+
+mysql> select ename, job, sal, if(job='manager', sal+1000, -1) R1 from emp;
++----------+---------------------+------+------+
+| ename    | job                 | sal  | R1   |
++----------+---------------------+------+------+
+| GITA     | Compliance officers | 1750 |   -1 |
+| VRUSHALI | Compliance officers | 1750 |   -1 |
+| SHARMIN  | Public Relation     | 1750 |   -1 |
+| BANDISH  | Public Relation     | 1750 |   -1 |
+| SMITH    | CLERK               |  800 |   -1 |
+| AARAV    | CLERK               | 3350 |   -1 |
+| THOMAS   | CLERK               | 1750 |   -1 |
+| ALLEN    | SALESMAN            | 1600 |   -1 |
+| WARD     | SALESMAN            | 1250 |   -1 |
+| JONES    | MANAGER             | 2975 | 3975 |
+| MARTIN   | SALESMAN            | 1250 |   -1 |
+| BLAKE    | MANAGER             | 2850 | 3850 |
+| CLARK    | MANAGER             | 2450 | 3450 |
+| SCOTT    | ANALYST             | 3000 |   -1 |
+| KING     | PRESIDENT           | 5000 |   -1 |
+| FRED     | vice PRESIDENT      | 5000 |   -1 |
+| TURNER   | SALESMAN            | 1500 |   -1 |
+| ADAMS    | CLERK               | 1100 |   -1 |
+| JAMES    | CLERK               |  950 |   -1 |
+| FORD     | ANALYST             | 3000 |   -1 |
+| HOFFMAN  | MANAGER             | 4150 | 5150 |
+| GRASS    | SALESMAN            | 2575 |   -1 |
+| MILLER   | CLERK               | 1300 |   -1 |
+| AARUSH   | SALESMAN            | 1350 |   -1 |
+| ALEX     | MANAGER             | 1250 | 2250 |
+| NATASHA  | CLERK               | 1750 |   -1 |
+| SANGITA  | Compliance officers | 1750 |   -1 |
+| SUPRIYA  | ANALYST             | 1750 |   -1 |
++----------+---------------------+------+------+
+28 rows in set (0.01 sec)
+
+mysql> select ename, job, sal, comm from emp;
++----------+---------------------+------+------+
+| ename    | job                 | sal  | comm |
++----------+---------------------+------+------+
+| GITA     | Compliance officers | 1750 | NULL |
+| VRUSHALI | Compliance officers | 1750 | NULL |
+| SHARMIN  | Public Relation     | 1750 | NULL |
+| BANDISH  | Public Relation     | 1750 | NULL |
+| SMITH    | CLERK               |  800 | NULL |
+| AARAV    | CLERK               | 3350 | NULL |
+| THOMAS   | CLERK               | 1750 | NULL |
+| ALLEN    | SALESMAN            | 1600 |  300 |
+| WARD     | SALESMAN            | 1250 |  500 |
+| JONES    | MANAGER             | 2975 | NULL |
+| MARTIN   | SALESMAN            | 1250 | 1400 |
+| BLAKE    | MANAGER             | 2850 | NULL |
+| CLARK    | MANAGER             | 2450 | NULL |
+| SCOTT    | ANALYST             | 3000 | NULL |
+| KING     | PRESIDENT           | 5000 | NULL |
+| FRED     | vice PRESIDENT      | 5000 | NULL |
+| TURNER   | SALESMAN            | 1500 |    0 |
+| ADAMS    | CLERK               | 1100 | NULL |
+| JAMES    | CLERK               |  950 | NULL |
+| FORD     | ANALYST             | 3000 | NULL |
+| HOFFMAN  | MANAGER             | 4150 | NULL |
+| GRASS    | SALESMAN            | 2575 | 2700 |
+| MILLER   | CLERK               | 1300 | NULL |
+| AARUSH   | SALESMAN            | 1350 | 2700 |
+| ALEX     | MANAGER             | 1250 |  500 |
+| NATASHA  | CLERK               | 1750 | NULL |
+| SANGITA  | Compliance officers | 1750 | NULL |
+| SUPRIYA  | ANALYST             | 1750 | NULL |
++----------+---------------------+------+------+
+28 rows in set (0.00 sec)
+
+mysql> select ename, job, sal, comm, if(comm=null, -1, comm+1000) R1 from emp;
++----------+---------------------+------+------+------+
+| ename    | job                 | sal  | comm | R1   |
++----------+---------------------+------+------+------+
+| GITA     | Compliance officers | 1750 | NULL | NULL |
+| VRUSHALI | Compliance officers | 1750 | NULL | NULL |
+| SHARMIN  | Public Relation     | 1750 | NULL | NULL |
+| BANDISH  | Public Relation     | 1750 | NULL | NULL |
+| SMITH    | CLERK               |  800 | NULL | NULL |
+| AARAV    | CLERK               | 3350 | NULL | NULL |
+| THOMAS   | CLERK               | 1750 | NULL | NULL |
+| ALLEN    | SALESMAN            | 1600 |  300 | 1300 |
+| WARD     | SALESMAN            | 1250 |  500 | 1500 |
+| JONES    | MANAGER             | 2975 | NULL | NULL |
+| MARTIN   | SALESMAN            | 1250 | 1400 | 2400 |
+| BLAKE    | MANAGER             | 2850 | NULL | NULL |
+| CLARK    | MANAGER             | 2450 | NULL | NULL |
+| SCOTT    | ANALYST             | 3000 | NULL | NULL |
+| KING     | PRESIDENT           | 5000 | NULL | NULL |
+| FRED     | vice PRESIDENT      | 5000 | NULL | NULL |
+| TURNER   | SALESMAN            | 1500 |    0 | 1000 |
+| ADAMS    | CLERK               | 1100 | NULL | NULL |
+| JAMES    | CLERK               |  950 | NULL | NULL |
+| FORD     | ANALYST             | 3000 | NULL | NULL |
+| HOFFMAN  | MANAGER             | 4150 | NULL | NULL |
+| GRASS    | SALESMAN            | 2575 | 2700 | 3700 |
+| MILLER   | CLERK               | 1300 | NULL | NULL |
+| AARUSH   | SALESMAN            | 1350 | 2700 | 3700 |
+| ALEX     | MANAGER             | 1250 |  500 | 1500 |
+| NATASHA  | CLERK               | 1750 | NULL | NULL |
+| SANGITA  | Compliance officers | 1750 | NULL | NULL |
+| SUPRIYA  | ANALYST             | 1750 | NULL | NULL |
++----------+---------------------+------+------+------+
+28 rows in set (0.01 sec)
+
+mysql>
+mysql>
+mysql> select ename, job, sal, comm, if(comm is null, -1, comm+1000) R1 from emp;
++----------+---------------------+------+------+------+
+| ename    | job                 | sal  | comm | R1   |
++----------+---------------------+------+------+------+
+| GITA     | Compliance officers | 1750 | NULL |   -1 |
+| VRUSHALI | Compliance officers | 1750 | NULL |   -1 |
+| SHARMIN  | Public Relation     | 1750 | NULL |   -1 |
+| BANDISH  | Public Relation     | 1750 | NULL |   -1 |
+| SMITH    | CLERK               |  800 | NULL |   -1 |
+| AARAV    | CLERK               | 3350 | NULL |   -1 |
+| THOMAS   | CLERK               | 1750 | NULL |   -1 |
+| ALLEN    | SALESMAN            | 1600 |  300 | 1300 |
+| WARD     | SALESMAN            | 1250 |  500 | 1500 |
+| JONES    | MANAGER             | 2975 | NULL |   -1 |
+| MARTIN   | SALESMAN            | 1250 | 1400 | 2400 |
+| BLAKE    | MANAGER             | 2850 | NULL |   -1 |
+| CLARK    | MANAGER             | 2450 | NULL |   -1 |
+| SCOTT    | ANALYST             | 3000 | NULL |   -1 |
+| KING     | PRESIDENT           | 5000 | NULL |   -1 |
+| FRED     | vice PRESIDENT      | 5000 | NULL |   -1 |
+| TURNER   | SALESMAN            | 1500 |    0 | 1000 |
+| ADAMS    | CLERK               | 1100 | NULL |   -1 |
+| JAMES    | CLERK               |  950 | NULL |   -1 |
+| FORD     | ANALYST             | 3000 | NULL |   -1 |
+| HOFFMAN  | MANAGER             | 4150 | NULL |   -1 |
+| GRASS    | SALESMAN            | 2575 | 2700 | 3700 |
+| MILLER   | CLERK               | 1300 | NULL |   -1 |
+| AARUSH   | SALESMAN            | 1350 | 2700 | 3700 |
+| ALEX     | MANAGER             | 1250 |  500 | 1500 |
+| NATASHA  | CLERK               | 1750 | NULL |   -1 |
+| SANGITA  | Compliance officers | 1750 | NULL |   -1 |
+| SUPRIYA  | ANALYST             | 1750 | NULL |   -1 |
++----------+---------------------+------+------+------+
+28 rows in set (0.01 sec)
+
+mysql> select nullif(10,10);
++---------------+
+| nullif(10,10) |
++---------------+
+|          NULL |
++---------------+
+1 row in set (0.01 sec)
+
+mysql> select nullif(10,100);
++----------------+
+| nullif(10,100) |
++----------------+
+|             10 |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> select nullif(100,10);
++----------------+
+| nullif(100,10) |
++----------------+
+|            100 |
++----------------+
+1 row in set (0.00 sec)
+
+mysql> select nullif(100, null);
++-------------------+
+| nullif(100, null) |
++-------------------+
+|               100 |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> select nullif(null, 100);
++-------------------+
+| nullif(null, 100) |
++-------------------+
+|              NULL |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> select nullif(null, null);
++--------------------+
+| nullif(null, null) |
++--------------------+
+|               NULL |
++--------------------+
+1 row in set (0.00 sec)
+
+mysql> select nullif('A', 'a');
++------------------+
+| nullif('A', 'a') |
++------------------+
+| NULL             |
++------------------+
+1 row in set (0.00 sec)
+
+mysql> select nullif('A', 'ab');
++-------------------+
+| nullif('A', 'ab') |
++-------------------+
+| A                 |
++-------------------+
+1 row in set (0.00 sec)
+
+mysql> select deptno from emp;
++--------+
+| deptno |
++--------+
+|     10 |
+|     10 |
+|     10 |
+|     10 |
+|     10 |
+|     20 |
+|     20 |
+|     20 |
+|     20 |
+|     20 |
+|     20 |
+|     20 |
+|     20 |
+|     30 |
+|     30 |
+|     30 |
+|     30 |
+|     30 |
+|     30 |
+|     30 |
+|     30 |
+|     30 |
+|     30 |
+|     30 |
+|     30 |
+|     50 |
+|     50 |
+|     50 |
++--------+
+28 rows in set (0.00 sec)
+
+mysql> select case 10 when 10 then 'ok' else 'kkkk' end R1;
++----+
+| R1 |
++----+
+| ok |
++----+
+1 row in set (0.00 sec)
+
+mysql> select case 10 when 100 then 'ok' else 'kkkk' end R1;
++------+
+| R1   |
++------+
+| kkkk |
++------+
+1 row in set (0.00 sec)
+
+mysql> select deptno,  case deptno when 10 then 'ok', when 20 then 'good' else 'Bad' end R1
+;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ', when 20 then 'good' else 'Bad' end R1' at line 1
+mysql>
+mysql>
+mysql> select deptno,  case deptno when 10 then 'ok', when 20 then 'good' else 'Bad' end R1
+ from emp;
+ERROR 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near ', when 20 then 'good' else 'Bad' end R1 from emp' at line 1
+mysql>
+mysql>
+mysql> select deptno,  case deptno when 10 then 'ok' when 20 then 'good' else 'Bad' end R1;
+
+ERROR 1054 (42S22): Unknown column 'deptno' in 'field list'
+mysql> select deptno,  case deptno when 10 then 'ok' when 20 then 'good' else 'Bad' end R1 from emp;
++--------+------+
+| deptno | R1   |
++--------+------+
+|     10 | ok   |
+|     10 | ok   |
+|     10 | ok   |
+|     10 | ok   |
+|     10 | ok   |
+|     20 | good |
+|     20 | good |
+|     20 | good |
+|     20 | good |
+|     20 | good |
+|     20 | good |
+|     20 | good |
+|     20 | good |
+|     30 | Bad  |
+|     30 | Bad  |
+|     30 | Bad  |
+|     30 | Bad  |
+|     30 | Bad  |
+|     30 | Bad  |
+|     30 | Bad  |
+|     30 | Bad  |
+|     30 | Bad  |
+|     30 | Bad  |
+|     30 | Bad  |
+|     30 | Bad  |
+|     50 | Bad  |
+|     50 | Bad  |
+|     50 | Bad  |
++--------+------+
+28 rows in set (0.00 sec)
+
+mysql>
+mysql>
+mysql>
+mysql>
+mysql> select deptno, case when deptno <= 20 then 'Good' else 'Bad' end R1 from emp;
++--------+------+
+| deptno | R1   |
++--------+------+
+|     10 | Good |
+|     10 | Good |
+|     10 | Good |
+|     10 | Good |
+|     10 | Good |
+|     20 | Good |
+|     20 | Good |
+|     20 | Good |
+|     20 | Good |
+|     20 | Good |
+|     20 | Good |
+|     20 | Good |
+|     20 | Good |
+|     30 | Bad  |
+|     30 | Bad  |
+|     30 | Bad  |
+|     30 | Bad  |
+|     30 | Bad  |
+|     30 | Bad  |
+|     30 | Bad  |
+|     30 | Bad  |
+|     30 | Bad  |
+|     30 | Bad  |
+|     30 | Bad  |
+|     30 | Bad  |
+|     50 | Bad  |
+|     50 | Bad  |
+|     50 | Bad  |
++--------+------+
+28 rows in set (0.00 sec)
+
+mysql> select * from transactions;
++-----+--------+---------------------+------+--------+
+| _id | custId | transactionDate     | type | amount |
++-----+--------+---------------------+------+--------+
+|   1 |   1002 | 2021-01-01 10:24:34 | c    |  30000 |
+|   2 |   1001 | 2021-01-01 12:45:13 | c    |  30000 |
+|   3 |   1003 | 2021-01-01 14:00:04 | c    |  30000 |
+|   4 |   1002 | 2021-01-01 12:24:34 | c    | 370000 |
+|   5 |   1001 | 2021-01-01 14:45:13 | c    | 370000 |
+|   6 |   1003 | 2021-01-01 15:00:04 | c    | 370000 |
+|   7 |   1002 | 2021-01-01 10:24:34 | d    |   7000 |
+|   8 |   1001 | 2021-01-01 12:45:13 | d    |   7500 |
+|   9 |   1003 | 2021-01-01 14:00:04 | d    |   7000 |
+|  10 |   1001 | 2021-01-01 11:20:10 | d    |   2000 |
+|  11 |   1002 | 2021-02-12 12:00:42 | d    |   4000 |
+|  12 |   1001 | 2021-02-23 10:24:34 | d    |   1500 |
+|  13 |   1003 | 2021-01-12 09:23:09 | d    |   1000 |
+|  14 |   1001 | 2021-02-28 11:43:13 | c    |    500 |
+|  15 |   1002 | 2021-03-13 12:23:31 | d    |    500 |
+|  16 |   1002 | 2021-03-01 11:20:43 | c    |   1500 |
+|  17 |   1003 | 2021-02-24 11:34:32 | c    |    200 |
+|  18 |   1002 | 2021-04-30 14:20:32 | d    |   6000 |
+|  19 |   1001 | 2021-02-27 11:43:10 | d    |   2000 |
+|  20 |   1001 | 2021-03-17 09:15:23 | c    |   1200 |
+|  21 |   1003 | 2021-04-06 09:13:22 | d    |   4500 |
+|  22 |   1003 | 2021-02-04 11:32:43 | d    |   4200 |
+|  23 |   1001 | 2021-05-14 10:17:10 | c    |    600 |
+|  24 |   1003 | 2021-02-07 14:45:33 | c    |    400 |
+|  25 |   1002 | 2021-04-29 15:53:23 | c    |   1200 |
+|  26 |   1002 | 2021-06-23 09:53:54 | c    |   1600 |
+|  27 |   1003 | 2021-03-06 11:50:34 | d    |   3000 |
+|  28 |   1002 | 2021-04-30 14:20:33 | d    |   3000 |
+|  29 |   1001 | 2021-05-14 10:17:13 | c    |    600 |
+|  30 |   1003 | 2021-01-01 14:00:05 | d    |   7000 |
+|  31 |   1002 | 2021-06-23 09:53:57 | c    |    250 |
+|  32 |   1001 | 2021-05-14 10:17:18 | d    |   5600 |
+|  33 |   1003 | 2021-03-06 11:50:37 | c    |    200 |
++-----+--------+---------------------+------+--------+
+33 rows in set (0.01 sec)
+
+mysql> select type from transactions;
++------+
+| type |
++------+
+| c    |
+| c    |
+| c    |
+| c    |
+| c    |
+| c    |
+| d    |
+| d    |
+| d    |
+| d    |
+| d    |
+| d    |
+| d    |
+| c    |
+| d    |
+| c    |
+| c    |
+| d    |
+| d    |
+| c    |
+| d    |
+| d    |
+| c    |
+| c    |
+| c    |
+| c    |
+| d    |
+| d    |
+| c    |
+| d    |
+| c    |
+| d    |
+| c    |
++------+
+33 rows in set (0.01 sec)
+
+mysql> select type, case type when 'c' then 'credit' else 'debit' end R1 from transactions;
+
++------+--------+
+| type | R1     |
++------+--------+
+| c    | credit |
+| c    | credit |
+| c    | credit |
+| c    | credit |
+| c    | credit |
+| c    | credit |
+| d    | debit  |
+| d    | debit  |
+| d    | debit  |
+| d    | debit  |
+| d    | debit  |
+| d    | debit  |
+| d    | debit  |
+| c    | credit |
+| d    | debit  |
+| c    | credit |
+| c    | credit |
+| d    | debit  |
+| d    | debit  |
+| c    | credit |
+| d    | debit  |
+| d    | debit  |
+| c    | credit |
+| c    | credit |
+| c    | credit |
+| c    | credit |
+| d    | debit  |
+| d    | debit  |
+| c    | credit |
+| d    | debit  |
+| c    | credit |
+| d    | debit  |
+| c    | credit |
++------+--------+
+33 rows in set (0.01 sec)
+
+mysql> select * from ord;
++-------+---------------------+----------+--------+---------------------+---------------------+------------+----------+
+| ORDID | ORDERDATE           | COMMPLAN | CUSTID | SHIPDATE            | STATUSDATE          | STATUS     | TOTAL    |
++-------+---------------------+----------+--------+---------------------+---------------------+------------+----------+
+|   601 | 1986-05-01 00:00:00 | A        |    106 | 1986-05-30 00:00:00 | NULL
+   | In Process |     2.40 |
+|   602 | 1986-06-05 00:00:00 | B        |    102 | 1986-06-20 00:00:00 | 1986-07-09 00:00:00 | On Hold    |    56.00 |
+|   603 | 1986-06-05 00:00:00 | NULL     |    102 | 1986-06-05 00:00:00 | 1986-06-10 00:00:00 | Cancelled  |   224.00 |
+|   604 | 1986-06-15 00:00:00 | A        |    106 | 1986-05-30 00:00:00 | 1986-07-04 00:00:00 | Resolved   |   698.00 |
+|   605 | 1986-07-14 00:00:00 | A        |    106 | 1986-07-30 00:00:00 | 1986-08-02 00:00:00 | Disputed   |  8324.00 |
+|   606 | 1986-07-14 00:00:00 | A        |    100 | 1986-07-30 00:00:00 | NULL
+   | Shipped    |     3.40 |
+|   607 | 1986-07-18 00:00:00 | C        |    104 | 1986-07-18 00:00:00 | NULL
+   | In Process |     5.60 |
+|   608 | 1986-07-25 00:00:00 | C        |    104 | 1986-07-25 00:00:00 | NULL
+   | Shipped    |    35.20 |
+|   609 | 1986-08-01 00:00:00 | B        |    100 | 1986-08-15 00:00:00 | 1986-08-19 00:00:00 | On Hold    |    97.50 |
+|   610 | 1987-01-07 00:00:00 | A        |    101 | 1987-01-08 00:00:00 | NULL
+   | In Process |   101.40 |
+|   611 | 1987-01-11 00:00:00 | B        |    102 | 1987-01-11 00:00:00 | NULL
+   | Shipped    |    45.00 |
+|   612 | 1987-01-15 00:00:00 | C        |    104 | 1987-01-20 00:00:00 | 1987-01-21 00:00:00 | Cancelled  |  5860.00 |
+|   613 | 1987-02-01 00:00:00 | NULL     |    108 | 1987-02-01 00:00:00 | NULL
+   | Shipped    |  6400.00 |
+|   614 | 1987-02-01 00:00:00 | NULL     |    102 | 1987-02-05 00:00:00 | NULL                | In Process | 23940.00 |
+|   615 | 1987-02-01 00:00:00 | NULL     |    107 | 1987-02-06 00:00:00 | NULL
+   | In Process |   710.00 |
+|   616 | 1987-02-03 00:00:00 | NULL     |    103 | 1987-02-10 00:00:00 | 1987-02-10 00:00:00 | Resolved   |   764.00 |
+|   617 | 1987-02-05 00:00:00 | NULL     |    105 | 1987-03-03 00:00:00 | NULL
+   | Shipped    | 46370.00 |
+|   618 | 1987-02-15 00:00:00 | A        |    102 | 1987-03-06 00:00:00 | 1987-03-16 00:00:00 | On Hold    |  3510.50 |
+|   619 | 1987-02-22 00:00:00 | NULL     |    104 | 1987-02-04 00:00:00 | NULL
+   | In Process |  1260.00 |
+|   620 | 1987-03-12 00:00:00 | NULL     |    100 | 1987-03-12 00:00:00 | 1987-03-12 00:00:00 | Cancelled  |  4450.00 |
+|   621 | 1987-03-15 00:00:00 | A        |    100 | 1987-03-14 00:00:00 | NULL
+   | Shipped    |   730.00 |
+|   622 | 1986-12-31 00:00:00 | a        |    105 | 1987-01-01 00:00:00 | 1987-01-06 00:00:00 | Delivered  |  1125.00 |
+|   624 | 1987-01-06 00:00:00 | c        |    105 | 1987-01-06 00:00:00 | 1987-01-09 00:00:00 | Delivered  |   189.00 |
+|   625 | 1987-01-09 00:00:00 | NULL     |    105 | 1987-01-10 00:00:00 | 1987-01-16 00:00:00 | Delivered  |  1255.00 |
+|   626 | 1987-01-31 00:00:00 | NULL     |    107 | 1987-02-01 00:00:00 | 1987-02-06 00:00:00 | shipped    |  1675.00 |
+|   627 | 1987-02-13 00:00:00 | NULL     |    100 | 1987-02-14 00:00:00 | 1987-02-22 00:00:00 | Delivered  |   250.00 |
++-------+---------------------+----------+--------+---------------------+---------------------+------------+----------+
+26 rows in set (0.01 sec)
+
+mysql> desc ord;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| ORDID      | int         | NO   | PRI | NULL    |       |
+| ORDERDATE  | datetime    | YES  |     | NULL    |       |
+| COMMPLAN   | varchar(1)  | YES  |     | NULL    |       |
+| CUSTID     | int         | NO   | MUL | NULL    |       |
+| SHIPDATE   | datetime    | YES  |     | NULL    |       |
+| STATUSDATE | datetime    | YES  |     | NULL    |       |
+| STATUS     | varchar(45) | YES  |     | NULL    |       |
+| TOTAL      | float(8,2)  | YES  |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+8 rows in set (0.03 sec)
+
+mysql> select status from ord;
++------------+
+| status     |
++------------+
+| In Process |
+| On Hold    |
+| Cancelled  |
+| Resolved   |
+| Disputed   |
+| Shipped    |
+| In Process |
+| Shipped    |
+| On Hold    |
+| In Process |
+| Shipped    |
+| Cancelled  |
+| Shipped    |
+| In Process |
+| In Process |
+| Resolved   |
+| Shipped    |
+| On Hold    |
+| In Process |
+| Cancelled  |
+| Shipped    |
+| Delivered  |
+| Delivered  |
+| Delivered  |
+| shipped    |
+| Delivered  |
++------------+
+26 rows in set (0.00 sec)
+
+mysql> select now();
++---------------------+
+| now()               |
++---------------------+
+| 2025-03-28 11:45:34 |
++---------------------+
+1 row in set (0.01 sec)
+
+mysql> select now(), current_date();
++---------------------+----------------+
+| now()               | current_date() |
++---------------------+----------------+
+| 2025-03-28 11:45:48 | 2025-03-28     |
++---------------------+----------------+
+1 row in set (0.00 sec)
+
+mysql> select now(), current_date(), current_time;
++---------------------+----------------+--------------+
+| now()               | current_date() | current_time |
++---------------------+----------------+--------------+
+| 2025-03-28 11:45:56 | 2025-03-28     | 11:45:56     |
++---------------------+----------------+--------------+
+1 row in set (0.00 sec)
+
+mysql>
