@@ -1,0 +1,115 @@
+
+Trigger
+
+1.	Write a trigger (named insertStudent) that saves the message "Record inserted successfully" in 
+	LOG(current date, current time, and message columns) table as soon as you insert the record in STUDENT  table.
+
+-->	drop trigger if exists tr1;
+	delimiter $
+	CREATE TRIGGER tr1 AFTER INSERT ON student FOR EACH ROW
+	begin
+	insert into log values(CURDATE(),now(),"Record inserted successfully");
+	end $
+	delimiter ;
+
+
+	
+mysql> insert into student values(5,"mukesh","Reactjs");
+Query OK, 1 row affected (0.03 sec)
+
+mysql> table log;
++------------+----------+------------------------------+
+| C_date     | c_time   | message                      |
++------------+----------+------------------------------+
+| 2025-04-11 | 16:00:04 | Record inserted successfully |
++------------+----------+------------------------------+
+1 row in set (0.00 sec)
+
+
+
+2.	Write a trigger (named insertDuplicate) on STUDENT table, that as when we INSERT a record in STUDENT table the same 
+	record should get duplicated (INSERTED) in STUDENT_LOG table. (Create STUDENT_LOG table, having the same structure 
+	as STUDENT table).
+
+-->	drop trigger if exists insertDuplicate;
+	delimiter $
+	CREATE TRIGGER insertDuplicate AFTER INSERT ON student FOR EACH ROW
+
+	begin
+	insert into STUDENT_LOG values(new.r_no,new.name,new.subject);
+	end $
+	delimiter ;
+
+
+	insert into student values(17,"rohna",'ldf');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> table STUDENT_LOG;
++------+-------+---------+
+| r_no | name  | subject |
++------+-------+---------+
+|   17 | rohna | ldf     |
++------+-------+---------+
+1 row in set (0.00 sec)
+
+
+
+
+3.	Write a trigger(named updateStudent) on STUDENT table, that as soon as we UPDATE student emailID column data in
+	 STUDENT table, the update record should get inserted in STUDENT_LOG table.
+
+-->	drop trigger if exists updateStudent;
+	delimiter $
+	CREATE TRIGGER updateStudent AFTER UPDATE ON student FOR EACH ROW
+
+	begin
+	insert into STUDENT_LOG values(new.ID,new.namefirst,new.namelast,new.dob,new.emailID);
+	end $
+	delimiter ;
+
+
+	update student set emailID = "bfkbfk" where id=1;
+Query OK, 1 row affected (0.04 sec)
+Rows matched: 1  Changed: 1  Warnings: 0
+
+mysql> table student_log;
++----+-----------+----------+------------+---------+
+| ID | namefirst | namelast | DOB        | emailID |
++----+-----------+----------+------------+---------+
+|  1 | saleel    | bagde    | 1984-06-12 | bfkbfk  |
++----+-----------+----------+------------+---------+
+1 row in set (0.00 sec)
+
+
+
+4.	Write a trigger (named deleteStudent) on STUDENT table, that as soon as we DELETE any record from STUDENT table,
+	 then that record should get inserted into STUDENT_LOG table.
+
+-->	drop trigger if exists deleteStudent;
+	delimiter $
+	CREATE TRIGGER deleteStudent AFTER delete ON student_batch FOR EACH ROW
+
+	begin
+	insert into STUDENT_LOG values(old.ID,old.namefirst,old.namelast,old.dob,old.emailID);
+	end $
+	delimiter ;
+
+
+	delete from student_batch where ID =1;
+Query OK, 1 row affected (0.04 sec)
+
+mysql> table student_log;
++----+-----------+----------+------------+---------+
+| ID | namefirst | namelast | DOB        | emailID |
++----+-----------+----------+------------+---------+
+|  1 | saleel    | bagde    | 1984-06-12 | bfkbfk  |
++----+-----------+----------+------------+---------+
+1 row in set (0.00 sec)
+
+
+5.	Write a trigger (named insertValidation) on STUDENT table, that if today is Sunday then, no record should get 
+	inserted in STUDENT table.
+
+
+
+

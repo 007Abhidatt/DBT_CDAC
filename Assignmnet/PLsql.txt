@@ -1,0 +1,999 @@
+
+1.	Write a PL/SQL block to declare two variables – Message and Date_Written of the type Varchar and Date respectively.
+	 Assign the value ‘My First PL/SQL program’ to message and Current date to Date_Written, in the executable section 
+	of the block. Store the values in the TEMP table. 
+
+-->	drop procedure if exists prop_1;
+	delimiter $
+	create procedure prop_1()
+	begin 
+	declare c1 varchar(100);
+	declare d1 Date;
+
+	set c1 := "My First PL/SQL program";
+	set d1 := curdate();
+	insert into temp value(c1,d1);
+
+	end $
+	delimiter ;
+
+	select * from temp;
++-------------------------+------------+
+| msg                     | curr_date_ |
++-------------------------+------------+
+| My First PL/SQL program | 2025-04-08 |
++-------------------------+------------+
+1 row in set (0.00 sec)
+
+
+
+2.	Write a block to accept values for NUM1 and NUM2 at run time. Store the remainder of NUM1 divided by NUM2 in a 
+	Sql variable called RESULT. Check the contents of RESULT variable for correctness.
+
+-->	drop procedure if exists prop_1;
+	delimiter $
+	create procedure prop_1(in num1 int, in num2 int, out result int)
+	begin 
+	set result := num1%num2;
+	select result;
+	
+	end $
+	delimiter ;
+
+	call prop_1(2,5,@x);
++--------+
+| result |
++--------+
+|      2 |
++--------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+
+
+3.	Build a block that computes the total compensation for one year. The annual salary and the annual bonus percentage 
+	are passed to the PL/SQL block through SQL substitution variables. If the salary is null set it to zero before 
+	computing the total compensations. 
+
+-->	drop procedure if exists prop_1;
+	delimiter $
+	create procedure prop_1(in sal int, in bonus_ int,out total int)
+	begin 
+	declare annual int;
+	set annual := ifnull(sal,0)*12;
+	set total := annual + annual*(bonus_/100);
+	select annual salary, annual*(bonus_/100) as bouns_amount , total compensation;
+	
+	end $
+	delimiter ;
+
+	call prop_1(2500,23,@x);
++--------+--------------+--------------+
+| salary | bouns_amount | compensation |
++--------+--------------+--------------+
+|  30000 |    6900.0000 |        36900 |
++--------+--------------+--------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+
+
+4.	Create a block that selects the maximum department number from the department table and stores it in a variable. 
+
+-->	drop procedure if exists prop_1;
+	delimiter $
+	create procedure prop_1()
+	begin 
+	declare max1 int ;
+	
+	set max1 :=(select max(deptno) from dept);
+	select max1;
+	
+	end $
+	delimiter ;
+
+
+	 call prop_1();
++------+
+| max1 |
++------+
+|   50 |
++------+
+1 row in set (0.04 sec)
+
+Query OK, 0 rows affected (0.04 sec)
+
+
+
+5.	Create a block that updates the location for an existing department. Accept the input from the user. 
+	Display the details of the updated department. 
+
+-->	drop procedure if exists prop_1;
+	delimiter $
+	create procedure prop_1(in dept_num int)
+	begin 
+	update dept_temp set loc = "UK" where deptno = dept_num;
+	
+	
+	end $
+	delimiter ;
+
+	call prop_1(30);
+Query OK, 1 row affected (0.03 sec)
+
+mysql>
+mysql> table dept_temp;
++--------+------------+----------+------------+------------+
+| DEPTNO | DNAME      | LOC      | PWD        | STARTEDON  |
++--------+------------+----------+------------+------------+
+|     10 | ACCOUNTING | NEW YORK | r50mpm     | 24/03/1989 |
+|     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 |
+|     30 | SALES      | UK       | sales@2017 | 13/04/1989 |
+|     40 | OPERATIONS | BOSTON   | opr@123    | 12/07/1989 |
+|     50 | HR         | PUNE     | PUN@8877   | 22/12/1989 |
++--------+------------+----------+------------+------------+
+5 rows in set (0.00 sec)
+
+
+
+6.	Create a block that deletes the department created in the previous exercise. Print on the screen the number of 
+	rows affected. Also test the condition if you enter a department number that does not exist. 
+
+-->	drop procedure if exists prop_1;
+	delimiter $
+	create procedure prop_1(in dept_num int)
+	begin 
+
+	if(select true from dept_temp where deptno = dept_num ) then
+		delete from dept_temp where deptno = dept_num;
+	else 
+	select "Entered wrong deptno";
+	end if;
+	end $
+	delimiter ;
+
+	call prop_1(70);
++----------------------+
+| Entered wrong deptno |
++----------------------+
+| Entered wrong deptno |
++----------------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> call prop_1(60);
+Query OK, 1 row affected (0.00 sec)
+
+table dept_temp;
++--------+------------+----------+------------+------------+
+| DEPTNO | DNAME      | LOC      | PWD        | STARTEDON  |
++--------+------------+----------+------------+------------+
+|     10 | ACCOUNTING | NEW YORK | r50mpm     | 24/03/1989 |
+|     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 |
+|     30 | SALES      | UK       | sales@2017 | 13/04/1989 |
+|     40 | OPERATIONS | BOSTON   | opr@123    | 12/07/1989 |
+|     50 | HR         | PUNE     | PUN@8877   | 22/12/1989 |
++--------+------------+----------+------------+------------+
+5 rows in set (0.00 sec)
+
+
+
+7.	Create a block to insert numbers into the Temp table. 
+a.	Insert numbers 1 to 10 excluding 6 and 8.
+b.	Commit before the end of the block.
+
+-->	drop procedure if exists prop_1;
+	delimiter $
+	create procedure prop_1()
+	begin 
+	declare cnt int default 1;
+	L:loop
+			if(cnt not in (6,8)) then
+				insert into temp2 values(cnt);
+				
+			end if;
+			set cnt = cnt+1;
+			if(cnt = 11) then
+			Leave L;
+			end if;
+		
+	end loop L;
+	commit;
+	end $
+	delimiter ;
+
+call prop_1();
+Query OK, 1 row affected (0.00 sec)
+
+mysql> table temp2;
++------+
+| no   |
++------+
+|    1 |
+|    2 |
+|    3 |
+|    4 |
+|    5 |
+|    7 |
+|    9 |
+|   10 |
++------+
+8 rows in set (0.00 sec)
+
+
+
+8.	Create a block that computes the commission amount for a given employee based on the employee’s salary. 
+a.	Insert a new employee in the EMP table having salary NULL.
+b.	Accept the empno as user input. 
+c.	If the employee’s salary is less than $1000, set the commission amount for the employee to 10% of the salary.
+d.	If the employee’s salary is between $1000 and $1500, set the commission amount for the employee to 15% of the salary.
+e.	If the employee’s salary is exceeds $1500, set the commission amount for the employee to 20% of the salary.
+f.	If the employee’s salary is NULL, set the commission amount for the employee to 0.
+g.	Test the block using the test cases given below-
+
+EMPNO	SAL	Resulting Commission
+7369	800	80
+7934	1300	195
+7499	1600	320
+8000	NULL	NULL
+
+-->	drop procedure if exists prop_1;
+	delimiter $
+	create procedure prop_1(in emno int)
+	begin 
+	if((select sal from emplo where empno = emno) is null) then
+		update emplo set comm = 0 where empno = emno;
+	elseif(1000 > (select sal from emplo where empno = emno)) then
+		update emplo set comm = (sal*10/100) where empno = emno;
+	elseif((select sal from emplo where empno = emno) between 1000 and 1500) then
+		update emplo set comm = (sal*15/100) where empno = emno;
+	elseif(1500 < (select sal from emplo where empno = emno)) then
+		update emplo set comm = (sal*20/100) where empno = emno;
+	end if;
+	end $
+	delimiter ;
+
+
+	call prop_1(8888);
+Query OK, 1 row affected (0.06 sec)
+
+mysql> table emplo;
++-------+------+------+
+| empno | sal  | comm |
++-------+------+------+
+|  6001 | 1750 | NULL |
+|  6129 | 1750 | NULL |
+|  6473 | 1750 | NULL |
+|  6781 | 1750 | NULL |
+|  7369 |  800 | NULL |
+|  7415 | 3350 | NULL |
+|  7421 | 1750 | NULL |
+|  7499 | 1600 |  300 |
+|  7521 | 1250 |  500 |
+|  7566 | 2975 | NULL |
+|  7654 | 1250 | 1400 |
+|  7698 | 2850 | NULL |
+|  7782 | 2450 | NULL |
+|  7788 | 3000 | NULL |
+|  7839 | 5000 | NULL |
+|  7840 | 5000 | NULL |
+|  7844 | 1500 |    0 |
+|  7876 | 1100 | NULL |
+|  7900 |  950 | NULL |
+|  7902 | 3000 | NULL |
+|  7919 | 4150 | NULL |
+|  7920 | 2575 | 2700 |
+|  7934 | 1300 | NULL |
+|  7945 | 1350 | 2700 |
+|  7949 | 1250 |  500 |
+|  8433 | 1750 | NULL |
+|  9400 | 1750 | NULL |
+|  9473 | 1750 | NULL |
+|  8888 | NULL |    0 |
++-------+------+------+
+29 rows in set (0.02 sec)
+
+mysql> source C:\Users\IET\Desktop\prop_1.tsql
+Query OK, 0 rows affected (0.06 sec)
+
+Query OK, 0 rows affected (0.15 sec)
+
+mysql> call prop_1(7945);
+Query OK, 1 row affected (0.10 sec)
+
+mysql> table emplo;
++-------+------+------+
+| empno | sal  | comm |
++-------+------+------+
+|  6001 | 1750 | NULL |
+|  6129 | 1750 | NULL |
+|  6473 | 1750 | NULL |
+|  6781 | 1750 | NULL |
+|  7369 |  800 | NULL |
+|  7415 | 3350 | NULL |
+|  7421 | 1750 | NULL |
+|  7499 | 1600 |  300 |
+|  7521 | 1250 |  500 |
+|  7566 | 2975 | NULL |
+|  7654 | 1250 | 1400 |
+|  7698 | 2850 | NULL |
+|  7782 | 2450 | NULL |
+|  7788 | 3000 | NULL |
+|  7839 | 5000 | NULL |
+|  7840 | 5000 | NULL |
+|  7844 | 1500 |    0 |
+|  7876 | 1100 | NULL |
+|  7900 |  950 | NULL |
+|  7902 | 3000 | NULL |
+|  7919 | 4150 | NULL |
+|  7920 | 2575 | 2700 |
+|  7934 | 1300 | NULL |
+|  7945 | 1350 |  203 |
+|  7949 | 1250 |  500 |
+|  8433 | 1750 | NULL |
+|  9400 | 1750 | NULL |
+|  9473 | 1750 | NULL |
+|  8888 | NULL |    0 |
++-------+------+------+
+29 rows in set (0.01 sec)
+
+
+
+9.	Create a block that determines the top employees with respect to salaries
+a.	Accept a number n from the user
+b.	Get the names and salaries of the top n people with respect to salary in the EMP table.
+c.	Store the names and salaries in the Temp table.
+
+-->	drop procedure if exists prop_1;
+	delimiter $
+	create procedure prop_1(in n int)
+	begin 
+	create table temp3 as (select ename, sal from emp order by sal desc limit n);
+	end $
+	delimiter ;
+
+	call prop_1(4);
+Query OK, 4 rows affected (0.39 sec)
+
+mysql> table temp3;
++---------+------+
+| ename   | sal  |
++---------+------+
+| FRED    | 5000 |
+| KING    | 5000 |
+| HOFFMAN | 4150 |
+| AARAV   | 3350 |
++---------+------+
+4 rows in set (0.02 sec)
+
+
+
+10.	Create a Procedure to insert, modify and delete a product from the PRODUCT table. Provide the product number 
+	and description of the product using two parameters.
+
+-->	drop procedure if exists prop_1;
+	delimiter $
+	create procedure prop_1(in PRODID_ int, in DESCRIP_ varchar(100))
+	begin 
+	
+	
+	
+	if(select distinct true from product1 where PRODID != PRODID_) then
+	insert into product1(PRODID,DESCRIP) values(PRODID_,DESCRIP_);
+	else 
+	update product1 set DESCRIP = DESCRIP_ where PRODID = PRODID_;
+	end if;
+	delete from product1 where PRODID = PRODID_;
+
+	end $
+	delimiter ;
+
+
+	call prop_1(10,"fjfjfhjfsdjf");
+Query OK, 1 row affected (0.10 sec)
+
+mysql> table product1;
++--------+-------------------------+-------+
+| PRODID | DESCRIP                 | PRICE |
++--------+-------------------------+-------+
+| 100860 | ACE TENNIS RACKET I     |   110 |
+| 100861 | ACE TENNIS RACKET II    |   105 |
+| 100870 | ACE TENNIS BALLS-3 PACK |   125 |
+| 100871 | ACE TENNIS BALLS-6 PACK |   155 |
+| 100890 | ACE TENNIS NET          |   150 |
+| 101860 | SP TENNIS RACKET        |   110 |
+| 101863 | SP JUNIOR RACKET        |   117 |
+| 102130 | RH: "GUIDE TO TENNIS"   |   145 |
+| 200376 | SB ENERGY BAR-6 PACK    |   110 |
+| 200380 | SB VITA SNACK-6 PACK    |   110 |
+| 200450 | ACE TENNIS RACKET II    |   190 |
+| 200455 | ACE TENNIS RACKET I     |   180 |
+| 300075 | ACE TENNIS BALLS-6 PACK |   800 |
+| 300076 | ACE TENNIS BALLS-6 PACK |   100 |
+| 300078 | ACE TENNIS NET          |   400 |
+| 300079 | SP TENNIS RACKET        |   345 |
+| 300120 | ACE TENNIS BALLS-3 PACK |   120 |
+| 300121 | cricket                 |   500 |
+| 300122 | hgfthfgh                |  NULL |
++--------+-------------------------+-------+
+19 rows in set (0.00 sec)
+
+
+	
+
+11.	Create Procedure to query the EMP table, retrieving the salary and job title for an employee when provided with
+	the employee number. The procedure must return a value from the SAL and JOB columns for a specified employee.
+
+-->	drop procedure if exists prop_1;
+	delimiter $
+	create procedure prop_1(in empnum int, out salary int, out jobname varchar(50))
+	begin 
+	set salary := (select sal from emp where empno = empnum);
+	set jobname := (select job from emp where empno = empnum);
+
+	select salary, jobname;
+	
+	end $
+	delimiter ;
+
+	call prop_1(7788,@x,@y)
+    -> ;
++--------+---------+
+| salary | jobname |
++--------+---------+
+|   3000 | ANALYST |
++--------+---------+
+1 row in set (0.02 sec)
+
+Query OK, 0 rows affected (0.02 sec)
+
+
+
+12.	Create a function to return a product description to a variable. 
+
+-->	drop function if exists fun;
+	delimiter $
+	create function fun(proid int) returns varchar(40) 
+	deterministic
+	begin 
+	declare result varchar(40);
+	select DESCRIP into result from product where PRODID = proid;
+	return result;
+	
+	end $
+	delimiter ;
+
+	select fun(101863);
++------------------+
+| fun(101863)      |
++------------------+
+| SP JUNIOR RACKET |
++------------------+
+1 row in set (0.02 sec)
+
+
+
+13.	Create a function Annual compensation to return the annual salary when passed an employee’s monthly salary and 
+	commission. Either or both values passed could be NULL, but the function should still return an annual salary,
+	which is not null.
+
+-->	drop function if exists fun;
+	delimiter $
+	create function fun(salary int, commission int) returns int 
+	deterministic
+	begin 
+
+	
+	return (salary*12 + commission*12);
+
+	end $
+	delimiter ;
+
+
+	select fun(24000, 300);
++-----------------+
+| fun(24000, 300) |
++-----------------+
+|          291600 |
++-----------------+
+1 row in set (0.00 sec)
+
+
+
+14.	Create a procedure to insert a new employee into the EMP table. The procedure should contain a call to another 
+	function called Valid_Deptno to check whether the department number specified for the new employee exists in the DEPT table. 
+a.	The function Valid_Deptno to validate a specified department number. The function should return a BOOLEAN.
+b.	If the function returns FALSE, the procedure should alert the user with an appropriate message. 
+
+-->	drop procedure if exists prop_1;
+	delimiter $
+	create procedure prop_1(in enum int,in depnum int, in name varchar(30))
+	begin
+
+	if(select Valid_Deptno(depnum)) then
+	insert into emp(empno,ename,deptno) values(enum,name,depnum);
+	else
+	select 'invalid Deptno';
+	
+	end if;
+
+	end $
+	delimiter ;
+
+	-------Function-------------
+
+	drop function if exists Valid_Deptno;
+	delimiter $
+	create function Valid_Deptno(deptno_ int) returns boolean
+	deterministic
+	begin 
+
+	return (select true from dept where deptno = deptno_);
+	
+	end $
+	delimiter ;
+
+
+
+	call prop_1(8888,40,'Dinesh');
+Query OK, 1 row affected (0.04 sec)
+
+mysql> table emp;
++-------+----------+--------+---------------------+------+------------+------+------+--------+---------+--------------+------------+------------+----------+
+| EMPNO | ENAME    | GENDER | JOB                 | MGR  | HIREDATE   | SAL  | COMM | DEPTNO | BONUSID | USER NAME    | PWD        | PHONE      | isActive |
++-------+----------+--------+---------------------+------+------------+------+------+--------+---------+--------------+------------+------------+----------+
+|  6001 | GITA     | F      | Compliance officers | 7920 | 1981-07-19 | 1750 | NULL |     30 |       1 | GITA         | sales@2017 | NULL       |        1 |
+|  6129 | VRUSHALI | F      | Compliance officers | 7920 | 1981-07-19 | 1750 | NULL |     50 |       1 | VRUSHALI     | PUN@8877   | NULL       |        1 |
+|  6473 | SHARMIN  | F      | Public Relation     | 7920 | 1981-07-19 | 1750 | NULL |     20 |       1 | SHARMIN      | a12recmpm  | NULL       |        1 |
+|  6781 | BANDISH  | F      | Public Relation     | 7920 | 1981-07-19 | 1750 | NULL |     20 |       1 | BANDISH      | a12recmpm  | NULL       |        1 |
+|  7369 | SMITH    | M      | CLERK               | 7902 | 1980-12-17 |  800 | NULL |     20 |       2 | TRITONE      | a12recmpm  | 7032300023 |        0 |
+|  7415 | AARAV    | M      | CLERK               | 7902 | 1981-12-31 | 3350 | NULL |     10 |    NULL | AARAV        | NULL       | 7032300084 |        0 |
+|  7421 | THOMAS   | M      | CLERK               | 7920 | 1981-07-19 | 1750 | NULL |     10 |       1 | THOMAS       | r50mpm     | 7032300011 |        0 |
+|  7499 | ALLEN    | M      | SALESMAN            | 7698 | 1981-02-20 | 1600 |  300 |     30 |       4 | ALWAYS TESTE | sales@2017 | 7032300096 |        1 |
+|  7521 | WARD     | M      | SALESMAN            | 7698 | 1981-02-22 | 1250 |  500 |     30 |       1 | WARD         | sales@2017 | 7132300034 |        1 |
+|  7566 | JONES    | M      | MANAGER             | 7839 | 1981-04-02 | 2975 | NULL |     20 |       4 | HONEYCOMB    | a12recmpm  | 7132300039 |        1 |
+|  7654 | MARTIN   | M      | SALESMAN            | 7698 | 1981-09-28 | 1250 | 1400 |     30 |       6 | LIFE RACER   | sales@2017 | 7132300050 |        1 |
+|  7698 | BLAKE    | M      | MANAGER             | 7839 | 1981-05-01 | 2850 | NULL |     30 |       1 | BIG BEN      | sales@2017 | 7132300027 |        1 |
+|  7782 | CLARK    | M      | MANAGER             | 7839 | 1981-06-09 | 2450 | NULL |     10 |       3 | CLARK        | r50mpm     | 7032300001 |        1 |
+|  7788 | SCOTT    | M      | ANALYST             | 7566 | 1982-12-09 | 3000 | NULL |     20 |       3 | WHITE SAND   | a12recmpm  | NULL       |        1 |
+|  7839 | KING     | M      | PRESIDENT           | NULL | 1981-11-17 | 5000 | NULL |     10 |       1 | KING         | r50mpm     | 7132300081 |        1 |
+|  7840 | FRED     | M      | vice PRESIDENT      | 7839 | 1983-08-09 | 5000 | NULL |     20 |       1 | SAND STONE   | a12recmpm  | NULL       |        1 |
+|  7844 | TURNER   | M      | SALESMAN            | 7698 | 1981-09-08 | 1500 |    0 |     30 |       5 | SAND DUST    | sales@2017 | NULL       |        1 |
+|  7876 | ADAMS    | M      | CLERK               | 7788 | 1983-01-12 | 1100 | NULL |     20 |       1 | CRAZY ANYONE | a12recmpm  | 7132300086 |        1 |
+|  7900 | JAMES    | M      | CLERK               | 7698 | 1981-12-03 |  950 | NULL |     30 |       2 | CRAZY LEADER | sales@2017 | 7132300042 |        1 |
+|  7902 | FORD     | M      | ANALYST             | 7566 | 1981-12-03 | 3000 | NULL |     20 |       4 | CONBRIO      | a12recmpm  | NULL       |        0 |
+|  7919 | HOFFMAN  | M      | MANAGER             | 7566 | 1982-03-24 | 4150 | NULL |     30 |       3 | INTERVAL     | sales@2017 | NULL       |        1 |
+|  7920 | GRASS    | M      | SALESMAN            | 7919 | 1980-02-14 | 2575 | 2700 |     30 |       5 | GRASS        | sales@2017 | NULL       |        1 |
+|  7934 | MILLER   | M      | CLERK               | 7782 | 1982-01-23 | 1300 | NULL |     10 |       2 | QUARTERNOTE  | r50mpm     | 7132300055 |        0 |
+|  7945 | AARUSH   | M      | SALESMAN            | 7902 | 1980-02-14 | 1350 | 2700 |     30 |    NULL | AARUSH       | ABCDEF     | NULL       |        0 |
+|  7949 | ALEX     | M      | MANAGER             | 7698 | 1982-01-24 | 1250 |  500 |     30 |       5 | QUARTERREST  | sales@2017 | 7156567183 |        1 |
+|  8433 | NATASHA  | F      | CLERK               | 7920 | 1981-07-19 | 1750 | NULL |     30 |       1 | NATASHA      | sales@2017 | NULL       |        1 |
+|  8888 | Dinesh   | NULL   | NULL                | NULL | NULL       | NULL | NULL |     40 |    NULL | NULL         | NULL       | NULL       |     NULL |
+|  9400 | SANGITA  | F      | Compliance officers | 7920 | 1981-07-19 | 1750 | NULL |     50 |       1 | SANGITA      | NULL       | NULL       |        1 |
+|  9473 | SUPRIYA  | F      | ANALYST             | 7920 | 1981-07-19 | 1750 | NULL |     50 |       1 | SUPRIYA      | XYZ@1234   | NULL       |        1 |
++-------+----------+--------+---------------------+------+------------+------+------+--------+---------+--------------+------------+------------+----------+
+29 rows in set (0.00 sec)
+
+mysql> source C:\Users\IET\Desktop\fun.tsql
+Query OK, 0 rows affected (0.04 sec)
+
+Query OK, 0 rows affected (0.02 sec)
+
+Query OK, 0 rows affected (0.02 sec)
+
+Query OK, 0 rows affected (0.02 sec)
+
+mysql> call prop_1(8888,60,'sham');
++----------------+
+| invalid Deptno |
++----------------+
+| invalid Deptno |
++----------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+
+
+	
+15.	Write a program to reverse the string.
+
+-->	drop procedure if exists prop_1;
+	delimiter $
+	create procedure prop_1(in name varchar(20))
+	begin
+
+    	select reverse(name);
+
+	end $
+	delimiter ;
+
+	 call prop_1('Rakesh');
++---------------+
+| reverse(name) |
++---------------+
+| hsekaR        |
++---------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+
+
+16.	Write a program to convert a lowercase string into uppercase string.
+
+-->	drop procedure if exists prop_1;
+	delimiter $
+	create procedure prop_1(in name varchar(20))
+	begin
+
+    	select ucase(name);
+
+	end $
+	delimiter ;
+
+	 call prop_1('Rakesh');
++-------------+
+| ucase(name) |
++-------------+
+| RAKESH      |
++-------------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+
+
+
+17.	Write a program to find tables of a number entered by the user.
+
+-->	drop procedure if exists prop_1;
+	delimiter $
+	create procedure prop_1(in num int)
+	begin
+	
+    	declare i int default 1;
+	create table tables(n int);
+	b1:loop
+		insert into tables values(num * i);
+		 set i = i +1;
+		 if(i = 11) then
+		  leave b1;
+		 end if;
+	end loop b1;	 
+
+	end $
+	delimiter ;
+
+	 call prop_1(8);
+Query OK, 1 row affected (0.97 sec)
+
+mysql> table tables;
++------+
+| n    |
++------+
+|    8 |
+|   16 |
+|   24 |
+|   32 |
+|   40 |
+|   48 |
+|   56 |
+|   64 |
+|   72 |
+|   80 |
++------+
+10 rows in set (0.02 sec)
+
+
+
+18.	Write a program to update the salary of an employee. The user should enter the empno and the new salary.
+
+-->	drop procedure if exists prop_1;
+	delimiter $
+	create procedure prop_1(in empno_ int, in sal_ int)
+	begin
+	
+	update emp set sal = sal_ where empno = empno_;
+   
+	end $
+	delimiter ;
+
+	
+	call prop_1(7788, 50000);
+Query OK, 1 row affected (0.04 sec)
+
+mysql> select * from emp where empno=7788;
++-------+-------+--------+---------+------+------------+-------+------+--------+---------+------------+-----------+-------+----------+
+| EMPNO | ENAME | GENDER | JOB     | MGR  | HIREDATE   | SAL   | COMM | DEPTNO | BONUSID | USER NAME  | PWD       | PHONE | isActive |
++-------+-------+--------+---------+------+------------+-------+------+--------+---------+------------+-----------+-------+----------+
+|  7788 | SCOTT | M      | ANALYST | 7566 | 1982-12-09 | 50000 | NULL |     20 |       3 | WHITE SAND | a12recmpm | NULL  |        1 |
++-------+-------+--------+---------+------+------------+-------+------+--------+---------+------------+-----------+-------+----------+
+1 row in set (0.00 sec)
+
+
+
+19.	 Write a PL/SQL block to satisfy the following conditions accepting the empno as the user input.
+      If the salary is less than 1500, increase it by 1000.
+      If the salary is equal to 1500, increase it by 1500.
+      If the salary is greater than 1500, increase it by 2500. (Use EMP table)
+
+-->	drop procedure if exists prop_1;
+	delimiter $
+	create procedure prop_1(in emno int)
+	begin 
+	
+	if(1500 > (select sal from emp where empno = emno)) then
+		update emp set sal = (sal+1000) where empno = emno;
+	elseif(1500 = (select sal from emp where empno = emno)) then
+		update emp set sal = (sal+1500) where empno = emno;
+	elseif(1500 < (select sal from emp where empno = emno)) then
+		update emp set sal = (sal+2500) where empno = emno;
+	end if;
+	end $
+	delimiter ;
+
+
+	call prop_1(7788);
+Query OK, 1 row affected (0.02 sec)
+
+mysql> select * from emp where empno=7788;
++-------+-------+--------+---------+------+------------+-------+------+--------+---------+------------+-----------+-------+----------+
+| EMPNO | ENAME | GENDER | JOB     | MGR  | HIREDATE   | SAL   | COMM | DEPTNO | BONUSID | USER NAME  | PWD       | PHONE | isActive |
++-------+-------+--------+---------+------+------------+-------+------+--------+---------+------------+-----------+-------+----------+
+|  7788 | SCOTT | M      | ANALYST | 7566 | 1982-12-09 | 52500 | NULL |     20 |       3 | WHITE SAND | a12recmpm | NULL  |        1 |
++-------+-------+--------+---------+------+------------+-------+------+--------+---------+------------+-----------+-------+----------+
+1 row in set (0.00 sec)
+
+
+
+
+28.	Write a PL/SQL block to give details of employees.
+
+-->	drop procedure if exists prop_1;
+	delimiter $
+	create procedure prop_1()
+	begin 
+	select*from emp;
+	end $
+	delimiter ;
+
+
+	call prop_1();
++-------+----------+--------+---------------------+------+------------+-------+------+--------+---------+--------------+------------+------------+----------+
+| EMPNO | ENAME    | GENDER | JOB                 | MGR  | HIREDATE   | SAL   | COMM | DEPTNO | BONUSID | USER NAME    | PWD        | PHONE      | isActive |
++-------+----------+--------+---------------------+------+------------+-------+------+--------+---------+--------------+------------+------------+----------+
+|  6001 | GITA     | F      | Compliance officers | 7920 | 1981-07-19 |  1750 | NULL |     30 |       1 | GITA         | sales@2017 | NULL       |        1 |
+|  6129 | VRUSHALI | F      | Compliance officers | 7920 | 1981-07-19 |  1750 | NULL |     50 |       1 | VRUSHALI     | PUN@8877   | NULL       |        1 |
+|  6473 | SHARMIN  | F      | Public Relation     | 7920 | 1981-07-19 |  1750 | NULL |     20 |       1 | SHARMIN      | a12recmpm  | NULL       |        1 |
+|  6781 | BANDISH  | F      | Public Relation     | 7920 | 1981-07-19 |  1750 | NULL |     20 |       1 | BANDISH      | a12recmpm  | NULL       |        1 |
+|  7369 | SMITH    | M      | CLERK               | 7902 | 1980-12-17 |   800 | NULL |     20 |       2 | TRITONE      | a12recmpm  | 7032300023 |        0 |
+|  7415 | AARAV    | M      | CLERK               | 7902 | 1981-12-31 |  3350 | NULL |     10 |    NULL | AARAV        | NULL       | 7032300084 |        0 |
+|  7421 | THOMAS   | M      | CLERK               | 7920 | 1981-07-19 |  1750 | NULL |     10 |       1 | THOMAS       | r50mpm     | 7032300011 |        0 |
+|  7499 | ALLEN    | M      | SALESMAN            | 7698 | 1981-02-20 |  1600 |  300 |     30 |       4 | ALWAYS TESTE | sales@2017 | 7032300096 |        1 |
+|  7521 | WARD     | M      | SALESMAN            | 7698 | 1981-02-22 |  1250 |  500 |     30 |       1 | WARD         | sales@2017 | 7132300034 |        1 |
+|  7566 | JONES    | M      | MANAGER             | 7839 | 1981-04-02 |  2975 | NULL |     20 |       4 | HONEYCOMB    | a12recmpm  | 7132300039 |        1 |
+|  7654 | MARTIN   | M      | SALESMAN            | 7698 | 1981-09-28 |  1250 | 1400 |     30 |       6 | LIFE RACER   | sales@2017 | 7132300050 |        1 |
+|  7698 | BLAKE    | M      | MANAGER             | 7839 | 1981-05-01 |  2850 | NULL |     30 |       1 | BIG BEN      | sales@2017 | 7132300027 |        1 |
+|  7782 | CLARK    | M      | MANAGER             | 7839 | 1981-06-09 |  2450 | NULL |     10 |       3 | CLARK        | r50mpm     | 7032300001 |        1 |
+|  7788 | SCOTT    | M      | ANALYST             | 7566 | 1982-12-09 | 52500 | NULL |     20 |       3 | WHITE SAND   | a12recmpm  | NULL       |        1 |
+|  7839 | KING     | M      | PRESIDENT           | NULL | 1981-11-17 |  5000 | NULL |     10 |       1 | KING         | r50mpm     | 7132300081 |        1 |
+|  7840 | FRED     | M      | vice PRESIDENT      | 7839 | 1983-08-09 |  5000 | NULL |     20 |       1 | SAND STONE   | a12recmpm  | NULL       |        1 |
+|  7844 | TURNER   | M      | SALESMAN            | 7698 | 1981-09-08 |  1500 |    0 |     30 |       5 | SAND DUST    | sales@2017 | NULL       |        1 |
+|  7876 | ADAMS    | M      | CLERK               | 7788 | 1983-01-12 |  1100 | NULL |     20 |       1 | CRAZY ANYONE | a12recmpm  | 7132300086 |        1 |
+|  7900 | JAMES    | M      | CLERK               | 7698 | 1981-12-03 |   950 | NULL |     30 |       2 | CRAZY LEADER | sales@2017 | 7132300042 |        1 |
+|  7902 | FORD     | M      | ANALYST             | 7566 | 1981-12-03 |  3000 | NULL |     20 |       4 | CONBRIO      | a12recmpm  | NULL       |        0 |
+|  7919 | HOFFMAN  | M      | MANAGER             | 7566 | 1982-03-24 |  4150 | NULL |     30 |       3 | INTERVAL     | sales@2017 | NULL       |        1 |
+|  7920 | GRASS    | M      | SALESMAN            | 7919 | 1980-02-14 |  2575 | 2700 |     30 |       5 | GRASS        | sales@2017 | NULL       |        1 |
+|  7934 | MILLER   | M      | CLERK               | 7782 | 1982-01-23 |  1300 | NULL |     10 |       2 | QUARTERNOTE  | r50mpm     | 7132300055 |        0 |
+|  7945 | AARUSH   | M      | SALESMAN            | 7902 | 1980-02-14 |  1350 | 2700 |     30 |    NULL | AARUSH       | ABCDEF     | NULL       |        0 |
+|  7949 | ALEX     | M      | MANAGER             | 7698 | 1982-01-24 |  1250 |  500 |     30 |       5 | QUARTERREST  | sales@2017 | 7156567183 |        1 |
+|  8433 | NATASHA  | F      | CLERK               | 7920 | 1981-07-19 |  1750 | NULL |     30 |       1 | NATASHA      | sales@2017 | NULL       |        1 |
+|  8888 | Dinesh   | NULL   | NULL                | NULL | NULL       |  NULL | NULL |     40 |    NULL | NULL         | NULL       | NULL       |     NULL |
+|  9400 | SANGITA  | F      | Compliance officers | 7920 | 1981-07-19 |  1750 | NULL |     50 |       1 | SANGITA      | NULL       | NULL       |        1 |
+|  9473 | SUPRIYA  | F      | ANALYST             | 7920 | 1981-07-19 |  1750 | NULL |     50 |       1 | SUPRIYA      | XYZ@1234   | NULL       |        1 |
++-------+----------+--------+---------------------+------+------------+-------+------+--------+---------+--------------+------------+------------+----------+
+29 rows in set (0.00 sec)
+
+Query OK, 0 rows affected (0.15 sec)
+
+
+
+29.	Write a PL/SQL block to increase the salary of employees in department number 30 by 1000.
+
+-->	drop procedure if exists prop_1;
+	delimiter $
+	create procedure prop_1()
+	begin 
+	update emp set sal = sal+1000 where deptno = 30;
+	end $
+	delimiter ;
+
+
+	call prop_1();
+Query OK, 12 rows affected (0.02 sec)
+
+mysql> select empno, ename, sal from emp where deptno = 30;;
++-------+---------+------+
+| empno | ename   | sal  |
++-------+---------+------+
+|  6001 | GITA    | 3750 |
+|  7499 | ALLEN   | 3600 |
+|  7521 | WARD    | 3250 |
+|  7654 | MARTIN  | 3250 |
+|  7698 | BLAKE   | 4850 |
+|  7844 | TURNER  | 3500 |
+|  7900 | JAMES   | 2950 |
+|  7919 | HOFFMAN | 6150 |
+|  7920 | GRASS   | 4575 |
+|  7945 | AARUSH  | 3350 |
+|  7949 | ALEX    | 3250 |
+|  8433 | NATASHA | 3750 |
++-------+---------+------+
+12 rows in set (0.00 sec)
+
+
+
+30.	 Write a PL/SQL block which should select rows from EMP table which have job type in the job column. Display the 
+	message and send a message to messages table, depending upon whether no rows, one row, several rows are selected. 
+
+     JOBTYPE FOUND ONCE
+     JOBTYPE FOUND MORE THAN ONCE
+     JOBTYPE NOT FOUND 
+
+-->	
+
+
+31.	 Write a PL/SQL block on EMP table to check for more than one clerk. Flash a   message “MORE THAN ONE CLERK”.
+
+-->	drop procedure if exists prop_1;
+	delimiter $
+	create procedure prop_1()
+	begin 
+	if(select true from emp where job = 'clerk' having count(job) > 1) then
+		select "More then one clerk";
+	else 
+		select "Not more then one clerk";
+		
+	end if;	
+	
+	end $
+	delimiter ;
+
+
+	 call prop_1();
++---------------------+
+| More then one clerk |
++---------------------+
+| More then one clerk |
++---------------------+
+1 row in set (0.02 sec)
+
+Query OK, 0 rows affected (0.02 sec)
+
+
+
+
+32.	Write a PL/SQL block to update COMM_AMT column of table COMM as per sale figure of salesman given in SALE table. 
+	Commission is 7% of AMOUNT of SALE table.
+
+SALE
+
+Sale_Id (char (4))           	                          Amount (number (10,2))
+
+1001						10,000
+1002						10,500
+1003						25,500
+1004						8000
+
+     COMM
+
+Sale_Id (char (4))					Comm_Amt (Number (10,2))
+1001							300
+1002							0
+1003							1000
+1004							0
+
+
+
+-->	
+ 
+
+33.	Using the PL/SQL block and cursor display as the following.
+
+10       ACCOUNTS		NEW YORK
+Employee details of deptno = 10
+20	       RESEARCH		DALLAS
+Employee details of deptno = 20
+
+
+-->	drop procedure if exists prop_1;
+	delimiter $
+	create procedure prop_1(in deptno_ int)
+	begin
+	declare no int;
+	declare name , location varchar(50);
+	declare cur cursor for select deptno, dname, loc from dept where deptno = deptno_;
+	open cur;
+		fetch cur into no,name,location;
+		select no,name,location;
+	close cur;
+	
+	end $
+	delimiter ;
+
+
+
+	call prop_1(10);
++------+------------+----------+
+| no   | name       | location |
++------+------------+----------+
+|   10 | ACCOUNTING | NEW YORK |
++------+------------+----------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.00 sec)
+
+mysql> call prop_1(20);
++------+----------+----------+
+| no   | name     | location |
++------+----------+----------+
+|   20 | RESEARCH | DALLAS   |
++------+----------+----------+
+1 row in set (0.00 sec)
+
+Query OK, 0 rows affected (0.01 sec)
+
+
+
+34.	Write a PL block to find out the missing numbers from Sr. No column of a table.
+
+Eg. Table T1
+
+SrNo 	
+1	
+2
+4
+6
+7
+9
+10
+13
+17
+20
+
+Missing number are 3, 5, 8, 11, 12, 14, 15, 16, 18, 19
+
+--> 
+drop procedure if exists prop_1;
+delimiter $
+create procedure prop_1()
+begin 
+	create table missing_number as select * from number where no not in (select no from srno);
+end $
+delimiter ;
+
+call prop_1();
+Query OK, 10 rows affected (0.07 sec)
+
+mysql> table missing_number;
++------+
+| no   |
++------+
+|    3 |
+|    5 |
+|    8 |
+|   11 |
+|   12 |
+|   14 |
+|   15 |
+|   16 |
+|   18 |
+|   19 |
++------+
+10 rows in set (0.00 sec)
+
+

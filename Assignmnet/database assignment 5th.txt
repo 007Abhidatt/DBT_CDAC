@@ -1,0 +1,397 @@
+JOINS with select
+
+
+1.	Display Name of the salesperson, customer name and amount of sales. 
+
+   select
+===================================================================================
+2.	List employee name and name of managers.
+mysql> select m.ename as emp ,e.ename as Manager from emp e,emp m where e.empno=m.mgr ;
++----------+---------+
+| emp      | Manager |
++----------+---------+
+| GITA     | GRASS   |
+| VRUSHALI | GRASS   |
+| SHARMIN  | GRASS   |
+| BANDISH  | GRASS   |
+| SMITH    | FORD    |
+| AARAV    | FORD    |
+| THOMAS   | GRASS   |
+| ALLEN    | BLAKE   |
+| WARD     | BLAKE   |
+| JONES    | KING    |
+| MARTIN   | BLAKE   |
+| BLAKE    | KING    |
+| CLARK    | KING    |
+| SCOTT    | JONES   |
+| FRED     | KING    |
+| TURNER   | BLAKE   |
+| ADAMS    | SCOTT   |
+| JAMES    | BLAKE   |
+| FORD     | JONES   |
+| HOFFMAN  | JONES   |
+| GRASS    | HOFFMAN |
+| MILLER   | CLARK   |
+| AARUSH   | FORD    |
+| ALEX     | BLAKE   |
+| NATASHA  | GRASS   |
+| SANGITA  | GRASS   |
+| SUPRIYA  | GRASS   |
++----------+---------+
+27 rows in set (0.00 sec)
+===================================================================================
+
+3.	Display details of all departments and the corresponding employees 
+mysql>  select  e.ename ,d.*  from emp e cross join dept d using (deptno);
++----------+--------+------------+----------+------------+------------+
+| ename    | DEPTNO | DNAME      | LOC      | PWD        | STARTEDON  |
++----------+--------+------------+----------+------------+------------+
+| AARAV    |     10 | ACCOUNTING | NEW YORK | r50mpm     | 24/03/1989 |
+| THOMAS   |     10 | ACCOUNTING | NEW YORK | r50mpm     | 24/03/1989 |
+| CLARK    |     10 | ACCOUNTING | NEW YORK | r50mpm     | 24/03/1989 |
+| KING     |     10 | ACCOUNTING | NEW YORK | r50mpm     | 24/03/1989 |
+| MILLER   |     10 | ACCOUNTING | NEW YORK | r50mpm     | 24/03/1989 |
+| SHARMIN  |     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 |
+| BANDISH  |     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 |
+| SMITH    |     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 |
+| JONES    |     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 |
+| SCOTT    |     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 |
+| FRED     |     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 |
+| ADAMS    |     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 |
+| FORD     |     20 | RESEARCH   | DALLAS   | a12recmpm  | 12/04/1989 |
+| GITA     |     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 |
+| ALLEN    |     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 |
+| WARD     |     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 |
+| MARTIN   |     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 |
+| BLAKE    |     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 |
+| TURNER   |     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 |
+| JAMES    |     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 |
+| HOFFMAN  |     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 |
+| GRASS    |     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 |
+| AARUSH   |     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 |
+| ALEX     |     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 |
+| NATASHA  |     30 | SALES      | CHICAGO  | sales@2017 | 13/04/1989 |
+| VRUSHALI |     50 | HR         | PUNE     | PUN@8877   | 22/12/1989 |
+| SANGITA  |     50 | HR         | PUNE     | PUN@8877   | 22/12/1989 |
+| SUPRIYA  |     50 | HR         | PUNE     | PUN@8877   | 22/12/1989 |
++----------+--------+------------+----------+------------+------------+
+28 rows in set (0.00 sec)
+===================================================================================
+4.	Display all customer names with their order details (order number and ship date) for the orders shipped in 1987.
+
+    mysql> select c.cname ,o.ordid,o.shipdate  from customers c,ord o  where year(o.shipdate)=1987 order by cname;
++---------+-------+---------------------+
+| cname   | ordid | shipdate            |
++---------+-------+---------------------+
+| ADAMS   |   610 | 1987-01-08 00:00:00 |
+| ADAMS   |   626 | 1987-02-01 00:00:00 |
+| ADAMS   |   612 | 1987-01-20 00:00:00 |
+| ADAMS   |   620 | 1987-03-12 00:00:00 |
+| ADAMS   |   617 | 1987-03-03 00:00:00 |
+| ADAMS   |   619 | 1987-02-04 00:00:00 |
+| ADAMS   |   618 | 1987-03-06 00:00:00 |
+| ADAMS   |   624 | 1987-01-06 00:00:00 |
+| ADAMS   |   627 | 1987-02-14 00:00:00 |
+| ADAMS   |   611 | 1987-01-11 00:00:00 |
+| ADAMS   |   614 | 1987-02-05 00:00:00 |
+| ADAMS   |   615 | 1987-02-06 00:00:00 |
+| ADAMS   |   625 | 1987-01-10 00:00:00 |
+| ADAMS   |   613 | 1987-02-01 00:00:00 |
+| ADAMS   |   622 | 1987-01-01 00:00:00 |
+| ADAMS   |   616 | 1987-02-10 00:00:00 |
+| ADAMS   |   621 | 1987-03-14 00:00:00 |
+| Grass   |   611 | 1987-01-11 00:00:00 |
+| Grass   |   627 | 1987-02-14 00:00:00 |
+| Grass   |   626 | 1987-02-01 00:00:00 |
+| Grass   |   625 | 1987-01-10 00:00:00 |
+| Grass   |   610 | 1987-01-08 00:00:00 |
+| Grass   |   617 | 1987-03-03 00:00:00 |
+| Grass   |   624 | 1987-01-06 00:00:00 |
+| Grass   |   612 | 1987-01-20 00:00:00 |
+| Grass   |   613 | 1987-02-01 00:00:00 |
+| Grass   |   621 | 1987-03-14 00:00:00 |
+| Grass   |   615 | 1987-02-06 00:00:00 |
+| Grass   |   616 | 1987-02-10 00:00:00 |
+| Grass   |   622 | 1987-01-01 00:00:00 |
+| Grass   |   620 | 1987-03-12 00:00:00 |
+| Grass   |   618 | 1987-03-06 00:00:00 |
+| Grass   |   614 | 1987-02-05 00:00:00 |
+| Grass   |   619 | 1987-02-04 00:00:00 |
+| Jackson |   625 | 1987-01-10 00:00:00 |
+| Jackson |   618 | 1987-03-06 00:00:00 |
+| Jackson |   610 | 1987-01-08 00:00:00 |
+| Jackson |   622 | 1987-01-01 00:00:00 |
+| Jackson |   627 | 1987-02-14 00:00:00 |
+| Jackson |   615 | 1987-02-06 00:00:00 |
+| Jackson |   613 | 1987-02-01 00:00:00 |
+| Jackson |   621 | 1987-03-14 00:00:00 |
+| Jackson |   614 | 1987-02-05 00:00:00 |
+| Jackson |   611 | 1987-01-11 00:00:00 |
+| Jackson |   626 | 1987-02-01 00:00:00 |
+| Jackson |   620 | 1987-03-12 00:00:00 |
+| Jackson |   619 | 1987-02-04 00:00:00 |
+| Jackson |   624 | 1987-01-06 00:00:00 |
+| Jackson |   616 | 1987-02-10 00:00:00 |
+| Jackson |   612 | 1987-01-20 00:00:00 |
+| Jackson |   617 | 1987-03-03 00:00:00 |
+| Joe     |   612 | 1987-01-20 00:00:00 |
+| Joe     |   615 | 1987-02-06 00:00:00 |
+| Joe     |   624 | 1987-01-06 00:00:00 |
+| Joe     |   627 | 1987-02-14 00:00:00 |
+| Joe     |   614 | 1987-02-05 00:00:00 |
+| Joe     |   620 | 1987-03-12 00:00:00 |
+| Joe     |   626 | 1987-02-01 00:00:00 |
+| Joe     |   622 | 1987-01-01 00:00:00 |
+| Joe     |   625 | 1987-01-10 00:00:00 |
+| Joe     |   621 | 1987-03-14 00:00:00 |
+| Joe     |   616 | 1987-02-10 00:00:00 |
+| Joe     |   617 | 1987-03-03 00:00:00 |
+| Joe     |   613 | 1987-02-01 00:00:00 |
+| Joe     |   619 | 1987-02-04 00:00:00 |
+| Joe     |   610 | 1987-01-08 00:00:00 |
+| Joe     |   611 | 1987-01-11 00:00:00 |
+| Joe     |   618 | 1987-03-06 00:00:00 |
+| Raj     |   610 | 1987-01-08 00:00:00 |
+| Raj     |   611 | 1987-01-11 00:00:00 |
+| Raj     |   612 | 1987-01-20 00:00:00 |
+| Raj     |   613 | 1987-02-01 00:00:00 |
+| Raj     |   614 | 1987-02-05 00:00:00 |
+| Raj     |   615 | 1987-02-06 00:00:00 |
+| Raj     |   616 | 1987-02-10 00:00:00 |
+| Raj     |   617 | 1987-03-03 00:00:00 |
+| Raj     |   622 | 1987-01-01 00:00:00 |
+| Raj     |   618 | 1987-03-06 00:00:00 |
+| Raj     |   619 | 1987-02-04 00:00:00 |
+| Raj     |   620 | 1987-03-12 00:00:00 |
+| Raj     |   621 | 1987-03-14 00:00:00 |
+| Raj     |   624 | 1987-01-06 00:00:00 |
+| Raj     |   625 | 1987-01-10 00:00:00 |
+| Raj     |   626 | 1987-02-01 00:00:00 |
+| Raj     |   627 | 1987-02-14 00:00:00 |
+| Raja    |   619 | 1987-02-04 00:00:00 |
+| Raja    |   614 | 1987-02-05 00:00:00 |
+| Raja    |   621 | 1987-03-14 00:00:00 |
+| Raja    |   615 | 1987-02-06 00:00:00 |
+| Raja    |   612 | 1987-01-20 00:00:00 |
+| Raja    |   610 | 1987-01-08 00:00:00 |
+| Raja    |   624 | 1987-01-06 00:00:00 |
+| Raja    |   626 | 1987-02-01 00:00:00 |
+| Raja    |   616 | 1987-02-10 00:00:00 |
+| Raja    |   620 | 1987-03-12 00:00:00 |
+| Raja    |   618 | 1987-03-06 00:00:00 |
+| Raja    |   611 | 1987-01-11 00:00:00 |
+| Raja    |   625 | 1987-01-10 00:00:00 |
+| Raja    |   613 | 1987-02-01 00:00:00 |
+| Raja    |   622 | 1987-01-01 00:00:00 |
+| Raja    |   617 | 1987-03-03 00:00:00 |
+| Raja    |   627 | 1987-02-14 00:00:00 |
+| Santosh |   627 | 1987-02-14 00:00:00 |
+| Santosh |   617 | 1987-03-03 00:00:00 |
+| Santosh |   624 | 1987-01-06 00:00:00 |
+| Santosh |   619 | 1987-02-04 00:00:00 |
+| Santosh |   616 | 1987-02-10 00:00:00 |
+| Santosh |   612 | 1987-01-20 00:00:00 |
+| Santosh |   625 | 1987-01-10 00:00:00 |
+| Santosh |   611 | 1987-01-11 00:00:00 |
+| Santosh |   610 | 1987-01-08 00:00:00 |
+| Santosh |   620 | 1987-03-12 00:00:00 |
+| Santosh |   626 | 1987-02-01 00:00:00 |
+| Santosh |   615 | 1987-02-06 00:00:00 |
+| Santosh |   618 | 1987-03-06 00:00:00 |
+| Santosh |   621 | 1987-03-14 00:00:00 |
+| Santosh |   614 | 1987-02-05 00:00:00 |
+| Santosh |   622 | 1987-01-01 00:00:00 |
+| Santosh |   613 | 1987-02-01 00:00:00 |
+| Smith   |   614 | 1987-02-05 00:00:00 |
+| Smith   |   626 | 1987-02-01 00:00:00 |
+| Smith   |   617 | 1987-03-03 00:00:00 |
+| Smith   |   620 | 1987-03-12 00:00:00 |
+| Smith   |   622 | 1987-01-01 00:00:00 |
+| Smith   |   618 | 1987-03-06 00:00:00 |
+| Smith   |   615 | 1987-02-06 00:00:00 |
+| Smith   |   616 | 1987-02-10 00:00:00 |
+| Smith   |   611 | 1987-01-11 00:00:00 |
+| Smith   |   625 | 1987-01-10 00:00:00 |
+| Smith   |   627 | 1987-02-14 00:00:00 |
+| Smith   |   621 | 1987-03-14 00:00:00 |
+| Smith   |   610 | 1987-01-08 00:00:00 |
+| Smith   |   619 | 1987-02-04 00:00:00 |
+| Smith   |   612 | 1987-01-20 00:00:00 |
+| Smith   |   624 | 1987-01-06 00:00:00 |
+| Smith   |   613 | 1987-02-01 00:00:00 |
+| William |   618 | 1987-03-06 00:00:00 |
+| William |   620 | 1987-03-12 00:00:00 |
+| William |   616 | 1987-02-10 00:00:00 |
+| William |   624 | 1987-01-06 00:00:00 |
+| William |   625 | 1987-01-10 00:00:00 |
+| William |   614 | 1987-02-05 00:00:00 |
+| William |   622 | 1987-01-01 00:00:00 |
+| William |   612 | 1987-01-20 00:00:00 |
+| William |   611 | 1987-01-11 00:00:00 |
+| William |   619 | 1987-02-04 00:00:00 |
+| William |   627 | 1987-02-14 00:00:00 |
+| William |   615 | 1987-02-06 00:00:00 |
+| William |   621 | 1987-03-14 00:00:00 |
+| William |   610 | 1987-01-08 00:00:00 |
+| William |   626 | 1987-02-01 00:00:00 |
+| William |   613 | 1987-02-01 00:00:00 |
+| William |   617 | 1987-03-03 00:00:00 |
++---------+-------+---------------------+
+153 rows in set (0.00 sec)
+
+
+
+
+===================================================================================
+5.    Display salesman names and names of customers they are dealing with.
+ mysql>    select s.sname,c.cname from salespeople s join customers c on s.snum=c.snum;
++---------+---------+
+| sname   | cname   |
++---------+---------+
+| Rajan   | Santosh |
+| Alax    | Joe     |
+| Natasha | Raj     |
+| Natasha | Grass   |
+| Rajan   | Raja    |
+| Monika  | Jackson |
+| James   | William |
+| James   | Smith   |
+| James   | ADAMS   |
++---------+---------+
+9 rows in set (0.00 sec)
+
+
+
+===================================================================================
+6.	Display salesman who did not earn commission, with customer names whom they are dealing with.
+
+mysql> select s.sname,c.cname from salespeople s join customers c on s.snum=c.snum where comm is null;
+Empty set (0.00 sec)
+
+===================================================================================	
+7.	Display salesman names, salary, commission and their salary grades.
+
+
+mysql> select   e.ename,sal,e.comm ,s.grade from emp e, salgrade s where e.sal between  s.losal and s.hisal;
++----------+------+------+-------+
+| ename    | sal  | comm | grade |
++----------+------+------+-------+
+| GITA     | 1750 | NULL |     3 |
+| VRUSHALI | 1750 | NULL |     3 |
+| SHARMIN  | 1750 | NULL |     3 |
+| BANDISH  | 1750 | NULL |     3 |
+| SMITH    |  800 | NULL |     1 |
+| AARAV    | 3350 | NULL |     5 |
+| THOMAS   | 1750 | NULL |     3 |
+| ALLEN    | 1600 |  300 |     3 |
+| WARD     | 1250 |  500 |     2 |
+| JONES    | 2975 | NULL |     4 |
+| MARTIN   | 1250 | 1400 |     2 |
+| BLAKE    | 2850 | NULL |     4 |
+| CLARK    | 2450 | NULL |     4 |
+| SCOTT    | 3000 | NULL |     4 |
+| KING     | 5000 | NULL |     6 |
+| FRED     | 5000 | NULL |     6 |
+| TURNER   | 1500 |    0 |     3 |
+| ADAMS    | 1100 | NULL |     1 |
+| JAMES    |  950 | NULL |     1 |
+| FORD     | 3000 | NULL |     4 |
+| HOFFMAN  | 4150 | NULL |     6 |
+| GRASS    | 2575 | 2700 |     4 |
+| MILLER   | 1300 | NULL |     2 |
+| AARUSH   | 1350 | 2700 |     2 |
+| ALEX     | 1250 |  500 |     2 |
+| NATASHA  | 1750 | NULL |     3 |
+| SANGITA  | 1750 | NULL |     3 |
+| SUPRIYA  | 1750 | NULL |     3 |
++----------+------+------+-------+
+28 rows in set (0.00 sec)
+
+===================================================================================
+8.	Display all Tennis products and their price details (standard and minimum price).
+mysql> select  distinct prodname,stdprice,minprice from sales join price using(prodid);
++-------------------------+----------+----------+
+| prodname                | stdprice | minprice |
++-------------------------+----------+----------+
+| ACE TENNIS BALLS-6 PACK |     4.80 |     3.20 |
+| ACE TENNIS NET          |    58.00 |    46.40 |
+| ACE TENNIS NET          |    54.00 |    40.50 |
+| ACE TENNIS RACKET I     |    35.00 |    28.00 |
+| ACE TENNIS RACKET I     |    32.00 |    25.60 |
+| ACE TENNIS RACKET I     |    30.00 |    24.00 |
+| ACE TENNIS RACKET II    |    45.00 |    36.00 |
+| ACE TENNIS RACKET II    |    42.00 |    33.60 |
+| ACE TENNIS RACKET II    |    39.00 |    31.20 |
+| ACE TENNIS BALLS-3 PACK |     2.80 |     2.40 |
+| ACE TENNIS BALLS-3 PACK |     2.40 |     1.90 |
+| ACE TENNIS BALLS-6 PACK |     5.60 |     4.80 |
+| SP TENNIS RACKET        |    24.00 |    18.00 |
+| SP JUNIOR RACKET        |    12.50 |     9.40 |
+| RH: "GUIDE TO TENNIS"   |     3.40 |     2.80 |
+| SB ENERGY BAR-6 PACK    |     2.40 |     1.75 |
+| SB VITA SNACK-6 PACK    |     4.00 |     3.20 |
++-------------------------+----------+----------+
+17 rows in set (0.00 sec)
+
+
+===================================================================================
+9.	Display the products purchased by either JOCKSPORTS (customer number 100) or JUST TENNIS (customer number 103) or both of them.
+
+mysql> select custname,prodname,custid from sales where custname in ('jocksports','just tennis');
++-------------+-------------------------+--------+
+| custname    | prodname                | custid |
++-------------+-------------------------+--------+
+| JOCKSPORTS  | RH: "GUIDE TO TENNIS"   |    100 |
+| JOCKSPORTS  | ACE TENNIS RACKET II    |    100 |
+| JOCKSPORTS  | ACE TENNIS BALLS-3 PACK |    100 |
+| JOCKSPORTS  | ACE TENNIS NET          |    100 |
+| JOCKSPORTS  | ACE TENNIS RACKET I     |    100 |
+| JOCKSPORTS  | SB ENERGY BAR-6 PACK    |    100 |
+| JUST TENNIS | ACE TENNIS RACKET II    |    103 |
+| JUST TENNIS | ACE TENNIS BALLS-3 PACK |    103 |
+| JUST TENNIS | ACE TENNIS NET          |    103 |
+| JUST TENNIS | RH: "GUIDE TO TENNIS"   |    103 |
+| JUST TENNIS | SB ENERGY BAR-6 PACK    |    103 |
++-------------+-------------------------+--------+
+11 rows in set (0.00 sec)
+
+
+===================================================================================
+10.	Display the department name, and salary of any employee whose salary and commission matches both the salary and commission of any employee in DALLAS.
+mysql> select ename,sal,loc,dname from emp inner join dept on emp.deptno=dept.deptno where loc='dallas';
++---------+------+--------+----------+
+| ename   | sal  | loc    | dname    |
++---------+------+--------+----------+
+| SHARMIN | 1750 | DALLAS | RESEARCH |
+| BANDISH | 1750 | DALLAS | RESEARCH |
+| SMITH   |  800 | DALLAS | RESEARCH |
+| JONES   | 2975 | DALLAS | RESEARCH |
+| SCOTT   | 3000 | DALLAS | RESEARCH |
+| FRED    | 5000 | DALLAS | RESEARCH |
+| ADAMS   | 1100 | DALLAS | RESEARCH |
+| FORD    | 3000 | DALLAS | RESEARCH |
++---------+------+--------+----------+
+8 rows in set (0.00 sec)
+===================================================================================
+11.	List out the common jobs in Research and Accounting Departments in ascending order.
+
+select e.job from emp e inner join  dept d on  e.deptno = d. deptno   where d.dname="Research" or  d.dname="Accounting";
+
+mysql> select  distinct dname, job from emp left join dept on emp.deptno=dept.deptno  where dname in ('research' ,'accounting') ;
++------------+-----------------+
+| dname      | job             |
++------------+-----------------+
+| ACCOUNTING | CLERK           |
+| ACCOUNTING | MANAGER         |
+| ACCOUNTING | PRESIDENT       |
+| RESEARCH   | Public Relation |
+| RESEARCH   | CLERK           |
+| RESEARCH   | MANAGER         |
+| RESEARCH   | ANALYST         |
+| RESEARCH   | vice PRESIDENT  |
++------------+-----------------+
+8 rows in set (0.00 sec)
+===================================================================================
+
+
+

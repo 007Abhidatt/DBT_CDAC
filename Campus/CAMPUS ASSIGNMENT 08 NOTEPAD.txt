@@ -1,0 +1,181 @@
+CAMPUS ASSIGNMENT 08
+
+
+
+1.	Count total number of students.
+mysql> SELECT  COUNT(*) AS total_stud FROM STUDENT;
++------------+
+| total_stud |
++------------+
+|         28 |
++------------+
+1 row in set (0.00 sec)
+===================================================================================
+2.	Count total number of students who are born in 1986.
+mysql> select count(*) from student where year(dob)=1986;
++----------+
+| count(*) |
++----------+
+|        2 |
++----------+
+1 row in set (0.00 sec)
+===================================================================================
+3.	Count total number of students whose namefirst starts with the letter ‘B’.
+
+mysql> select count(*) from student where namefirst like'b%';
++----------+
+| count(*) |
++----------+
+|        3 |
++----------+
+1 row in set (0.00 sec)
+===================================================================================
+4.	Count total number student who were born in ‘July.
+mysql> select count(*) from student where monthname(dob)='july';
++----------+
+| count(*) |
++----------+
+|        6 |
++----------+
+1 row in set (0.00 sec)
+===================================================================================
+5.	Display studentID and count the student who is having more than two phones.
+
+mysql> select studentid  ,count(*) from student_phone group by studentid having count(number)>2;
++-----------+----------+
+| studentid | count(*) |
++-----------+----------+
+|         6 |        3 |
+|        13 |        4 |
++-----------+----------+
+2 rows in set (0.00 sec)
+
+===================================================================================
+6.	Count unique universities from student_qualifications table.
+mysql> select  count(distinct  university) from student_qualifications;
++-----------------------------+
+| count(distinct  university) |
++-----------------------------+
+|                          11 |
++-----------------------------+
+1 row in set (0.00 sec)
+===================================================================================
+7.	Display the university name and the count of those students who have done ‘BE’
+ mysql>  select university , count(*)  from student_qualifications where name='BE' group by university ;
++-------------------------+----------+
+| university              | count(*) |
++-------------------------+----------+
+| Harvard University      |        9 |
+| University of Florida   |        3 |
+| University of Chicago   |        1 |
+| Columbia University     |        2 |
+| Yale University         |        1 |
+| Pennsylvania University |        2 |
+| University of Michigan  |        1 |
+| University of Ohio      |        1 |
++-------------------------+----------+
+8 rows in set (0.00 sec)
+===================================================================================
+8.	Count how many students has done ‘BE’.
+mysql> select count(*) from student_qualifications where name='BE';
++----------+
+| count(*) |
++----------+
+|       20 |
++----------+
+1 row in set (0.00 sec)
+
+===================================================================================
+9.	Count how many students has not done ‘BE’.
+mysql> select count(*) from student_qualifications where name<>'be';
++----------+
+| count(*) |
++----------+
+|       65 |
++----------+
+1 row in set (0.00 sec)
+===================================================================================
+10.	Find the maximum marks student got in ‘BE’.
+    mysql>     select max(marks) from student_qualifications where name='be';
++------------+
+| max(marks) |
++------------+
+| 97         |
++------------+
+1 row in set (0.00 sec)
+===================================================================================
+11.	Find the minimum marks student got in ‘BE’.
+  mysql> select min(marks) from student_qualifications where name='be';
++------------+
+| min(marks) |
++------------+
+| 57         |
++------------+
+1 row in set (0.00 sec)
+===================================================================================
+12.	Count how many course_batches have started on ’2016-02-01’.
+mysql> select count(*) from course_batches where starton='2016-02-01';
++----------+
+| count(*) |
++----------+
+|        3 |
++----------+
+1 row in set (0.00 sec)
+===================================================================================
+
+13.	Count the number of students who have more than 60% in ‘BE’.
+mysql>   select count(*) from student_qualifications where  marks>60 and name='be';
++----------+
+| count(*) |
++----------+
+|       19 |
++----------+
+1 row in set (0.00 sec)
+===================================================================================
+14.    Count the number of students who have more than 60% in ‘BE’ and done from ‘Harvard university’..
+
+
+mysql> select count(*) from student_qualifications where  marks>60 and name='be' and university='Harvard university';
++----------+
+| count(*) |
++----------+
+|        9 |
++----------+
+1 row in set (0.00 sec)
+===================================================================================
+15.	Count number of courses.
+mysql> select count( distinct name)  from course;
++-----------------------+
+| count( distinct name) |
++-----------------------+
+|                     7 |
++-----------------------+
+1 row in set (0.00 sec)
+
+mysql> select count(*)  from course;
++----------+
+| count(*) |
++----------+
+|        7 |
++----------+
+1 row in set (0.00 sec)
+===================================================================================
+
+16.	Count how many distinct universities from student_qualifications table.
+mysql> select count(distinct university) from student_qualifications;
++----------------------------+
+| count(distinct university) |
++----------------------------+
+|                         11 |
++----------------------------+
+1 row in set (0.00 sec)
+===================================================================================
+17.	Find the maximum marks any student has got in “BE”.
+mysql> select max(marks) from student_qualifications where name='BE';
++------------+
+| max(marks) |
++------------+
+| 97         |
++------------+
+1 row in set (0.00 sec)
+===================================================================================
