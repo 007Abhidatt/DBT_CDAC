@@ -1,0 +1,2453 @@
+Microsoft Windows [Version 10.0.26100.3775]
+(c) Microsoft Corporation. All rights reserved.
+
+C:\Users\SALEEL>mongosh --host=192.168.1.16 --port=27017 db1
+Current Mongosh Log ID: 67f8fde3154fb886a4ea4a45
+Connecting to:          mongodb://192.168.1.16:27017/db1?directConnection=true&appName=mongosh+2.0.2
+Using MongoDB:          7.0.2
+Using Mongosh:          2.0.2
+mongosh 2.5.0 is available for download: https://www.mongodb.com/try/download/shell
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2025-04-11T17:02:18.555+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+Enterprise db1> exit
+
+C:\Users\SALEEL>mongosh --host=192.168.1.16 --port=27017 db1
+Current Mongosh Log ID: 67f8fdeccc5a0a95f01b5bdf
+Connecting to:          mongodb://192.168.1.16:27017/db1?directConnection=true&appName=mo
+Enterprise db1> exit
+
+C:\Users\SALEEL>mongosh --host=192.168.1.16 --port=27017 db1
+Current Mongosh Log ID: 67f901c77b76400254e1bb9a
+Connecting to:          mongodb://192.168.1.16:27017/db1?directConnection=true&appName=mongosh+2.0.2
+Using MongoDB:          7.0.2
+Using Mongosh:          2.0.2
+mongosh 2.5.0 is available for download: https://www.mongodb.com/try/download/shell
+
+For mongosh info see: https://docs.mongodb.com/mongodb-shell/
+
+------
+   The server generated these startup warnings when booting
+   2025-04-11T17:11:34.006+05:30: Access control is not enabled for the database. Read and write access to data and configuration is unrestricted
+------
+
+Enterprise db1> db
+db1
+Enterprise db1> db.getCollectionNames()p;
+Uncaught:
+SyntaxError: Missing semicolon. (1:23)
+
+> 1 | db.getCollectionNames()p;
+    |                        ^
+  2 |
+
+Enterprise db1> db.getCollectionNames();
+[
+  'author', 'movies',
+  'y',      'x',
+  'books',  'posts',
+  'emp'
+]
+Enterprise db1> db.auth.find();
+TypeError: db.auth.find is not a function
+Enterprise db1> db.author.find();
+
+Enterprise db1> db.author.find();
+[ { _id: 1, ename: 'saleel', city: 'baroda' } ]
+Enterprise db1> db.author.find();
+[
+  { _id: 1, ename: 'saleel', city: 'baroda' },
+  { _id: 2, ename: 'ruhan', city: 'pune', salary: 4000 },
+  { _id: 3, ename: 'neel', city: 'nashik', salary: 5000 }
+]
+Enterprise db1> db.movie.find();
+
+Enterprise db1> db.movies.find();
+[
+  {
+    _id: 1,
+    relese: '13-06-1998',
+    color: '',
+    director: 'James Cameron',
+    critic: 723,
+    duration: 178,
+    director_facebook: 0,
+    actor_3_facebook: 855,
+    actor_2_name: 'Joel David Moore',
+    actor_1_facebook_likes: 1000,
+    gross: 760505847,
+    genres: 'Action|Adventure|Fantasy|Sci-Fi',
+    actor_1_name: 'CCH Pounder',
+    movie_title: 'Avatar',
+    num_voted_users: 886204,
+    cast_total_facebook_likes: 4834,
+    actor_3_name: 'Wes Studi',
+    facenumber_in_poster: 0,
+    plot_keywords: 'avatar|future|marine|native|paraplegic',
+    movie_imdb_link: 'http://www.imdb.com/title/tt0499549/?ref_=fn_tt_tt_1',
+    num_user_for_reviews: 3054,
+    language: 'English',
+    country: 'USA',
+    content_rating: 'PG-13',
+    budget: 237000001,
+    title_year: 1998,
+    actor_2_facebook_likes: 936,
+    imdb_score: 7.9,
+    aspect_ratio: 1.120835,
+    movie_facebook_likes: 33000,
+    'production houses': 'The Weinstein Company',
+    week1: 28.103,
+    week2: 67.888,
+    week3: 37.319,
+    week4: 48.732,
+    isActive: 1,
+    music: 'James Horner',
+    stars: { '0': 0, '1': 0, '2': 1, '3': 1, '4': 1 }
+  },
+  {
+    _id: 2,
+    relese: '14-11-1968',
+    color: 'Color',
+    director: 'Gore Verbinski',
+    critic: 302,
+    duration: 169,
+    director_facebook: 563,
+    actor_3_facebook: 1000,
+    actor_2_name: 'Orlando Bloom',
+    actor_1_facebook_likes: 40000,
+    gross: 309404152,
+    genres: 'Action|Adventure|Fantasy',
+    actor_1_name: 'Johnny Depp',
+    movie_title: "Pirates of the Caribbean: At World's End",
+    num_voted_users: 471220,
+    cast_total_facebook_likes: 48350,
+    actor_3_name: 'Jack Davenport',
+    facenumber_in_poster: 0,
+    plot_keywords: 'goddess|marriage ceremony|marriage proposal|pirate|singapore',
+    movie_imdb_link: 'http://www.imdb.com/title/tt0449088/?ref_=fn_tt_tt_1',
+    num_user_for_reviews: 1238,
+    language: 'English',
+    country: 'USA',
+    content_rating: 'PG-13',
+    budget: 300000000,
+    title_year: 1968,
+    actor_2_facebook_likes: 5000,
+    imdb_score: 7.1,
+    aspect_ratio: 2.370591809,
+    movie_facebook_likes: 0,
+    'production houses': 'The Weinstein Company',
+    week1: 0.323,
+    week2: 4.543,
+    week3: 69.805,
+    week4: 2.022,
+    isActive: 0,
+    music: 'Lorne Balfe',
+    stars: { '0': 1, '1': 1, '2': 1, '3': 1, '4': 1 }
+  },
+  {
+    _id: 3,
+    relese: '01-11-1969',
+    color: 'Color',
+    director: 'Sam Mendes',
+    critic: 602,
+    duration: 148,
+    director_facebook: 0,
+    actor_3_facebook: 161,
+    actor_2_name: 'Rory Kinnear',
+    actor_1_facebook_likes: 11000,
+    gross: 200074175,
+    genres: 'Action|Adventure|Thriller',
+    actor_1_name: 'Christoph Waltz',
+    movie_title: 'Spectre',
+    num_voted_users: 275868,
+    cast_total_facebook_likes: 11700,
+    actor_3_name: 'Stephanie Sigman',
+    facenumber_in_poster: 1,
+    plot_keywords: 'bomb|espionage|sequel|spy|terrorist',
+    movie_imdb_link: 'http://www.imdb.com/title/tt2379713/?ref_=fn_tt_tt_1',
+    num_user_for_reviews: 994,
+    language: 'English',
+    country: 'UK',
+    content_rating: 'PG-13',
+    budget: 245000000,
+    title_year: 1969,
+    actor_2_facebook_likes: 393,
+    imdb_score: 6.8,
+    aspect_ratio: 2.022457101,
+    movie_facebook_likes: 85000,
+    'production houses': 'Independent',
+    week1: 29.811,
+    week2: 97.568,
+    week3: 12.883,
+    week4: 0.502,
+    isActive: 0,
+    music: 'Thomas Newman',
+    stars: { '0': 0, '1': 0, '2': 0, '3': 1, '4': 0 }
+  },
+  {
+    _id: 4,
+    relese: '13-03-1977',
+    color: 'Color',
+    director: 'Christopher Nolan',
+    critic: 813,
+    duration: 164,
+    director_facebook: 22000,
+    actor_3_facebook: 23000,
+    actor_2_name: 'Christian Bale',
+    actor_1_facebook_likes: 27000,
+    gross: 448130642,
+    genres: 'Action|Thriller',
+    actor_1_name: 'Tom Hardy',
+    movie_title: 'The Dark Knight Rises',
+    num_voted_users: 1144337,
+    cast_total_facebook_likes: 106759,
+    actor_3_name: 'Joseph Gordon-Levitt',
+    facenumber_in_poster: 0,
+    plot_keywords: 'deception|imprisonment|lawlessness|police officer|terrorist plot',
+    movie_imdb_link: 'http://www.imdb.com/title/tt1345836/?ref_=fn_tt_tt_1',
+    num_user_for_reviews: 2701,
+    language: 'English',
+    country: 'USA',
+    content_rating: 'PG-13',
+    budget: 250000000,
+    title_year: 1977,
+    actor_2_facebook_likes: 23000,
+    imdb_score: 8.5,
+    aspect_ratio: 1.178821504,
+    movie_facebook_likes: 164000,
+    'production houses': 'Disney',
+    week1: 74.391,
+    week2: 76.182,
+    week3: 62.271,
+    week4: 0.362,
+    isActive: 1,
+    music: '',
+    stars: { '0': 1, '1': 1, '2': 0, '3': 0, '4': 0 }
+  },
+  {
+    _id: 5,
+    relese: '28-02-2001',
+    color: '',
+    director: 'Doug Walker',
+    critic: '',
+    duration: '',
+    director_facebook: 131,
+    actor_3_facebook: '',
+    actor_2_name: 'Rob Walker',
+    actor_1_facebook_likes: 131,
+    gross: '',
+    genres: 'Documentary',
+    actor_1_name: 'Doug Walker',
+    movie_title: 'Star Wars: Episode VII - The Force Awakens',
+    num_voted_users: 8,
+    cast_total_facebook_likes: 143,
+    actor_3_name: '',
+    facenumber_in_poster: 0,
+    plot_keywords: '',
+    movie_imdb_link: 'http://www.imdb.com/title/tt5289954/?ref_=fn_tt_tt_1',
+    num_user_for_reviews: '',
+    language: '',
+    country: 'Canada',
+    content_rating: '',
+    budget: '',
+    title_year: 2001,
+    actor_2_facebook_likes: 12,
+    imdb_score: 7.1,
+    aspect_ratio: 1.323596068,
+    movie_facebook_likes: 0,
+    'production houses': 'Fox',
+    week1: 50.864,
+    week2: 79.767,
+    week3: 25.178,
+    week4: 39.018,
+    isActive: 1,
+    music: 'John Williams',
+    stars: { '0': 1, '1': 1, '2': 0, '3': 0, '4': 1 }
+  },
+  {
+    _id: 6,
+    relese: '21-07-1965',
+    color: 'Color',
+    director: 'Andrew Stanton',
+    critic: 462,
+    duration: 132,
+    director_facebook: 475,
+    actor_3_facebook: 530,
+    actor_2_name: 'Samantha Morton',
+    actor_1_facebook_likes: 640,
+    gross: 73058679,
+    genres: 'Action|Adventure|Sci-Fi',
+    actor_1_name: 'Daryl Sabara',
+    movie_title: 'John Carter',
+    num_voted_users: 212204,
+    cast_total_facebook_likes: 1873,
+    actor_3_name: 'Polly Walker',
+    facenumber_in_poster: 1,
+    plot_keywords: 'alien|american civil war|male nipple|mars|princess',
+    movie_imdb_link: 'http://www.imdb.com/title/tt0401729/?ref_=fn_tt_tt_1',
+    num_user_for_reviews: 738,
+    language: 'English',
+    country: 'USA',
+    content_rating: 'PG-13',
+    budget: 263700000,
+    title_year: 1965,
+    actor_2_facebook_likes: 632,
+    imdb_score: 6.6,
+    aspect_ratio: 2.103939087,
+    movie_facebook_likes: 24000,
+    'production houses': '20th Century Fox',
+    week1: 94.885,
+    week2: 61.663,
+    week3: 64.056,
+    week4: 16.328,
+    isActive: 1,
+    music: 'Michael Giacchino',
+    stars: { '0': 1, '1': 1, '2': 1, '3': 1, '4': 1 }
+  },
+  {
+    _id: 7,
+    relese: '16-05-1990',
+    color: 'Color',
+    director: 'Sam Raimi',
+    critic: 392,
+    duration: 156,
+    director_facebook: 0,
+    actor_3_facebook: 4000,
+    actor_2_name: 'James Franco',
+    actor_1_facebook_likes: 24000,
+    gross: 336530303,
+    genres: 'Action|Adventure|Romance',
+    actor_1_name: 'J.K. Simmons',
+    movie_title: 'Spider-Man 3',
+    num_voted_users: 383056,
+    cast_total_facebook_likes: 46055,
+    actor_3_name: 'Kirsten Dunst',
+    facenumber_in_poster: 0,
+    plot_keywords: 'sandman|spider man|symbiote|venom|villain',
+    movie_imdb_link: 'http://www.imdb.com/title/tt0413300/?ref_=fn_tt_tt_1',
+    num_user_for_reviews: 1902,
+    language: 'English',
+    country: 'USA',
+    content_rating: 'PG-13',
+    budget: 258000000,
+    title_year: 1990,
+    actor_2_facebook_likes: 11000,
+    imdb_score: 6.2,
+    aspect_ratio: 2.305530641,
+    movie_facebook_likes: 0,
+    'production houses': 'Disney',
+    week1: 49.352,
+    week2: 88.384,
+    week3: 43.782,
+    week4: 8.155,
+    isActive: 0,
+    music: 'Christopher Young',
+    stars: { '0': 1, '1': 0, '2': 1, '3': 1, '4': 0 }
+  },
+  {
+    _id: 8,
+    relese: '18-07-1971',
+    color: 'Color',
+    director: 'Nathan Greno',
+    critic: 324,
+    duration: 100,
+    director_facebook: 15,
+    actor_3_facebook: 284,
+    actor_2_name: 'Donna Murphy',
+    actor_1_facebook_likes: 799,
+    gross: 200807262,
+    genres: 'Adventure|Animation|Comedy|Family|Fantasy|Musical|Romance',
+    actor_1_name: 'Brad Garrett',
+    movie_title: 'Tangled',
+    num_voted_users: 294810,
+    cast_total_facebook_likes: 2036,
+    actor_3_name: 'M.C. Gainey',
+    facenumber_in_poster: 1,
+    plot_keywords: '17th century|based on fairy tale|disney|flower|tower',
+    movie_imdb_link: 'http://www.imdb.com/title/tt0398286/?ref_=fn_tt_tt_1',
+    num_user_for_reviews: 387,
+    language: 'English',
+    country: 'USA',
+    content_rating: 'PG',
+    budget: 260000000,
+    title_year: 1971,
+    actor_2_facebook_likes: 553,
+    imdb_score: 7.8,
+    aspect_ratio: 2.133924229,
+    movie_facebook_likes: 29000,
+    'production houses': 'Independent',
+    week1: 47.766,
+    week2: 68.111,
+    week3: 32.725,
+    week4: 6.232,
+    isActive: 1,
+    music: 'Alan Menken',
+    stars: { '0': 0, '1': 1, '2': 0, '3': 0, '4': 1 }
+  },
+  {
+    _id: 9,
+    relese: '15-05-1976',
+    color: 'Color',
+    director: 'Joss Whedon',
+    critic: 635,
+    duration: 141,
+    director_facebook: 0,
+    actor_3_facebook: 19000,
+    actor_2_name: 'Robert Downey Jr.',
+    actor_1_facebook_likes: 26000,
+    gross: 458991599,
+    genres: 'Action|Adventure|Sci-Fi',
+    actor_1_name: 'Chris Hemsworth',
+    movie_title: 'Avengers: Age of Ultron',
+    num_voted_users: 462669,
+    cast_total_facebook_likes: 92000,
+    actor_3_name: 'Scarlett Johansson',
+    facenumber_in_poster: 4,
+    plot_keywords: 'artificial intelligence|based on comic book|captain america|marvel cinematic universe|superhero',
+    movie_imdb_link: 'http://www.imdb.com/title/tt2395427/?ref_=fn_tt_tt_1',
+    num_user_for_reviews: 1117,
+    language: 'English',
+    country: 'USA',
+    content_rating: 'PG-13',
+    budget: 250000000,
+    title_year: 1976,
+    actor_2_facebook_likes: 21000,
+    imdb_score: 7.5,
+    aspect_ratio: 1.877056704,
+    movie_facebook_likes: 118000,
+    'production houses': 'Independent',
+    week1: 61.289,
+    week2: 33.403,
+    week3: 38.954,
+    week4: 22.222,
+    isActive: 1,
+    music: 'Brian Tyler',
+    stars: { '0': 1, '1': 0, '2': 0, '3': 1, '4': 1 }
+  },
+  {
+    _id: 10,
+    relese: '05-06-1964',
+    color: 'Color',
+    director: 'David Yates',
+    critic: 375,
+    duration: 153,
+    director_facebook: 282,
+    actor_3_facebook: 10000,
+    actor_2_name: 'Daniel Radcliffe',
+    actor_1_facebook_likes: 25000,
+    gross: 301956980,
+    genres: 'Adventure|Family|Fantasy|Mystery',
+    actor_1_name: 'Alan Rickman',
+    movie_title: 'Harry Potter and the Half-Blood Prince',
+    num_voted_users: 321795,
+    cast_total_facebook_likes: 58753,
+    actor_3_name: 'Rupert Grint',
+    facenumber_in_poster: 3,
+    plot_keywords: 'blood|book|love|potion|professor',
+    movie_imdb_link: 'http://www.imdb.com/title/tt0417741/?ref_=fn_tt_tt_1',
+    num_user_for_reviews: 973,
+    language: 'English',
+    country: 'UK',
+    content_rating: 'PG',
+    budget: 250000000,
+    title_year: 1964,
+    actor_2_facebook_likes: 11000,
+    imdb_score: 7.5,
+    aspect_ratio: 1.206639454,
+    movie_facebook_likes: 10000,
+    'production houses': 'Warner Bros.',
+    week1: 0.062,
+    week2: 89.447,
+    week3: 53.728,
+    week4: 21.924,
+    isActive: 1,
+    music: 'Nicholas Hooper',
+    stars: { '0': 0, '1': 0, '2': 1, '3': 0, '4': 1 }
+  },
+  {
+    _id: 11,
+    relese: '23-09-1982',
+    color: 'Color',
+    director: 'Zack Snyder',
+    critic: 673,
+    duration: 183,
+    director_facebook: 0,
+    actor_3_facebook: 2000,
+    actor_2_name: 'Lauren Cohan',
+    actor_1_facebook_likes: 15000,
+    gross: 330249062,
+    genres: 'Action|Adventure|Sci-Fi',
+    actor_1_name: 'Henry Cavill',
+    movie_title: 'Batman v Superman: Dawn of Justice',
+    num_voted_users: 371639,
+    cast_total_facebook_likes: 24450,
+    actor_3_name: 'Alan D. Purwin',
+    facenumber_in_poster: 0,
+    plot_keywords: 'based on comic book|batman|sequel to a reboot|superhero|superman',
+    movie_imdb_link: 'http://www.imdb.com/title/tt2975590/?ref_=fn_tt_tt_1',
+    num_user_for_reviews: 3018,
+    language: 'English',
+    country: 'USA',
+    content_rating: 'PG-13',
+    budget: 250000000,
+    title_year: 1982,
+    actor_2_facebook_likes: 4000,
+    imdb_score: 6.9,
+    aspect_ratio: 2.40581849,
+    movie_facebook_likes: 197000,
+    'production houses': 'Independent',
+    week1: 30.245,
+    week2: 8.061,
+    week3: 51.964,
+    week4: 3.523,
+    isActive: 0,
+    music: 'WaterTower',
+    stars: { '0': 0, '1': 1, '2': 1, '3': 0, '4': 1 }
+  },
+  {
+    _id: 12,
+    relese: '01-09-2005',
+    color: 'Color',
+    director: 'Bryan Singer',
+    critic: 434,
+    duration: 169,
+    director_facebook: 0,
+    actor_3_facebook: 903,
+    actor_2_name: 'Marlon Brando',
+    actor_1_facebook_likes: 18000,
+    gross: 200069408,
+    genres: 'Action|Adventure|Sci-Fi',
+    actor_1_name: 'Kevin Spacey',
+    movie_title: 'Superman Returns',
+    num_voted_users: 240396,
+    cast_total_facebook_likes: 29991,
+    actor_3_name: 'Frank Langella',
+    facenumber_in_poster: 0,
+    plot_keywords: 'crystal|epic|lex luthor|lois lane|return to earth',
+    movie_imdb_link: 'http://www.imdb.com/title/tt0348150/?ref_=fn_tt_tt_1',
+    num_user_for_reviews: 2367,
+    language: 'English',
+    country: 'USA',
+    content_rating: 'PG-13',
+    budget: 209000000,
+    title_year: 2005,
+    actor_2_facebook_likes: 10000,
+    imdb_score: 6.1,
+    aspect_ratio: 2.50176606,
+    movie_facebook_likes: 0,
+    'production houses': 'Independent',
+    week1: 83.261,
+    week2: 0.707,
+    week3: 3.825,
+    week4: 5.379,
+    isActive: 1,
+    music: 'John Williams',
+    stars: { '0': 0, '1': 0, '2': 1, '3': 1, '4': 1 }
+  },
+  {
+    _id: 13,
+    relese: '25-05-1984',
+    color: 'Color',
+    director: 'Marc Forster',
+    critic: 403,
+    duration: 106,
+    director_facebook: 395,
+    actor_3_facebook: 393,
+    actor_2_name: 'Mathieu Amalric',
+    actor_1_facebook_likes: 451,
+    gross: 168368427,
+    genres: 'Action|Adventure',
+    actor_1_name: 'Giancarlo Giannini',
+    movie_title: 'Quantum of Solace',
+    num_voted_users: 330784,
+    cast_total_facebook_likes: 2023,
+    actor_3_name: 'Rory Kinnear',
+    facenumber_in_poster: 1,
+    plot_keywords: 'action hero|attempted rape|bond girl|official james bond series|revenge',
+    movie_imdb_link: 'http://www.imdb.com/title/tt0830515/?ref_=fn_tt_tt_1',
+    num_user_for_reviews: 1243,
+    language: 'English',
+    country: 'UK',
+    content_rating: 'PG-13',
+    budget: 200000000,
+    title_year: 1984,
+    actor_2_facebook_likes: 412,
+    imdb_score: 6.7,
+    aspect_ratio: 2.921944859,
+    movie_facebook_likes: 0,
+    'production houses': 'Summit',
+    week1: 65.496,
+    week2: 81.995,
+    week3: 45.36,
+    week4: 36.368,
+    isActive: 1,
+    music: 'David Arnold',
+    stars: { '0': 0, '1': 1, '2': 0, '3': 1, '4': 0 }
+  },
+  {
+    _id: 14,
+    relese: '14-02-1988',
+    color: 'Color',
+    director: 'Gore Verbinski',
+    critic: 313,
+    duration: 151,
+    director_facebook: 563,
+    actor_3_facebook: 1000,
+    actor_2_name: 'Orlando Bloom',
+    actor_1_facebook_likes: 40000,
+    gross: 423032628,
+    genres: 'Action|Adventure|Fantasy',
+    actor_1_name: 'Johnny Depp',
+    movie_title: "Pirates of the Caribbean: Dead Man's Chest",
+    num_voted_users: 522040,
+    cast_total_facebook_likes: 48486,
+    actor_3_name: 'Jack Davenport',
+    facenumber_in_poster: 2,
+    plot_keywords: "box office hit|giant squid|heart|liar's dice|monster",
+    movie_imdb_link: 'http://www.imdb.com/title/tt0383574/?ref_=fn_tt_tt_1',
+    num_user_for_reviews: 1832,
+    language: 'English',
+    country: 'USA',
+    content_rating: 'PG-13',
+    budget: 225000000,
+    title_year: 1988,
+    actor_2_facebook_likes: 5000,
+    imdb_score: 7.3,
+    aspect_ratio: 2.516786459,
+    movie_facebook_likes: 5000,
+    'production houses': 'Independent',
+    week1: 58.51,
+    week2: 87.556,
+    week3: 0.803,
+    week4: 2.497,
+    isActive: 1,
+    music: 'Hans Zimmer',
+    stars: { '0': 1, '1': 0, '2': 0, '3': 0, '4': 1 }
+  },
+  {
+    _id: 15,
+    relese: '07-06-1980',
+    color: '',
+    director: 'Gore Verbinski',
+    critic: '',
+    duration: 150,
+    director_facebook: 563,
+    actor_3_facebook: 1000,
+    actor_2_name: 'Ruth Wilson',
+    actor_1_facebook_likes: 40000,
+    gross: 89289910,
+    genres: 'Action|Adventure|Western',
+    actor_1_name: 'Johnny Depp',
+    movie_title: 'The Lone Ranger',
+    num_voted_users: 181792,
+    cast_total_facebook_likes: 45757,
+    actor_3_name: 'Tom Wilkinson',
+    facenumber_in_poster: 1,
+    plot_keywords: 'horse|outlaw|texas|texas ranger|train',
+    movie_imdb_link: 'http://www.imdb.com/title/tt1210819/?ref_=fn_tt_tt_1',
+    num_user_for_reviews: 711,
+    language: 'English',
+    country: 'USA',
+    content_rating: 'PG-13',
+    budget: 215000000,
+    title_year: 1980,
+    actor_2_facebook_likes: 2000,
+    imdb_score: 6.5,
+    aspect_ratio: 2.049508332,
+    movie_facebook_likes: 48000,
+    'production houses': 'Summit',
+    week1: 105.768,
+    week2: 44.445,
+    week3: 74.777,
+    week4: 38.381,
+    isActive: 0,
+    music: 'Hans Zimmer',
+    stars: { '0': 0, '1': 0, '2': 0, '3': 1, '4': 1 }
+  },
+  {
+    _id: 16,
+    relese: '04-08-1998',
+    color: 'Color',
+    director: 'Zack Snyder',
+    critic: 733,
+    duration: 143,
+    director_facebook: 0,
+    actor_3_facebook: 748,
+    actor_2_name: 'Christopher Meloni',
+    actor_1_facebook_likes: 15000,
+    gross: 291021565,
+    genres: 'Action|Adventure|Fantasy|Sci-Fi',
+    actor_1_name: 'Henry Cavill',
+    movie_title: 'Man of Steel',
+    num_voted_users: 548573,
+    cast_total_facebook_likes: 20495,
+    actor_3_name: 'Harry Lennix',
+    facenumber_in_poster: 0,
+    plot_keywords: 'based on comic book|british actor playing american character|final battle|origin of hero|reboot',
+    movie_imdb_link: 'http://www.imdb.com/title/tt0770828/?ref_=fn_tt_tt_1',
+    num_user_for_reviews: 2536,
+    language: 'English',
+    country: 'USA',
+    content_rating: 'PG-13',
+    budget: 225000000,
+    title_year: 1998,
+    actor_2_facebook_likes: 3000,
+    imdb_score: 7.2,
+    aspect_ratio: 2.269864721,
+    movie_facebook_likes: 118000,
+    'production houses': 'Paramount',
+    week1: 88.024,
+    week2: 15.52,
+    week3: 19.095,
+    week4: 36.016,
+    isActive: 0,
+    music: 'Hans Zimmer',
+    stars: { '0': 1, '1': 1, '2': 1, '3': 1, '4': 1 }
+  },
+  {
+    _id: 18,
+    relese: '01-06-1991',
+    color: 'Color',
+    director: 'Joss Whedon',
+    critic: 703,
+    duration: 173,
+    director_facebook: 0,
+    actor_3_facebook: 19000,
+    actor_2_name: 'Robert Downey Jr.',
+    actor_1_facebook_likes: 26000,
+    gross: 623279547,
+    genres: 'Action|Adventure|Sci-Fi',
+    actor_1_name: 'Chris Hemsworth',
+    movie_title: 'The Avengers',
+    num_voted_users: 995415,
+    cast_total_facebook_likes: 87697,
+    actor_3_name: 'Scarlett Johansson',
+    facenumber_in_poster: 3,
+    plot_keywords: 'alien invasion|assassin|battle|iron man|soldier',
+    movie_imdb_link: 'http://www.imdb.com/title/tt0848228/?ref_=fn_tt_tt_1',
+    num_user_for_reviews: 1722,
+    language: 'English',
+    country: 'USA',
+    content_rating: 'PG-13',
+    budget: 220000000,
+    title_year: 1991,
+    actor_2_facebook_likes: 21000,
+    imdb_score: 8.1,
+    aspect_ratio: 1.014251209,
+    movie_facebook_likes: 123000,
+    'production houses': 'Warner Bros.',
+    week1: 90.384,
+    week2: 55.017,
+    week3: 72.602,
+    week4: 31.011,
+    isActive: 1,
+    music: 'Alan Silvestri',
+    stars: { '0': 0, '1': 0, '2': 1, '3': 1, '4': 1 }
+  },
+  {
+    _id: 20,
+    relese: '01-01-1966',
+    color: 'Color',
+    director: 'Barry Sonnenfeld',
+    critic: 451,
+    duration: 106,
+    director_facebook: 188,
+    actor_3_facebook: 718,
+    actor_2_name: 'Michael Stuhlbarg',
+    actor_1_facebook_likes: 10000,
+    gross: 179020854,
+    genres: 'Action|Adventure|Comedy|Family|Fantasy|Sci-Fi',
+    actor_1_name: 'Will Smith',
+    movie_title: 'Men in Black 3',
+    num_voted_users: 268154,
+    cast_total_facebook_likes: 12572,
+    actor_3_name: 'Nicole Scherzinger',
+    facenumber_in_poster: 1,
+    plot_keywords: 'alien|criminal|m.i.b.|maximum security prison|prison',
+    movie_imdb_link: 'http://www.imdb.com/title/tt1409024/?ref_=fn_tt_tt_1',
+    num_user_for_reviews: 341,
+    language: 'English',
+    country: 'USA',
+    content_rating: 'PG-13',
+    budget: 225000000,
+    title_year: 1966,
+    actor_2_facebook_likes: 816,
+    imdb_score: 6.8,
+    aspect_ratio: 2.022072222,
+    movie_facebook_likes: 40000,
+    'production houses': 'Paramount',
+    week1: 32.77,
+    week2: 76.435,
+    week3: 71.695,
+    week4: 4.399,
+    isActive: 0,
+    music: 'Danny Elfman',
+    stars: { '0': 1, '1': 1, '2': 1, '3': 0, '4': 1 }
+  },
+  {
+    _id: 19,
+    relese: '11-12-1987',
+    color: 'Color',
+    director: 'Rob Marshall',
+    critic: 448,
+    duration: 136,
+    director_facebook: 252,
+    actor_3_facebook: 1000,
+    actor_2_name: 'Sam Claflin',
+    actor_1_facebook_likes: 40000,
+    gross: 241063875,
+    genres: 'Action|Adventure|Fantasy',
+    actor_1_name: 'Johnny Depp',
+    movie_title: 'Pirates of the Caribbean: On Stranger Tides',
+    num_voted_users: 370704,
+    cast_total_facebook_likes: 54083,
+    actor_3_name: 'Stephen Graham',
+    facenumber_in_poster: 4,
+    plot_keywords: 'blackbeard|captain|pirate|revenge|soldier',
+    movie_imdb_link: 'http://www.imdb.com/title/tt1298650/?ref_=fn_tt_tt_1',
+    num_user_for_reviews: 484,
+    language: 'English',
+    country: 'USA',
+    content_rating: 'PG-13',
+    budget: 250000000,
+    title_year: 1987,
+    actor_2_facebook_likes: 11000,
+    imdb_score: 6.7,
+    aspect_ratio: 1.829249773,
+    movie_facebook_likes: 58000,
+    'production houses': 'Paramount',
+    week1: 74.747,
+    week2: 53.769,
+    week3: 10.221,
+    week4: 37.365,
+    isActive: 1,
+    music: 'Hans Zimmer',
+    stars: { '0': 1, '1': 0, '2': 0, '3': 1, '4': 0 }
+  },
+  {
+    _id: 22,
+    relese: '26-07-1988',
+    color: 'Color',
+    director: 'Marc Webb',
+    critic: 599,
+    duration: 153,
+    director_facebook: 464,
+    actor_3_facebook: 963,
+    actor_2_name: 'Andrew Garfield',
+    actor_1_facebook_likes: 15000,
+    gross: 262030663,
+    genres: 'Action|Adventure|Fantasy',
+    actor_1_name: 'Emma Stone',
+    movie_title: 'The Amazing Spider-Man',
+    num_voted_users: 451803,
+    cast_total_facebook_likes: 28489,
+    actor_3_name: 'Chris Zylka',
+    facenumber_in_poster: 0,
+    plot_keywords: 'lizard|outcast|spider|spider man|teenager',
+    movie_imdb_link: 'http://www.imdb.com/title/tt0948470/?ref_=fn_tt_tt_1',
+    num_user_for_reviews: 1225,
+    language: 'English',
+    country: 'USA',
+    content_rating: 'PG-13',
+    budget: 230000000,
+    title_year: 1988,
+    actor_2_facebook_likes: 10000,
+    imdb_score: 7,
+    aspect_ratio: 2.533509628,
+    movie_facebook_likes: 56000,
+    'production houses': 'CBS',
+    week1: 56.418,
+    week2: 50.842,
+    week3: 55.458,
+    week4: 24.347,
+    isActive: 0,
+    music: 'James Horner',
+    stars: { '0': 1, '1': 1, '2': 1, '3': 0, '4': 0 }
+  }
+]
+Type "it" for more
+Enterprise db1>
+
+Enterprise db1>
+
+Enterprise db1>
+
+Enterprise db1>
+
+Enterprise db1> edit db.aggregate([{$documents:[]}]);
+Opening an editor...
+
+Enterprise db1> db.aggregate([{ $documents: [{ _id: 1, ename: 'saleel', city: 'baroda' }, { _id: 2, ename: 'ruhan', city: 'pune' }] }]);
+[
+  { _id: 1, ename: 'saleel', city: 'baroda' },
+  { _id: 2, ename: 'ruhan', city: 'pune' }
+]
+Enterprise db1> edit
+Opening an editor...
+
+Enterprise db1> db.aggregate([{ $documents: [{ _id: 1, ename: 'saleel', city: 'baroda' }, { _id: 2, ename: 'ruhan', city: 'pune' }] }]);
+[
+  { _id: 1, ename: 'saleel', city: 'baroda' },
+  { _id: 2, ename: 'ruhan', city: 'pune' }
+]
+Enterprise db1>
+
+Enterprise db1> db.emp.aggregate([{$match: {job:'manager'}}]);
+[
+  {
+    _id: ObjectId("67f4e9771b0dcfda20132678"),
+    empid: 1021,
+    ename: 'smith',
+    address: {
+      building: '469',
+      coord: [ -73.961704, 40.662942 ],
+      street: 'Flatbush Avenue',
+      zipcode: '11225'
+    },
+    isDocActive: false,
+    gender: 'male',
+    canVote: true,
+    canDrive: true,
+    color: [ 'red', 'cyan', 'gray' ],
+    fruit: [ 'grapes', 'Orange' ],
+    cards: [
+      {
+        licence: {
+          'licence-No': 'LMV9478',
+          issueDate: '2020-01-01',
+          expireDate: '2040-01-01',
+          isActive: true
+        }
+      },
+      { PAN: { 'PAN-No': 'smh838', isActive: false } },
+      { voter: { voterID: 'Ind03o3', isActive: true } },
+      { aadhar: { 'aadhar-No': '43564', isActive: true } }
+    ],
+    job: 'manager',
+    mgr: 1020,
+    hiredate: ISODate("1981-05-01T00:00:00.000Z"),
+    sal: 3400,
+    comm: null,
+    deptno: 10
+  },
+  {
+    _id: ObjectId("67f4e9771b0dcfda20132679"),
+    empid: 1022,
+    ename: 'james',
+    address: {
+      building: '351',
+      coord: [ -73.98513559999999, 40.7676919 ],
+      street: 'West   57 Street',
+      zipcode: '10019'
+    },
+    isDocActive: true,
+    gender: 'male',
+    canVote: true,
+    canDrive: true,
+    color: [ 'Red', 'Blue', 'Green', 'Yellow' ],
+    fruit: [ 'Indian Fig' ],
+    cards: [
+      { PAN: { 'PAN-No': 'Kinj093', isActive: false } },
+      { aadhar: { 'aadhar-No': '73826', isActive: true } },
+      { voter: { voterID: 'Ind03o3', isActive: true } },
+      {
+        licence: {
+          'licence-No': 'LMV9478',
+          issueDate: '2020-01-01',
+          expireDate: '2040-01-01',
+          isActive: true
+        }
+      }
+    ],
+    job: 'manager',
+    mgr: 1020,
+    hiredate: ISODate("1981-07-09T00:00:00.000Z"),
+    sal: 4700,
+    comm: null,
+    deptno: 20
+  },
+  {
+    _id: ObjectId("67f4e9771b0dcfda20132686"),
+    empid: 1029,
+    ename: 'bob',
+    address: {
+      building: '2300',
+      coord: [ -73.8786113, 40.8502883 ],
+      street: 'Southern Boulevard',
+      zipcode: '10460'
+    },
+    isDocActive: false,
+    gender: 'male',
+    canVote: true,
+    canDrive: true,
+    color: [ 'Copper' ],
+    fruit: [],
+    cards: [
+      { aadhar: { 'aadhar-No': '73122', isActive: true } },
+      { PAN: { 'PAN-No': 'Kinj093', isActive: false } },
+      { voter: { voterID: 'Ind03o3', isActive: true } },
+      {
+        licence: {
+          'licence-No': 'LMV9478',
+          issueDate: '2020-01-01',
+          expireDate: '2040-01-01',
+          isActive: true
+        }
+      }
+    ],
+    job: 'manager',
+    mgr: 1020,
+    hiredate: ISODate("1980-12-17T00:00:00.000Z"),
+    sal: 4900,
+    comm: null,
+    deptno: 30
+  }
+]
+Enterprise db1> edit db.emp.aggregate([{$match: {job:'manager'}}]);
+Opening an editor...
+
+Enterprise db1> db.emp.aggregate([{ $match: { job: 'manager' } }, { $project: { _id: falsfalse, ename: true, job: true, sal: true } }]);
+[
+  { ename: 'smith', job: 'manager', sal: 3400 },
+  { ename: 'james', job: 'manager', sal: 4700 },
+  { ename: 'bob', job: 'manager', sal: 4900 }
+]
+Enterprise db1> edit
+Opening an editor...
+
+Enterprise db1> db.emp.aggregate([{ $match: { job: 'manager' } }, { $project: { _id: falsfalse, ename: true, job: true, salary: '$sal' } }]);
+[
+  { ename: 'smith', job: 'manager', salary: 3400 },
+  { ename: 'james', job: 'manager', salary: 4700 },
+  { ename: 'bob', job: 'manager', salary: 4900 }
+]
+Enterprise db1> edit
+Opening an editor...
+
+Enterprise db1> db.emp.aggregate([{ $match: { job: 'manager' } }, { $project: { _id: falsEnterprise db1> db.emp.aggregate([{ $match: { job: 'manager' } }, { $project: { _id: false, ename: true, job: true, salary: '$sal' } }, { $addFields: { x: 1000, y: 'Hello World' } }]);
+[
+  {
+    ename: 'smith',
+    job: 'manager',
+    salary: 3400,
+    x: 1000,
+    y: 'Hello World'
+  },
+  {
+    ename: 'james',
+    job: 'manager',
+    salary: 4700,
+    x: 1000,
+    y: 'Hello World'
+  },
+  {
+    ename: 'bob',
+    job: 'manager',
+    salary: 4900,
+    x: 1000,
+    y: 'Hello World'
+  }
+]
+Enterprise db1> edit
+Opening an editor...
+
+Enterprise db1> db.emp.aggregate([{ $match: { job: 'manager' } }, { $project: { _id: falsfalse, ename: true, job: true, salary: '$sal', x: 1000, y: 'Hello World' } }]);
+[
+  { ename: 'smith', job: 'manager', salary: 3400, y: 'Hello World' },
+  { ename: 'james', job: 'manager', salary: 4700, y: 'Hello World' },
+  { ename: 'bob', job: 'manager', salary: 4900, y: 'Hello World' }
+]
+Enterprise db1> eit
+ReferenceError: eit is not defined
+Enterprise db1> edit
+Opening an editor...
+
+Enterprise db1> db.emp.aggregate([{ $match: { job: 'manager' } }, { $project: { _id: falsEnterprise db1> db.emp.aggregate([{ $match: { job: 'manager' } }, { $project: { _id: false, ename: true, job: true, salary: '$sal', x: { $literal: 1000 }, y: 'Hello World' } }]);
+[
+  {
+    ename: 'smith',
+    job: 'manager',
+    salary: 3400,
+    x: 1000,
+    y: 'Hello World'
+  },
+  {
+    ename: 'james',
+    job: 'manager',
+    salary: 4700,
+    x: 1000,
+    y: 'Hello World'
+  },
+  {
+    ename: 'bob',
+    job: 'manager',
+    salary: 4900,
+    x: 1000,
+    y: 'Hello World'
+  }
+]
+Enterprise db1> edit
+Opening an editor...
+
+Enterprise db1> db.emp.aggregate([{ $project: { _id: false, ename: true, job: true, salarsalary: '$sal' } }, { $sample: { size: 4 } }]);
+[
+  { ename: 'vrushali', job: 'analyst', salary: 4999 },
+  { ename: 'Olivia', job: 'WEB Programmer', salary: 9000 },
+  { ename: 'saleel', job: 'analyst', salary: 3700 },
+  { ename: 'raj', job: 'Computer Programmer', salary: 7000 }
+]
+Enterprise db1> db.emp.aggregate([{ $project: { _id: false, ename: true, job: true, salary: '$sal' } }, { $sample: { size: 4 } }]);
+[
+  { ename: 'tanvi', job: 'WEB Programmer', salary: 5700 },
+  { ename: 'rahul', job: 'clerk', salary: 1200 },
+  { ename: 'jack', job: 'accountant', salary: 2700 },
+  { ename: 'rupal', job: 'WEB Programmer', salary: 6500 }
+]
+Enterprise db1> db.emp.aggregate([{ $project: { _id: false, ename: true, job: true, salary: '$sal' } }, { $sample: { size: 4 } }]);
+[
+  { ename: 'vasant', job: 'salesman', salary: 2200 },
+  { ename: 'bandish', job: 'WEB Programmer', salary: 7000 },
+  { ename: 'amol', job: 'auditor', salary: 3800 },
+  { ename: 'supriya', job: 'Computer Programmer', salary: 3500 }
+]
+Enterprise db1> edit
+Opening an editor...
+
+Enterprise db1> db.emp.aggregate([{ $project: { _id: false, ename: true, job: true, salarsalary: '$sal' } }, { $sample: { size: 4 } }, { $limit: 2 }]);
+[
+  { ename: 'dinesh', job: 'programmer', salary: 3500 },
+  { ename: 'anoop', job: 'programmer', salary: 2300 }
+]
+Enterprise db1> edit db.emp.aggregate([{ $project: { _id: false, ename: true, job: true, salary: '$sal' } }, { $sample: { size: 4 } }, {}, { $limit: 2 }]);
+Opening an editor...
+
+Enterprise db1> db.emp.aggregate([{ $project: { _id: false, ename: true, job: true, salarsalary: '$sal' } }, { $sample: { size: 20 } }, { $skip: 4 }, { $limit: 2 }]);
+[
+  { ename: 'jack', job: 'accountant', salary: 2700 },
+  { ename: 'rahsmi', job: 'Computer Programmer', salary: 5600 }
+]
+Enterprise db1> db.emp.aggregate([{ $project: { _id: false, ename: true, job: true, salary: '$sal' } }, { $sample: { size: 4 } }, { $skip: 1 }, { $limit: 2 }]);
+[
+  { ename: 'blake', job: 'clerk', salary: 1200 },
+  { ename: 'ramu', job: 'clerk', salary: 1400 }
+]
+Enterprise db1> db.emp.aggregate([{ $project: { _id: false, ename: true, job: true, salary: '$sal' } }, { $sample: { size: 4 } }, { $skip: 1 }, { $limit: 2 }]);
+[
+  { ename: 'sangu', job: 'Computer Programmer', salary: 6000 },
+  { ename: 'aditi', job: 'WEB Programmer', salary: 5700 }
+]
+Enterprise db1> db.emp.aggregate([{ $project: { _id: false, ename: true, job: true, salary: '$sal' } }, { $sample: { size: 4 } }, { $skip: 1 }, { $limit: 2 }]);
+[
+  { ename: 'smith', job: 'manager', salary: 3400 },
+  { ename: 'saleel', job: 'analyst', salary: 3700 }
+]
+Enterprise db1> edit
+Opening an editor...
+
+Enterprise db1> db.emp.aggregate([{ $project: { _id: false, ename: true, job: true, salarsalary: '$sal' } }, { $addFields: { x: { $add: [2, 2] } } }]);
+[
+  { ename: 'blake', job: 'clerk', salary: 1200, x: 4 },
+  { ename: 'smith', job: 'manager', salary: 3400, x: 4 },
+  { ename: 'james', job: 'manager', salary: 4700, x: 4 },
+  { ename: 'vasu', job: 'salesman', salary: 2200, x: 4 },
+  { ename: 'saleel', job: 'programmer', salary: 2900, x: 4 },
+  { ename: 'neel', job: 'administrator', salary: 4200, x: 4 },
+  { ename: 'ramu', job: 'clerk', salary: 1400, x: 4 },
+  { ename: 'saleel', job: 'analyst', salary: 3700, x: 4 },
+  { ename: 'rahul', job: 'clerk', salary: 1200, x: 4 },
+  { ename: 'raju', job: 'administrator', salary: 3400, x: 4 },
+  { ename: 'richards', job: 'clerk', salary: 1500, x: 4 },
+  { ename: 'amit', job: 'administrator', salary: 3500, x: 4 },
+  { ename: 'vasant', job: 'salesman', salary: 2200, x: 4 },
+  { ename: 'rudra', job: 'programmer', salary: 2400, x: 4 },
+  { ename: 'scott', job: 'salesman', salary: 2500, x: 4 },
+  { ename: 'bob', job: 'manager', salary: 4900, x: 4 },
+  { ename: 'dinesh', job: 'programmer', salary: 3500, x: 4 },
+  { ename: 'nitish', job: 'programmer', salary: 1300, x: 4 },
+  { ename: 'pankaj', job: 'programmer', salary: 3600, x: 4 },
+  { ename: 'amol', job: 'auditor', salary: 3800, x: 4 }
+]
+Type "it" for more
+Enterprise db1>
+
+Enterprise db1>
+
+Enterprise db1>
+
+Enterprise db1> edit
+Opening an editor...
+
+Enterprise db1> db.emp.aggregate([{ $project: { _id: false, ename: true, job: true, salarsalary: '$sal' } }, { $addFields: { newSalary: { $add: ['$sal', 1000] } } }]);
+[
+  { ename: 'blake', job: 'clerk', salary: 1200, newSalary: null },
+  { ename: 'smith', job: 'manager', salary: 3400, newSalary: null },
+  { ename: 'james', job: 'manager', salary: 4700, newSalary: null },
+  { ename: 'vasu', job: 'salesman', salary: 2200, newSalary: null },
+  { ename: 'saleel', job: 'programmer', salary: 2900, newSalary: null },
+  {
+    ename: 'neel',
+    job: 'administrator',
+    salary: 4200,
+    newSalary: null
+  },
+  { ename: 'ramu', job: 'clerk', salary: 1400, newSalary: null },
+  { ename: 'saleel', job: 'analyst', salary: 3700, newSalary: null },
+  { ename: 'rahul', job: 'clerk', salary: 1200, newSalary: null },
+  {
+    ename: 'raju',
+    job: 'administrator',
+    salary: 3400,
+    newSalary: null
+  },
+  { ename: 'richards', job: 'clerk', salary: 1500, newSalary: null },
+  {
+    ename: 'amit',
+    job: 'administrator',
+    salary: 3500,
+    newSalary: null
+  },
+  { ename: 'vasant', job: 'salesman', salary: 2200, newSalary: null },
+  { ename: 'rudra', job: 'programmer', salary: 2400, newSalary: null },
+  { ename: 'scott', job: 'salesman', salary: 2500, newSalary: null },
+  { ename: 'bob', job: 'manager', salary: 4900, newSalary: null },
+  { ename: 'dinesh', job: 'programmer', salary: 3500, newSalary: null },
+  { ename: 'nitish', job: 'programmer', salary: 1300, newSalary: null },
+  { ename: 'pankaj', job: 'programmer', salary: 3600, newSalary: null },
+  { ename: 'amol', job: 'auditor', salary: 3800, newSalary: null }
+]
+Type "it" for more
+Enterprise db1> edit
+Opening an editor...
+
+Enterprise db1> db.emp.aggregate([{ $project: { _id: false, ename: true, job: true, salarsalary: '$sal' } }, { $addFields: { newSalary: { $add: ['$salary', 1000] } } }]);
+[
+  { ename: 'blake', job: 'clerk', salary: 1200, newSalary: 2200 },
+  { ename: 'smith', job: 'manager', salary: 3400, newSalary: 4400 },
+  { ename: 'james', job: 'manager', salary: 4700, newSalary: 5700 },
+  { ename: 'vasu', job: 'salesman', salary: 2200, newSalary: 3200 },
+  { ename: 'saleel', job: 'programmer', salary: 2900, newSalary: 3900 },
+  {
+    ename: 'neel',
+    job: 'administrator',
+    salary: 4200,
+    newSalary: 5200
+  },
+  { ename: 'ramu', job: 'clerk', salary: 1400, newSalary: 2400 },
+  { ename: 'saleel', job: 'analyst', salary: 3700, newSalary: 4700 },
+  { ename: 'rahul', job: 'clerk', salary: 1200, newSalary: 2200 },
+  {
+    ename: 'raju',
+    job: 'administrator',
+    salary: 3400,
+    newSalary: 4400
+  },
+  { ename: 'richards', job: 'clerk', salary: 1500, newSalary: 2500 },
+  {
+    ename: 'amit',
+    job: 'administrator',
+    salary: 3500,
+    newSalary: 4500
+  },
+  { ename: 'vasant', job: 'salesman', salary: 2200, newSalary: 3200 },
+  { ename: 'rudra', job: 'programmer', salary: 2400, newSalary: 3400 },
+  { ename: 'scott', job: 'salesman', salary: 2500, newSalary: 3500 },
+  { ename: 'bob', job: 'manager', salary: 4900, newSalary: 5900 },
+  { ename: 'dinesh', job: 'programmer', salary: 3500, newSalary: 4500 },
+  { ename: 'nitish', job: 'programmer', salary: 1300, newSalary: 2300 },
+  { ename: 'pankaj', job: 'programmer', salary: 3600, newSalary: 4600 },
+  { ename: 'amol', job: 'auditor', salary: 3800, newSalary: 4800 }
+]
+Type "it" for more
+Enterprise db1> edit
+Opening an editor...
+
+Enterprise db1> db.emp.aggregate([{ $project: { _id: false, ename: true, job: true, salarEnterprise db1> db.emp.aggregate([{ $project: { _id: false, ename: true, job: true, salary: '$sal', x:{$literal:10}, y:{$literal:10} z: {$add:[x, y]} } }, { $addFields: { newSalanewSalary: { $add: ['$salary', 1000] } } }]);
+Uncaught:
+SyntaxError: Unexpected token, expected "," (1:117)
+
+> 1 | db.emp.aggregate([{ $project: { _id: false, ename: true, job: true, salary: '$sal', x:{$literal:10}, y:{$literal:10} z: {$add:[x, y]} } }, { $addFields: { newSalary: { $add: ['$salary', 1000] } } }]);
+    |                                                                                                                      ^
+  2 |
+
+Enterprise db1> edit
+Opening an editor...
+
+Enterprise db1> db.emp.aggregate([{ $project: { _id: false, ename: true, job: true, salarEnterprise db1> db.emp.aggregate([{ $project: { _id: false, ename: true, job: true, salary: '$sal', x: { $literal: 10 }, y: { $literal: 10 }, z: { $add: [x, y] } } }, { $addField$addFields: { newSalary: { $add: ['$salary', 1000] } } }]);
+ReferenceError: x is not defined
+Enterprise db1> edit
+Opening an editor...
+
+Enterprise db1> db.emp.aggregate([{ $project: { _id: false, ename: true, job: true, salarEnterprise db1> db.emp.aggregate([{ $project: { _id: false, ename: true, job: true, salary: '$sal', x: { $literal: 10 }, y: { $literal: 10 }, z: { $add: ['$x', '$y'] } } }, { $ad$addFields: { newSalary: { $add: ['$salary', 1000] } } }]);
+[
+  {
+    ename: 'blake',
+    job: 'clerk',
+    salary: 1200,
+    x: 10,
+    y: 10,
+    z: null,
+    newSalary: 2200
+  },
+  {
+    ename: 'smith',
+    job: 'manager',
+    salary: 3400,
+    x: 10,
+    y: 10,
+    z: null,
+    newSalary: 4400
+  },
+  {
+    ename: 'james',
+    job: 'manager',
+    salary: 4700,
+    x: 10,
+    y: 10,
+    z: null,
+    newSalary: 5700
+  },
+  {
+    ename: 'vasu',
+    job: 'salesman',
+    salary: 2200,
+    x: 10,
+    y: 10,
+    z: null,
+    newSalary: 3200
+  },
+  {
+    ename: 'saleel',
+    job: 'programmer',
+    salary: 2900,
+    x: 10,
+    y: 10,
+    z: null,
+    newSalary: 3900
+  },
+  {
+    ename: 'neel',
+    job: 'administrator',
+    salary: 4200,
+    x: 10,
+    y: 10,
+    z: null,
+    newSalary: 5200
+  },
+  {
+    ename: 'ramu',
+    job: 'clerk',
+    salary: 1400,
+    x: 10,
+    y: 10,
+    z: null,
+    newSalary: 2400
+  },
+  {
+    ename: 'saleel',
+    job: 'analyst',
+    salary: 3700,
+    x: 10,
+    y: 10,
+    z: null,
+    newSalary: 4700
+  },
+  {
+    ename: 'rahul',
+    job: 'clerk',
+    salary: 1200,
+    x: 10,
+    y: 10,
+    z: null,
+    newSalary: 2200
+  },
+  {
+    ename: 'raju',
+    job: 'administrator',
+    salary: 3400,
+    x: 10,
+    y: 10,
+    z: null,
+    newSalary: 4400
+  },
+  {
+    ename: 'richards',
+    job: 'clerk',
+    salary: 1500,
+    x: 10,
+    y: 10,
+    z: null,
+    newSalary: 2500
+  },
+  {
+    ename: 'amit',
+    job: 'administrator',
+    salary: 3500,
+    x: 10,
+    y: 10,
+    z: null,
+    newSalary: 4500
+  },
+  {
+    ename: 'vasant',
+    job: 'salesman',
+    salary: 2200,
+    x: 10,
+    y: 10,
+    z: null,
+    newSalary: 3200
+  },
+  {
+    ename: 'rudra',
+    job: 'programmer',
+    salary: 2400,
+    x: 10,
+    y: 10,
+    z: null,
+    newSalary: 3400
+  },
+  {
+    ename: 'scott',
+    job: 'salesman',
+    salary: 2500,
+    x: 10,
+    y: 10,
+    z: null,
+    newSalary: 3500
+  },
+  {
+    ename: 'bob',
+    job: 'manager',
+    salary: 4900,
+    x: 10,
+    y: 10,
+    z: null,
+    newSalary: 5900
+  },
+  {
+    ename: 'dinesh',
+    job: 'programmer',
+    salary: 3500,
+    x: 10,
+    y: 10,
+    z: null,
+    newSalary: 4500
+  },
+  {
+    ename: 'nitish',
+    job: 'programmer',
+    salary: 1300,
+    x: 10,
+    y: 10,
+    z: null,
+    newSalary: 2300
+  },
+  {
+    ename: 'pankaj',
+    job: 'programmer',
+    salary: 3600,
+    x: 10,
+    y: 10,
+    z: null,
+    newSalary: 4600
+  },
+  {
+    ename: 'amol',
+    job: 'auditor',
+    salary: 3800,
+    x: 10,
+    y: 10,
+    z: null,
+    newSalary: 4800
+  }
+]
+Type "it" for more
+Enterprise db1> eit
+ReferenceError: eit is not defined
+Enterprise db1> edit
+Opening an editor...
+
+Enterprise db1> db.emp.aggregate([{ $project: { _id: false, ename: true, job: true, salarEnterprise db1> db.emp.aggregate([{ $project: { _id: false, ename: true, job: true, salary: '$sal', x: { $literal: 10 }, y: { $literal: 10 } } }, { $addFields: { newSalary: { $ad$add: ['$salary', 1000] }, z: { $add: ['$x', '$y'] } } }]);
+[
+  {
+    ename: 'blake',
+    job: 'clerk',
+    salary: 1200,
+    x: 10,
+    y: 10,
+    newSalary: 2200,
+    z: 20
+  },
+  {
+    ename: 'smith',
+    job: 'manager',
+    salary: 3400,
+    x: 10,
+    y: 10,
+    newSalary: 4400,
+    z: 20
+  },
+  {
+    ename: 'james',
+    job: 'manager',
+    salary: 4700,
+    x: 10,
+    y: 10,
+    newSalary: 5700,
+    z: 20
+  },
+  {
+    ename: 'vasu',
+    job: 'salesman',
+    salary: 2200,
+    x: 10,
+    y: 10,
+    newSalary: 3200,
+    z: 20
+  },
+  {
+    ename: 'saleel',
+    job: 'programmer',
+    salary: 2900,
+    x: 10,
+    y: 10,
+    newSalary: 3900,
+    z: 20
+  },
+  {
+    ename: 'neel',
+    job: 'administrator',
+    salary: 4200,
+    x: 10,
+    y: 10,
+    newSalary: 5200,
+    z: 20
+  },
+  {
+    ename: 'ramu',
+    job: 'clerk',
+    salary: 1400,
+    x: 10,
+    y: 10,
+    newSalary: 2400,
+    z: 20
+  },
+  {
+    ename: 'saleel',
+    job: 'analyst',
+    salary: 3700,
+    x: 10,
+    y: 10,
+    newSalary: 4700,
+    z: 20
+  },
+  {
+    ename: 'rahul',
+    job: 'clerk',
+    salary: 1200,
+    x: 10,
+    y: 10,
+    newSalary: 2200,
+    z: 20
+  },
+  {
+    ename: 'raju',
+    job: 'administrator',
+    salary: 3400,
+    x: 10,
+    y: 10,
+    newSalary: 4400,
+    z: 20
+  },
+  {
+    ename: 'richards',
+    job: 'clerk',
+    salary: 1500,
+    x: 10,
+    y: 10,
+    newSalary: 2500,
+    z: 20
+  },
+  {
+    ename: 'amit',
+    job: 'administrator',
+    salary: 3500,
+    x: 10,
+    y: 10,
+    newSalary: 4500,
+    z: 20
+  },
+  {
+    ename: 'vasant',
+    job: 'salesman',
+    salary: 2200,
+    x: 10,
+    y: 10,
+    newSalary: 3200,
+    z: 20
+  },
+  {
+    ename: 'rudra',
+    job: 'programmer',
+    salary: 2400,
+    x: 10,
+    y: 10,
+    newSalary: 3400,
+    z: 20
+  },
+  {
+    ename: 'scott',
+    job: 'salesman',
+    salary: 2500,
+    x: 10,
+    y: 10,
+    newSalary: 3500,
+    z: 20
+  },
+  {
+    ename: 'bob',
+    job: 'manager',
+    salary: 4900,
+    x: 10,
+    y: 10,
+    newSalary: 5900,
+    z: 20
+  },
+  {
+    ename: 'dinesh',
+    job: 'programmer',
+    salary: 3500,
+    x: 10,
+    y: 10,
+    newSalary: 4500,
+    z: 20
+  },
+  {
+    ename: 'nitish',
+    job: 'programmer',
+    salary: 1300,
+    x: 10,
+    y: 10,
+    newSalary: 2300,
+    z: 20
+  },
+  {
+    ename: 'pankaj',
+    job: 'programmer',
+    salary: 3600,
+    x: 10,
+    y: 10,
+    newSalary: 4600,
+    z: 20
+  },
+  {
+    ename: 'amol',
+    job: 'auditor',
+    salary: 3800,
+    x: 10,
+    y: 10,
+    newSalary: 4800,
+    z: 20
+  }
+]
+Type "it" for more
+Enterprise db1> edit
+Opening an editor...
+
+Enterprise db1> db.emp.aggregate([{ $project: { _id: false, ename: true, job: true, salarEnterprise db1> db.emp.aggregate([{ $project: { _id: false, ename: true, job: true, salary: '$sal', x: { $literal: 10 }, y: { $literal: 10 } } }, { $addFields: { z: { $add: ['$x', '$y'] }, newSalary: { $add: ['$salary', 1000] } } }]);
+[
+  {
+    ename: 'blake',
+    job: 'clerk',
+    salary: 1200,
+    x: 10,
+    y: 10,
+    z: 20,
+    newSalary: 2200
+  },
+  {
+    ename: 'smith',
+    job: 'manager',
+    salary: 3400,
+    x: 10,
+    y: 10,
+    z: 20,
+    newSalary: 4400
+  },
+  {
+    ename: 'james',
+    job: 'manager',
+    salary: 4700,
+    x: 10,
+    y: 10,
+    z: 20,
+    newSalary: 5700
+  },
+  {
+    ename: 'vasu',
+    job: 'salesman',
+    salary: 2200,
+    x: 10,
+    y: 10,
+    z: 20,
+    newSalary: 3200
+  },
+  {
+    ename: 'saleel',
+    job: 'programmer',
+    salary: 2900,
+    x: 10,
+    y: 10,
+    z: 20,
+    newSalary: 3900
+  },
+  {
+    ename: 'neel',
+    job: 'administrator',
+    salary: 4200,
+    x: 10,
+    y: 10,
+    z: 20,
+    newSalary: 5200
+  },
+  {
+    ename: 'ramu',
+    job: 'clerk',
+    salary: 1400,
+    x: 10,
+    y: 10,
+    z: 20,
+    newSalary: 2400
+  },
+  {
+    ename: 'saleel',
+    job: 'analyst',
+    salary: 3700,
+    x: 10,
+    y: 10,
+    z: 20,
+    newSalary: 4700
+  },
+  {
+    ename: 'rahul',
+    job: 'clerk',
+    salary: 1200,
+    x: 10,
+    y: 10,
+    z: 20,
+    newSalary: 2200
+  },
+  {
+    ename: 'raju',
+    job: 'administrator',
+    salary: 3400,
+    x: 10,
+    y: 10,
+    z: 20,
+    newSalary: 4400
+  },
+  {
+    ename: 'richards',
+    job: 'clerk',
+    salary: 1500,
+    x: 10,
+    y: 10,
+    z: 20,
+    newSalary: 2500
+  },
+  {
+    ename: 'amit',
+    job: 'administrator',
+    salary: 3500,
+    x: 10,
+    y: 10,
+    z: 20,
+    newSalary: 4500
+  },
+  {
+    ename: 'vasant',
+    job: 'salesman',
+    salary: 2200,
+    x: 10,
+    y: 10,
+    z: 20,
+    newSalary: 3200
+  },
+  {
+    ename: 'rudra',
+    job: 'programmer',
+    salary: 2400,
+    x: 10,
+    y: 10,
+    z: 20,
+    newSalary: 3400
+  },
+  {
+    ename: 'scott',
+    job: 'salesman',
+    salary: 2500,
+    x: 10,
+    y: 10,
+    z: 20,
+    newSalary: 3500
+  },
+  {
+    ename: 'bob',
+    job: 'manager',
+    salary: 4900,
+    x: 10,
+    y: 10,
+    z: 20,
+    newSalary: 5900
+  },
+  {
+    ename: 'dinesh',
+    job: 'programmer',
+    salary: 3500,
+    x: 10,
+    y: 10,
+    z: 20,
+    newSalary: 4500
+  },
+  {
+    ename: 'nitish',
+    job: 'programmer',
+    salary: 1300,
+    x: 10,
+    y: 10,
+    z: 20,
+    newSalary: 2300
+  },
+  {
+    ename: 'pankaj',
+    job: 'programmer',
+    salary: 3600,
+    x: 10,
+    y: 10,
+    z: 20,
+    newSalary: 4600
+  },
+  {
+    ename: 'amol',
+    job: 'auditor',
+    salary: 3800,
+    x: 10,
+    y: 10,
+    z: 20,
+    newSalary: 4800
+  }
+]
+Type "it" for more
+Enterprise db1> edit
+Opening an editor...
+
+Enterprise db1> db.emp.aggregate([{ $project: { _id: false, ename: true, job: true, salarEnterprise db1> db.emp.aggregate([{ $project: { _id: false, ename: true, job: true, salary: '$sal', x: { $literal: 10 }, y: { $literal: 10 }, z1: { $add: ['$sal', 1000] } } }, { $addFields: { z: { $add: ['$x', '$y'] }, newSalary: { $add: ['$salary', 1000] } } }]);
+[
+  {
+    ename: 'blake',
+    job: 'clerk',
+    salary: 1200,
+    x: 10,
+    y: 10,
+    z1: 2200,
+    z: 20,
+    newSalary: 2200
+  },
+  {
+    ename: 'smith',
+    job: 'manager',
+    salary: 3400,
+    x: 10,
+    y: 10,
+    z1: 4400,
+    z: 20,
+    newSalary: 4400
+  },
+  {
+    ename: 'james',
+    job: 'manager',
+    salary: 4700,
+    x: 10,
+    y: 10,
+    z1: 5700,
+    z: 20,
+    newSalary: 5700
+  },
+  {
+    ename: 'vasu',
+    job: 'salesman',
+    salary: 2200,
+    x: 10,
+    y: 10,
+    z1: 3200,
+    z: 20,
+    newSalary: 3200
+  },
+  {
+    ename: 'saleel',
+    job: 'programmer',
+    salary: 2900,
+    x: 10,
+    y: 10,
+    z1: 3900,
+    z: 20,
+    newSalary: 3900
+  },
+  {
+    ename: 'neel',
+    job: 'administrator',
+    salary: 4200,
+    x: 10,
+    y: 10,
+    z1: 5200,
+    z: 20,
+    newSalary: 5200
+  },
+  {
+    ename: 'ramu',
+    job: 'clerk',
+    salary: 1400,
+    x: 10,
+    y: 10,
+    z1: 2400,
+    z: 20,
+    newSalary: 2400
+  },
+  {
+    ename: 'saleel',
+    job: 'analyst',
+    salary: 3700,
+    x: 10,
+    y: 10,
+    z1: 4700,
+    z: 20,
+    newSalary: 4700
+  },
+  {
+    ename: 'rahul',
+    job: 'clerk',
+    salary: 1200,
+    x: 10,
+    y: 10,
+    z1: 2200,
+    z: 20,
+    newSalary: 2200
+  },
+  {
+    ename: 'raju',
+    job: 'administrator',
+    salary: 3400,
+    x: 10,
+    y: 10,
+    z1: 4400,
+    z: 20,
+    newSalary: 4400
+  },
+  {
+    ename: 'richards',
+    job: 'clerk',
+    salary: 1500,
+    x: 10,
+    y: 10,
+    z1: 2500,
+    z: 20,
+    newSalary: 2500
+  },
+  {
+    ename: 'amit',
+    job: 'administrator',
+    salary: 3500,
+    x: 10,
+    y: 10,
+    z1: 4500,
+    z: 20,
+    newSalary: 4500
+  },
+  {
+    ename: 'vasant',
+    job: 'salesman',
+    salary: 2200,
+    x: 10,
+    y: 10,
+    z1: 3200,
+    z: 20,
+    newSalary: 3200
+  },
+  {
+    ename: 'rudra',
+    job: 'programmer',
+    salary: 2400,
+    x: 10,
+    y: 10,
+    z1: 3400,
+    z: 20,
+    newSalary: 3400
+  },
+  {
+    ename: 'scott',
+    job: 'salesman',
+    salary: 2500,
+    x: 10,
+    y: 10,
+    z1: 3500,
+    z: 20,
+    newSalary: 3500
+  },
+  {
+    ename: 'bob',
+    job: 'manager',
+    salary: 4900,
+    x: 10,
+    y: 10,
+    z1: 5900,
+    z: 20,
+    newSalary: 5900
+  },
+  {
+    ename: 'dinesh',
+    job: 'programmer',
+    salary: 3500,
+    x: 10,
+    y: 10,
+    z1: 4500,
+    z: 20,
+    newSalary: 4500
+  },
+  {
+    ename: 'nitish',
+    job: 'programmer',
+    salary: 1300,
+    x: 10,
+    y: 10,
+    z1: 2300,
+    z: 20,
+    newSalary: 2300
+  },
+  {
+    ename: 'pankaj',
+    job: 'programmer',
+    salary: 3600,
+    x: 10,
+    y: 10,
+    z1: 4600,
+    z: 20,
+    newSalary: 4600
+  },
+  {
+    ename: 'amol',
+    job: 'auditor',
+    salary: 3800,
+    x: 10,
+    y: 10,
+    z1: 4800,
+    z: 20,
+    newSalary: 4800
+  }
+]
+Type "it" for more
+Enterprise db1> edit
+Opening an editor...
+
+Enterprise db1> db.emp.aggregate([{ $project: { _id: false, ename: true, job: true, salarEnterprise db1> db.emp.aggregate([{ $project: { _id: false, ename: true, job: true, salary: '$sal', x: { $literal: 10 }, y: { $literal: 10 }, z1: { $add: ['$sal', 1000] } } }, { $addFields: { z: { $add: ['$x', '$y'] }, newSalary: { $add: ['$salary', 1000] } } }]);
+[
+  {
+    ename: 'blake',
+    job: 'clerk',
+    salary: 1200,
+    x: 10,
+    y: 10,
+    z1: 2200,
+    z: 20,
+    newSalary: 2200
+  },
+  {
+    ename: 'smith',
+    job: 'manager',
+    salary: 3400,
+    x: 10,
+    y: 10,
+    z1: 4400,
+    z: 20,
+    newSalary: 4400
+  },
+  {
+    ename: 'james',
+    job: 'manager',
+    salary: 4700,
+    x: 10,
+    y: 10,
+    z1: 5700,
+    z: 20,
+    newSalary: 5700
+  },
+  {
+    ename: 'vasu',
+    job: 'salesman',
+    salary: 2200,
+    x: 10,
+    y: 10,
+    z1: 3200,
+    z: 20,
+    newSalary: 3200
+  },
+  {
+    ename: 'saleel',
+    job: 'programmer',
+    salary: 2900,
+    x: 10,
+    y: 10,
+    z1: 3900,
+    z: 20,
+    newSalary: 3900
+  },
+  {
+    ename: 'neel',
+    job: 'administrator',
+    salary: 4200,
+    x: 10,
+    y: 10,
+    z1: 5200,
+    z: 20,
+    newSalary: 5200
+  },
+  {
+    ename: 'ramu',
+    job: 'clerk',
+    salary: 1400,
+    x: 10,
+    y: 10,
+    z1: 2400,
+    z: 20,
+    newSalary: 2400
+  },
+  {
+    ename: 'saleel',
+    job: 'analyst',
+    salary: 3700,
+    x: 10,
+    y: 10,
+    z1: 4700,
+    z: 20,
+    newSalary: 4700
+  },
+  {
+    ename: 'rahul',
+    job: 'clerk',
+    salary: 1200,
+    x: 10,
+    y: 10,
+    z1: 2200,
+    z: 20,
+    newSalary: 2200
+  },
+  {
+    ename: 'raju',
+    job: 'administrator',
+    salary: 3400,
+    x: 10,
+    y: 10,
+    z1: 4400,
+    z: 20,
+    newSalary: 4400
+  },
+  {
+    ename: 'richards',
+    job: 'clerk',
+    salary: 1500,
+    x: 10,
+    y: 10,
+    z1: 2500,
+    z: 20,
+    newSalary: 2500
+  },
+  {
+    ename: 'amit',
+    job: 'administrator',
+    salary: 3500,
+    x: 10,
+    y: 10,
+    z1: 4500,
+    z: 20,
+    newSalary: 4500
+  },
+  {
+    ename: 'vasant',
+    job: 'salesman',
+    salary: 2200,
+    x: 10,
+    y: 10,
+    z1: 3200,
+    z: 20,
+    newSalary: 3200
+  },
+  {
+    ename: 'rudra',
+    job: 'programmer',
+    salary: 2400,
+    x: 10,
+    y: 10,
+    z1: 3400,
+    z: 20,
+    newSalary: 3400
+  },
+  {
+    ename: 'scott',
+    job: 'salesman',
+    salary: 2500,
+    x: 10,
+    y: 10,
+    z1: 3500,
+    z: 20,
+    newSalary: 3500
+  },
+  {
+    ename: 'bob',
+    job: 'manager',
+    salary: 4900,
+    x: 10,
+    y: 10,
+    z1: 5900,
+    z: 20,
+    newSalary: 5900
+  },
+  {
+    ename: 'dinesh',
+    job: 'programmer',
+    salary: 3500,
+    x: 10,
+    y: 10,
+    z1: 4500,
+    z: 20,
+    newSalary: 4500
+  },
+  {
+    ename: 'nitish',
+    job: 'programmer',
+    salary: 1300,
+    x: 10,
+    y: 10,
+    z1: 2300,
+    z: 20,
+    newSalary: 2300
+  },
+  {
+    ename: 'pankaj',
+    job: 'programmer',
+    salary: 3600,
+    x: 10,
+    y: 10,
+    z1: 4600,
+    z: 20,
+    newSalary: 4600
+  },
+  {
+    ename: 'amol',
+    job: 'auditor',
+    salary: 3800,
+    x: 10,
+    y: 10,
+    z1: 4800,
+    z: 20,
+    newSalary: 4800
+  }
+]
+Type "it" for more
+Enterprise db1> db.t.insertOne({_id:1, colors:['red', 'blue', 'green', 'yellow']})
+{ acknowledged: true, insertedId: 1 }
+Enterprise db1> edit db.t.aggregate([{$project:{}}])
+Opening an editor...
+
+Enterprise db1> db.t.aggregate([{ $project: { colors: true, x: { $arrayElemAt: ['$colors', 2] } } }])
+[
+  { _id: 1, colors: [ 'red', 'blue', 'green', 'yellow' ], x: 'green' }
+]
+Enterprise db1> edit
+Opening an editor...
+
+Enterprise db1> db.t.aggregate([{ $project: { colors: true, x: { $arrayElemAt: ['$colors', 2] } } }, { $match: { x: 'green' } }])
+[
+  { _id: 1, colors: [ 'red', 'blue', 'green', 'yellow' ], x: 'green' }
+]
+Enterprise db1> db.t.insertOne({_id:2, colors:['red', 'blue', 'light green', 'yellow']})
+{ acknowledged: true, insertedId: 2 }
+Enterprise db1> db.t.find();
+[
+  { _id: 1, colors: [ 'red', 'blue', 'green', 'yellow' ] },
+  { _id: 2, colors: [ 'red', 'blue', 'light green', 'yellow' ] }
+]
+Enterprise db1> db.t.aggregate([{ $project: { colors: true, x: { $arrayElemAt: ['$colors', 2] } } }, { $match: { x: 'green' } }])
+[
+  { _id: 1, colors: [ 'red', 'blue', 'green', 'yellow' ], x: 'green' }
+]
+Enterprise db1> edit'
+Uncaught:
+SyntaxError: Unterminated string constant. (1:4)
+
+> 1 | edit'
+    |     ^
+  2 |
+
+Enterprise db1> edit'
+Uncaught:
+SyntaxError: Unterminated string constant. (1:4)
+
+> 1 | edit'
+    |     ^
+  2 |
+
+Enterprise db1> edit
+Opening an editor...
+
+Enterprise db1> db.emp.aggregate([{ $group: { _id: '$job' } }])
+[
+  { _id: 'WEB Programmer' },
+  { _id: 'clerk' },
+  { _id: 'administrator' },
+  { _id: 'analyst' },
+  { _id: 'manager' },
+  { _id: 'auditor' },
+  { _id: 'programmer' },
+  { _id: 'salesman' },
+  { _id: 'Computer Programmer' },
+  { _id: 'writer' },
+  { _id: 'accountant' },
+  { _id: 'president' }
+]
+Enterprise db1> edit
+Opening an editor...
+
+Enterprise db1> db.emp.aggregate([{ $group: { _id: '$job', x: { $count: {} } } }]);
+[
+  { _id: 'clerk', x: 4 },
+  { _id: 'president', x: 1 },
+  { _id: 'administrator', x: 4 },
+  { _id: 'WEB Programmer', x: 11 },
+  { _id: 'manager', x: 3 },
+  { _id: 'analyst', x: 3 },
+  { _id: 'programmer', x: 9 },
+  { _id: 'auditor', x: 3 },
+  { _id: 'Computer Programmer', x: 10 },
+  { _id: 'salesman', x: 9 },
+  { _id: 'accountant', x: 1 },
+  { _id: 'writer', x: 2 }
+]
+Enterprise db1> edit
+Opening an editor...
+
+Enterprise db1> db.emp.aggregate([{ $group: { _id: '$job', x: { $count: {} } } }, { $matc$match: { x: 4 } }])
+[ { _id: 'clerk', x: 4 }, { _id: 'administrator', x: 4 } ]
+Enterprise db1> db.emp.aggregate([{ $group: { _id: '$job', x: { $count: {} } } }, { $match: { x: 3 } }])
+[
+  { _id: 'analyst', x: 3 },
+  { _id: 'manager', x: 3 },
+  { _id: 'auditor', x: 3 }
+]
+Enterprise db1> db.emp.aggregate([{ $group: { _id: '$job', x: { $count: {} } } }, { $match: { x: 3 } }])
+[
+  { _id: 'analyst', x: 3 },
+  { _id: 'manager', x: 3 },
+  { _id: 'auditor', x: 3 }
+]
+Enterprise db1>
+
+Enterprise db1>
+
+Enterprise db1>
+
+Enterprise db1>
+
+Enterprise db1> edit'
+Uncaught:
+SyntaxError: Unterminated string constant. (1:4)
+
+> 1 | edit'
+    |     ^
+  2 |
+
+Enterprise db1> edit
+Opening an editor...
+
+Enterprise db1> db.movies.aggregate([{ $project: { _id: 0, title: '$movie_title' } }] )
+[
+  { title: 'Avatar' },
+  { title: "Pirates of the Caribbean: At World's End" },
+  { title: 'Spectre' },
+  { title: 'The Dark Knight Rises' },
+  { title: 'Star Wars: Episode VII - The Force Awakens' },
+  { title: 'John Carter' },
+  { title: 'Spider-Man 3' },
+  { title: 'Tangled' },
+  { title: 'Avengers: Age of Ultron' },
+  { title: 'Harry Potter and the Half-Blood Prince' },
+  { title: 'Batman v Superman: Dawn of Justice' },
+  { title: 'Superman Returns' },
+  { title: 'Quantum of Solace' },
+  { title: "Pirates of the Caribbean: Dead Man's Chest" },
+  { title: 'The Lone Ranger' },
+  { title: 'Man of Steel' },
+  { title: 'The Avengers' },
+  { title: 'Men in Black 3' },
+  { title: 'Pirates of the Caribbean: On Stranger Tides' },
+  { title: 'The Amazing Spider-Man' }
+]
+Type "it" for more
+Enterprise db1> edit
+Opening an editor...
+
+Enterprise db1> db.movies.aggregate([{ $setWindowFields: { sortBy: { movie_title: 1 }, output: { cnt: { $documentNumber: {} } } } }, { $project: { _id: 0, title: '$movie_title' } }] )
+[
+  { title: 2.13 }, { title: 3 },
+  { title: 9 },    { title: 11.14 },
+  { title: 21 },   { title: 42 },
+  { title: 54 },   { title: 99 },
+  { title: 99 },   { title: 300 },
+  { title: 1408 }, { title: 1776 },
+  { title: 1911 }, { title: 1920 },
+  { title: 1920 }, { title: 1941 },
+  { title: 1982 }, { title: 2012 },
+  { title: 2046 }, { title: '#Horror' }
+]
+Type "it" for more
+Enterprise db1> edit
+Opening an editor...
+
+Enterprise db1> db.movies.aggregate([ { $project: { _id: 0, title: '$movie_title' } }, { $setWindowFields: { sortBy: { movie_title: 1 }, output: { cnt: { $documentNumber: {} } } } }] )
+[
+  { title: 'Avatar', cnt: 1 },
+  { title: "Pirates of the Caribbean: At World's End", cnt: 2 },
+  { title: 'Spectre', cnt: 3 },
+  { title: 'The Dark Knight Rises', cnt: 4 },
+  { title: 'Star Wars: Episode VII - The Force Awakens', cnt: 5 },
+  { title: 'John Carter', cnt: 6 },
+  { title: 'Spider-Man 3', cnt: 7 },
+  { title: 'Tangled', cnt: 8 },
+  { title: 'Avengers: Age of Ultron', cnt: 9 },
+  { title: 'Harry Potter and the Half-Blood Prince', cnt: 10 },
+  { title: 'Batman v Superman: Dawn of Justice', cnt: 11 },
+  { title: 'Superman Returns', cnt: 12 },
+  { title: 'Quantum of Solace', cnt: 13 },
+  { title: "Pirates of the Caribbean: Dead Man's Chest", cnt: 14 },
+  { title: 'The Lone Ranger', cnt: 15 },
+  { title: 'Man of Steel', cnt: 16 },
+  { title: 'The Avengers', cnt: 17 },
+  { title: 'Men in Black 3', cnt: 18 },
+  { title: 'Pirates of the Caribbean: On Stranger Tides', cnt: 19 },
+  { title: 'The Amazing Spider-Man', cnt: 20 }
+]
+Type "it" for more
+Enterprise db1> edit
+Opening an editor...
+
+Enterprise db1> db.movies.aggregate([{ $project: { _id: 0, title: '$movie_title' } }, { $setWindowFields: { sortBy: { movie_title: 1 }, output: { cnt: { $documentNumber: {} } } } }, { $match: { $and: [{ cnt: { $gte: 1 } }, { cnt: { $lte: 5 } }] } }] )
+[
+  { title: 'Avatar', cnt: 1 },
+  { title: "Pirates of the Caribbean: At World's End", cnt: 2 },
+  { title: 'Spectre', cnt: 3 },
+  { title: 'The Dark Knight Rises', cnt: 4 },
+  { title: 'Star Wars: Episode VII - The Force Awakens', cnt: 5 }
+]
+Enterprise db1>
