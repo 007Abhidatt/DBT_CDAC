@@ -1,0 +1,398 @@
+ DBT ASS 04
+
+
+1.	Count total no. of employees.
+ mysql> select count(*) as total_emp from emp;
++-----------+
+| total_emp |
++-----------+
+|        28 |
++-----------+
+1 row in set (0.00 sec)
+===================================================================================
+2.	 Determine the maximum and minimum salary.
+
+mysql> select max(sal) as maxi_salary,min(sal) as mini_salary from emp;
++-------------+-------------+
+| maxi_salary | mini_salary |
++-------------+-------------+
+|        5000 |         800 |
++-------------+-------------+
+1 row in set (0.00 sec)
+
+===================================================================================
+
+3.	 Display the count of employees having salary greater than 3000.
+  mysql> select count(*) from emp where sal>3000;
++----------+
+| count(*) |
++----------+
+|        4 |
++----------+
+1 row in set (0.00 sec)
+===================================================================================
+4.	 Print department wise count of employees.
+mysql> select job, count(job) from emp group by job;
++---------------------+------------+
+| job                 | count(job) |
++---------------------+------------+
+| Compliance officers |          3 |
+| Public Relation     |          2 |
+| CLERK               |          7 |
+| SALESMAN            |          6 |
+| MANAGER             |          5 |
+| ANALYST             |          3 |
+| PRESIDENT           |          1 |
+| vice PRESIDENT      |          1 |
++---------------------+------------+
+8 rows in set (0.00 sec)
+===================================================================================
+5.	 Display employee details who earn maximum and minimum salary.
+mysql> select * from emp where sal=(select max(sal) from emp) or sal=(select min(sal) from emp) ;
++-------+-------+--------+----------------+------+------------+------+------+--------+---------+------------+-----------+------------+----------+
+| EMPNO | ENAME | GENDER | JOB            | MGR  | HIREDATE   | SAL  | COMM | DEPTNO | BONUSID | USER NAME  | PWD       | PHONE      | isActive |
++-------+-------+--------+----------------+------+------------+------+------+--------+---------+------------+-----------+------------+----------+
+|  7369 | SMITH | M      | CLERK          | 7902 | 1980-12-17 |  800 | NULL |     20 |       2 | TRITONE    | a12recmpm | 7032300023 |        0 |
+|  7839 | KING  | M      | PRESIDENT      | NULL | 1981-11-17 | 5000 | NULL |     10 |       1 | KING       | r50mpm    | 7132300081 |        1 |
+|  7840 | FRED  | M      | vice PRESIDENT | 7839 | 1983-08-09 | 5000 | NULL |     20 |       1 | SAND STONE | a12recmpm | NULL       |        1 |
++-------+-------+--------+----------------+------+------------+------+------+--------+---------+------------+-----------+------------+----------+
+3 rows in set (0.00 sec)
+===================================================================================
+6.	 Print jobwise total salary.
+mysql> select job,sum(sal) from emp group by job;
++---------------------+----------+
+| job                 | sum(sal) |
++---------------------+----------+
+| Compliance officers |     5250 |
+| Public Relation     |     3500 |
+| CLERK               |    11000 |
+| SALESMAN            |     9525 |
+| MANAGER             |    13675 |
+| ANALYST             |     7750 |
+| PRESIDENT           |     5000 |
+| vice PRESIDENT      |     5000 |
++---------------------+----------+
+8 rows in set (0.00 sec)
+===================================================================================
+
+7.	 Print department wise maximum salary.
+ mysql> select deptno, max(sal) from emp group by deptno;
++--------+----------+
+| deptno | max(sal) |
++--------+----------+
+|     10 |     5000 |
+|     20 |     5000 |
+|     30 |     4150 |
+|     50 |     1750 |
++--------+----------+
+4 rows in set (0.00 sec)
+
+===================================================================================
+8.	 Print jobwise average salary.
+mysql> select job,avg(sal) from emp group by job;
++---------------------+-----------+
+| job                 | avg(sal)  |
++---------------------+-----------+
+| Compliance officers | 1750.0000 |
+| Public Relation     | 1750.0000 |
+| CLERK               | 1571.4286 |
+| SALESMAN            | 1587.5000 |
+| MANAGER             | 2735.0000 |
+| ANALYST             | 2583.3333 |
+| PRESIDENT           | 5000.0000 |
+| vice PRESIDENT      | 5000.0000 |
++---------------------+-----------+
+8 rows in set (0.00 sec)
+===================================================================================
+9.	 Print count of employee working in department 20.
+ mysql>  select count(*) as totalemp from emp where deptno=20;
++----------+
+| totalemp |
++----------+
+|        8 |
++----------+
+1 row in set (0.00 sec)
+
+===================================================================================
+
+10.	 Print count of employee working in department 10 having job as MANAGER..
+mysql> Select count(*) from emp where deptno =10 and job="manager";
++----------+
+| count(*) |
++----------+
+|        1 |
++----------+
+1 row in set (0.00 sec)
+
+===================================================================================
+11.	 Print count of employee working in department 20 having comm as null.
+mysql>  select count(*) from emp where deptno=20 and comm is null;
++----------+
+| count(*) |
++----------+
+|        8 |
++----------+
+1 row in set (0.00 sec)
+
+
+===================================================================================
+12.	Print names of employees working in ACCOUNTS department having maximum salary.
+
+mysql> select ename from emp where job="clerk" order by sal desc limit 1;
++-------+
+| ename |
++-------+
+| AARAV |
++-------+
+===================================================================================
+13.	 Print employee details having salary less than average salary of MANAGER.
+
+
+mysql> select * from emp where sal< (select avg(sal) from emp where job='manager');
++-------+----------+--------+---------------------+------+------------+------+------+--------+---------+--------------+------------+------------+----------+
+| EMPNO | ENAME    | GENDER | JOB                 | MGR  | HIREDATE   | SAL  | COMM | DEPTNO | BONUSID | USER NAME    | PWD        | PHONE      | isActive |
++-------+----------+--------+---------------------+------+------------+------+------+--------+---------+--------------+------------+------------+----------+
+|  6001 | GITA     | F      | Compliance officers | 7920 | 1981-07-19 | 1750 | NULL |     30 |       1 | GITA         | sales@2017 | NULL       |        1 |
+|  6129 | VRUSHALI | F      | Compliance officers | 7920 | 1981-07-19 | 1750 | NULL |     50 |       1 | VRUSHALI     | PUN@8877   | NULL       |        1 |
+|  6473 | SHARMIN  | F      | Public Relation     | 7920 | 1981-07-19 | 1750 | NULL |     20 |       1 | SHARMIN      | a12recmpm  | NULL       |        1 |
+|  6781 | BANDISH  | F      | Public Relation     | 7920 | 1981-07-19 | 1750 | NULL |     20 |       1 | BANDISH      | a12recmpm  | NULL       |        1 |
+|  7369 | SMITH    | M      | CLERK               | 7902 | 1980-12-17 |  800 | NULL |     20 |       2 | TRITONE      | a12recmpm  | 7032300023 |        0 |
+|  7421 | THOMAS   | M      | CLERK               | 7920 | 1981-07-19 | 1750 | NULL |     10 |       1 | THOMAS       | r50mpm     | 7032300011 |        0 |
+|  7499 | ALLEN    | M      | SALESMAN            | 7698 | 1981-02-20 | 1600 |  300 |     30 |       4 | ALWAYS TESTE | sales@2017 | 7032300096 |        1 |
+|  7521 | WARD     | M      | SALESMAN            | 7698 | 1981-02-22 | 1250 |  500 |     30 |       1 | WARD         | sales@2017 | 7132300034 |        1 |
+|  7654 | MARTIN   | M      | SALESMAN            | 7698 | 1981-09-28 | 1250 | 1400 |     30 |       6 | LIFE RACER   | sales@2017 | 7132300050 |        1 |
+|  7782 | CLARK    | M      | MANAGER             | 7839 | 1981-06-09 | 2450 | NULL |     10 |       3 | CLARK        | r50mpm     | 7032300001 |        1 |
+|  7844 | TURNER   | M      | SALESMAN            | 7698 | 1981-09-08 | 1500 |    0 |     30 |       5 | SAND DUST    | sales@2017 | NULL       |        1 |
+|  7876 | ADAMS    | M      | CLERK               | 7788 | 1983-01-12 | 1100 | NULL |     20 |       1 | CRAZY ANYONE | a12recmpm  | 7132300086 |        1 |
+|  7900 | JAMES    | M      | CLERK               | 7698 | 1981-12-03 |  950 | NULL |     30 |       2 | CRAZY LEADER | sales@2017 | 7132300042 |        1 |
+|  7920 | GRASS    | M      | SALESMAN            | 7919 | 1980-02-14 | 2575 | 2700 |     30 |       5 | GRASS        | sales@2017 | NULL       |        1 |
+|  7934 | MILLER   | M      | CLERK               | 7782 | 1982-01-23 | 1300 | NULL |     10 |       2 | QUARTERNOTE  | r50mpm     | 7132300055 |        0 |
+|  7945 | AARUSH   | M      | SALESMAN            | 7902 | 1980-02-14 | 1350 | 2700 |     30 |    NULL | AARUSH       | ABCDEF     | NULL       |        0 |
+|  7949 | ALEX     | M      | MANAGER             | 7698 | 1982-01-24 | 1250 |  500 |     30 |       5 | QUARTERREST  | sales@2017 | 7156567183 |        1 |
+|  8433 | NATASHA  | F      | CLERK               | 7920 | 1981-07-19 | 1750 | NULL |     30 |       1 | NATASHA      | sales@2017 | NULL       |        1 |
+|  9400 | SANGITA  | F      | Compliance officers | 7920 | 1981-07-19 | 1750 | NULL |     50 |       1 | SANGITA      | NULL       | NULL       |        1 |
+|  9473 | SUPRIYA  | F      | ANALYST             | 7920 | 1981-07-19 | 1750 | NULL |     50 |       1 | SUPRIYA      | XYZ@1234   | NULL       |        1 |
++-------+----------+--------+---------------------+------+------------+------+------+--------+---------+--------------+------------+------------+----------+
+20 rows in set (0.00 sec)
+
+===================================================================================
+14.	Give SQL statement to find the average annual salary per job in each detp.
+mysql> select avg(sal*12) Annual_sal  , job from emp group by job ;
++------------+---------------------+
+| Annual_sal | job                 |
++------------+---------------------+
+| 21000.0000 | Compliance officers |
+| 21000.0000 | Public Relation     |
+| 18857.1429 | CLERK               |
+| 19050.0000 | SALESMAN            |
+| 32820.0000 | MANAGER             |
+| 31000.0000 | ANALYST             |
+| 60000.0000 | PRESIDENT           |
+| 60000.0000 | vice PRESIDENT      |
++------------+---------------------+
+8 rows in set (0.00 sec)
+
+===================================================================================
+15.	Count the number of people in the dept 30 who receive a salary and the no.of people who receive comm.
+mysql> select ( select count(*) from emp where deptno=30 and sal is not null) as sal_count , ( select count(*) from emp where deptno=30 and comm is not null) as comm_count ;
++-----------+------------+
+| sal_count | comm_count |
++-----------+------------+
+|        12 |          7 |
++-----------+------------+
+1 row in set (0.00 sec)
+===================================================================================
+16.	Calculate the avg, min and max salary of those groups of employees having the job as CLERK or MANAGER.
+
+mysql> select avg(sal), min(sal),max(sal),job from emp where job in ('clerk','manager') group by job ;
++-----------+----------+----------+---------+
+| avg(sal)  | min(sal) | max(sal) | job     |
++-----------+----------+----------+---------+
+| 1571.4286 |      800 |     3350 | CLERK   |
+| 2735.0000 |     1250 |     4150 | MANAGER |
++-----------+----------+----------+---------+
+2 rows in set (0.00 sec)
+===================================================================================
+17.	Display the deptno of departments which have more than one CLERK.
+
+mysql> select count(deptno) cnt  ,deptno,job from emp where job='clerk' group by job, deptno having cnt>1  ;
++-----+--------+-------+
+| cnt | deptno | job   |
++-----+--------+-------+
+|   3 |     10 | CLERK |
+|   2 |     20 | CLERK |
+|   2 |     30 | CLERK |
++-----+--------+-------+
+3 rows in set (0.00 sec)
+===================================================================================
+18.	List names and hiredates of employees who were hired in the month of December
+
+mysql> select ename , hiredate from emp where  monthname(hiredate)="december";
++-------+------------+
+| ename | hiredate   |
++-------+------------+
+| SMITH | 1980-12-17 |
+| AARAV | 1981-12-31 |
+| SCOTT | 1982-12-09 |
+| JAMES | 1981-12-03 |
+| FORD  | 1981-12-03 |
++-------+------------+
+5 rows in set (0.00 sec)
+===================================================================================
+19.	List names and hiredate of employees hired in the year 1980
+mysql> select ename , hiredate from emp where year(hiredate)=1980;
++--------+------------+
+| ename  | hiredate   |
++--------+------------+
+| SMITH  | 1980-12-17 |
+| GRASS  | 1980-02-14 |
+| AARUSH | 1980-02-14 |
++--------+------------+
+3 rows in set (0.00 sec)
+===================================================================================
+20.	Display names and jobs of the people separated by a hyphen. Capitalize the first character of name and job.
+mysql> select concat( upper(substring(ename,1,1))  , lower(substring(ename ,2)) , "-"  , upper (substring(job,1,1)), lower(substring(job ,2))) as R1 from emp;
++------------------------------+
+| R1                           |
++------------------------------+
+| Gita-Compliance officers     |
+| Vrushali-Compliance officers |
+| Sharmin-Public relation      |
+| Bandish-Public relation      |
+| Smith-Clerk                  |
+| Aarav-Clerk                  |
+| Thomas-Clerk                 |
+| Allen-Salesman               |
+| Ward-Salesman                |
+| Jones-Manager                |
+| Martin-Salesman              |
+| Blake-Manager                |
+| Clark-Manager                |
+| Scott-Analyst                |
+| King-President               |
+| Fred-Vice president          |
+| Turner-Salesman              |
+| Adams-Clerk                  |
+| James-Clerk                  |
+| Ford-Analyst                 |
+| Hoffman-Manager              |
+| Grass-Salesman               |
+| Miller-Clerk                 |
+| Aarush-Salesman              |
+| Alex-Manager                 |
+| Natasha-Clerk                |
+| Sangita-Compliance officers  |
+| Supriya-Analyst              |
++------------------------------+
+28 rows in set (0.00 sec)
+
+
+===================================================================================
+21.	List employee numbers, names and hiredates of the people working in the department number 20, display the hiredates in the dd/mm/yy format
+mysql> select empno, ename ,date_format(hiredate,'%d/%m/%y') from emp where deptno=20;
++-------+---------+----------------------------------+
+| empno | ename   | date_format(hiredate,'%d/%m/%y') |
++-------+---------+----------------------------------+
+|  6473 | SHARMIN | 19/07/81                         |
+|  6781 | BANDISH | 19/07/81                         |
+|  7369 | SMITH   | 17/12/80                         |
+|  7566 | JONES   | 02/04/81                         |
+|  7788 | SCOTT   | 09/12/82                         |
+|  7840 | FRED    | 09/08/83                         |
+|  7876 | ADAMS   | 12/01/83                         |
+|  7902 | FORD    | 03/12/81                         |
++-------+---------+----------------------------------+
+8 rows in set (0.00 sec)
+
+===================================================================================
+22.	Find number of months the president has worked for the company. 
+    select  count
+===================================================================================
+23.	Find the day of the week on which SMITH joined
+
+===================================================================================
+24.	Find the time of time of the day in which ADAMS joined
+===================================================================================
+25.	Find day of month on which KING joined
+
+===================================================================================
+26.	Find out month on which MARTIN joined
+===================================================================================
+27.	Find out which quarter of the year the employees joined. Display their number and names as well
+
+===================================================================================
+28.	Retrieve ANALYST records with the hiredate formatted as – ‘The 3rd of December 1984’
+
+===================================================================================
+29.	List all names, jobs, and a job classification number, which is to be assigned by you. Translate the value started in each job field to a job classification number. This is to be done as follows-
+A.	CLERK
+B.	MANAGER
+C.	PRESIDENT
+D.	OTHER
+===================================================================================
+30.	Display the length of the longest employees name 
+===================================================================================
+31.	Write a query to list the length of service of the employees (of the form n years and m months).
+
+===================================================================================
+32.	How many employees who are joined in 1985.
+===================================================================================
+33.	How many employees joined each month in 1985.
+
+===================================================================================
+34.	How many employees who are joined in March 1985.
+===================================================================================
+35.	Find the total sales amount
+
+===================================================================================
+36.	Find the customer-wise lowest and highest sales amount
+===================================================================================
+37.	Find product-wise lowest, highest and total sales.
+===================================================================================
+38.	Find department-wise average salary for all the departments employing more than three employees
+===================================================================================
+39.	Find the customer-wise total sales for all the customers except ‘TKB SPORT SHOP’ who came to purchase various sports items maximum four times.
+
+===================================================================================
+40.	Display the highest, lowest, sum and average salary for all employees. Label the columns appropriately.
+===================================================================================
+41.	Modify the above query and display the output for each job type.
+
+===================================================================================
+42.	List names of people who have salary less than the average salary for dept 20
+===================================================================================
+43.	Find the average annual salary per job in each department. 
+===================================================================================
+
+44.	Count the number of people in department 30 who receive a salary and the number of people who receive a commission
+===================================================================================
+
+45.	Compute the average, minimum and maximum salaries of these groups of employees having job as Clerk or manager, Display the job as well
+===================================================================================
+46.	Write an SQL command that displays 2nd highest salary paid
+
+===================================================================================
+47.	Write a query to find the employees who are earning the maximum salary in their departments.
+
+===================================================================================
+48.	Write a query to find the salesman number (repid) who has achieved the maximum total sales among the entire salesman.
+===================================================================================
+49.	List the highest salary paid for each job.
+
+===================================================================================
+50.	Find the most recently hired employee in each department.
+===================================================================================
+51.	In which year did most people join the company? Display the year and the number of employees.
+
+===================================================================================
+52.	Write a query to display employee name whose name occurs only once in the table.
+
+===================================================================================
+53.	Write a query to display all the details from dept table along with the no. of employee working in each dept.
+
+===================================================================================
+54.	Find out which department does not have any employees.
+
+===================================================================================
+55.	List out the no. of employees joined in every month in ascending order.
+===================================================================================
